@@ -3,12 +3,13 @@
 </script>
 
 <script>
-  import { page, games, selectedGame } from '$lib/store.js';
+  import { mode, games } from '$lib/store.js';
   import Sidebar from '$lib/Sidebar.svelte';
-  import GameCard from '$lib/GameCard.svelte';
+  import GameGrid from '$lib/GameGrid.svelte';
   import Pagination from '$lib/Pagination.svelte';
   const url = 'https://bkftwbhopivmrgzcagus.supabase.co/rest/v1/game?select=*';
   import axios from 'axios';
+  import GameList from '$lib/GameList.svelte';
   axios
     .get(url, {
       headers: {
@@ -18,15 +19,6 @@
     })
     .then((response) => ($games = response.data))
     .catch((error) => console.log(error));
-
-  $: getGridGames = () => {
-    let _games = [];
-    const n = 3;
-    for (let i = ($page - 1) * 20; i < $page * 20; i += n) {
-      _games.push($games.slice(i, i + n));
-    }
-    return _games;
-  };
 </script>
 
 <svelte:head>
@@ -43,10 +35,10 @@
         </div>
       </div>
     </div>
-    {#each getGridGames() as games}
-      <div class="tile is-ancestor">
-        {#each games as game (game.id)}<GameCard {game} />{/each}
-      </div>
-    {/each}
+    {#if $mode == 'grid'}
+      <GameGrid />
+    {:else}
+      <GameList />
+    {/if}
   </main>
 </div>

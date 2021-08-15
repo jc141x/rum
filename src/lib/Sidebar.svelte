@@ -1,5 +1,5 @@
 <script>
-  import { genres, selectedGenre } from '$lib/store.js';
+  import { genres, selectedGenre, mode } from '$lib/store.js';
   const url = 'https://bkftwbhopivmrgzcagus.supabase.co/rest/v1/genre?select=id,name';
   import axios from 'axios';
   axios
@@ -14,6 +14,33 @@
 </script>
 
 <aside class="column is-one-fifth-desktop is-one-third-tablet is-full-mobile menu fixed">
+  <p class="menu-label">Mode</p>
+  <ul class="menu-list">
+    <li>
+      <a
+        on:click={() => {
+          $mode = 'list';
+        }}
+      >
+        <span class="icon-text">
+          <span class="icon material-icons">view_list</span>
+          <span> List </span>
+        </span>
+      </a>
+    </li>
+    <li>
+      <a
+        on:click={() => {
+          $mode = 'grid';
+        }}
+      >
+        <span class="icon-text">
+          <span class="icon material-icons">grid_view</span>
+          <span> Grid </span>
+        </span>
+      </a>
+    </li>
+  </ul>
   <p class="menu-label">Genres</p>
   <ul class="menu-list">
     {#each $genres as genre (genre.id)}
@@ -21,8 +48,13 @@
         <a
           on:click={() => {
             $selectedGenre = genre;
-          }}>{genre.name}</a
+          }}
         >
+          <span class="icon-text">
+            <span class="icon material-icons">label</span>
+            <span>{genre.name} </span>
+          </span>
+        </a>
       </li>
     {/each}
   </ul>
