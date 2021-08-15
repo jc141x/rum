@@ -34,7 +34,7 @@
       <div class="level-left">
         <p class="mr-3">{game.name}</p>
         <div class="tags">
-          {#if game.genres != null}
+          {#if game.genres != ''}
             {#each game.genres.split(';') as tag}
               <span class="tag is-primary is-light">{tag}</span>
             {/each}

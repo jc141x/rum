@@ -32,12 +32,19 @@
     }
     return magnet;
   }
+  function truncateString(str, n) {
+    if (str.length > n) {
+      return str.substring(0, n) + '...';
+    } else {
+      return str;
+    }
+  }
 </script>
 
 <div class="tile is-parent is-4">
   <div class="tile is-child">
     <a href={getMagnet(game)}>
-      <div class="card is-clickable" class:has-background-primary={$selectedGame == game}>
+      <div class="game-card card is-clickable has-background-primary:hover">
         <div class="card-image">
           <figure class="image">
             <img src={get_banner(game)} alt={game.name} />
@@ -47,7 +54,7 @@
           <p class="title is-4">{game.name}</p>
           <p class="subtitle is-7 has-text-grey">{game.hash}</p>
           <div class="tags">
-            {#if game.genres != null}
+            {#if game.genres != ''}
               {#each game.genres.split(';') as tag}
                 <span class="tag is-primary is-light">{tag}</span>
               {/each}
@@ -58,10 +65,15 @@
           </div>
 
           <div class="content">
-            {game.description}
+            <p class=" has-text-grey-dark">
+              {truncateString(game.description, 300)}
+            </p>
           </div>
         </div>
       </div>
     </a>
   </div>
 </div>
+
+<style>
+</style>
