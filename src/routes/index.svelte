@@ -22,7 +22,7 @@
 </script>
 
 <svelte:head>
-  <title>Home</title>
+  <title>Home | GNU/Linux P2P Pirates</title>
 </svelte:head>
 
 <div class="columns p-3">
