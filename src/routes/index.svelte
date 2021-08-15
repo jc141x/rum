@@ -28,17 +28,12 @@
 <div class="columns p-3">
   <Sidebar />
   <main class="column">
-    <div class="tile is-ancestor">
-      <div class="tile is-parent">
-        <div class="tile is-child">
-          <Pagination />
-        </div>
-      </div>
-    </div>
+    <Pagination />
     {#if $mode == 'grid'}
       <GameGrid />
     {:else}
       <GameList />
     {/if}
+    <Pagination />
   </main>
 </div>

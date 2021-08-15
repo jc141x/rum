@@ -13,7 +13,7 @@
     .catch((error) => console.log(error));
 </script>
 
-<aside class="column is-one-fifth-desktop is-one-third-tablet is-full-mobile menu fixed">
+<aside class="column is-tablet is-narrow-tablet is-hidden-mobile menu fixed">
   <p class="menu-label">Mode</p>
   <ul class="menu-list">
     <li>
@@ -43,7 +43,16 @@
   </ul>
   <p class="menu-label">Genres</p>
   <ul class="menu-list">
-    {#each $genres as genre (genre.id)}
+    {#each [...$genres].sort((x1, x2) => {
+      if (x1.name < x2.name) {
+        return -1;
+      }
+      if (x1.name > x2.name) {
+        return 1;
+      }
+      // a must be equal to b
+      return 0;
+    }) as genre (genre.id)}
       <li>
         <a
           on:click={() => {

@@ -4,7 +4,7 @@
 </script>
 
 <header>
-  <nav class="is-spaced navbar" role="navigation" aria-label="main navigation">
+  <nav class="is-fixed-top is-spaced navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item has-text-weight-bold is-size-4" href="/"> GNU/Linux P2P Pirates </a>
       <a
