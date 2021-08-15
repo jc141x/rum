@@ -34,7 +34,7 @@
   }
 </script>
 
-<div class="tile is-parent">
+<div class="tile is-parent is-4">
   <div class="tile is-child">
     <a href={getMagnet(game)}>
       <div class="card is-clickable" class:has-background-primary={$selectedGame == game}>
