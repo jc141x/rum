@@ -1,9 +1,10 @@
 <script>
+  import { query } from './store.js';
   let navVisible = false;
 </script>
 
 <header>
-  <nav class="navbar" role="navigation" aria-label="main navigation">
+  <nav class="is-spaced navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item has-text-weight-bold is-size-4" href="/"> GNU/Linux P2P Pirates </a>
       <a
@@ -30,6 +31,21 @@
         <a class="navbar-item" href="http://gitlab.com/Gnurur/chad_launcher/-/issues">
           Report an issue
         </a>
+      </div>
+      <div class="navbar-end">
+        <div class="field">
+          <p class="control has-icons-left">
+            <input
+              bind:value={$query}
+              class="has-background-primary-light input is-rounded"
+              type="text"
+              placeholder="Search..."
+            />
+            <span class="icon is-small is-left">
+              <span class="material-icons">search</span>
+            </span>
+          </p>
+        </div>
       </div>
     </div>
   </nav>

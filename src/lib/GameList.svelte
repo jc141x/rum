@@ -1,5 +1,5 @@
 <script>
-  import { games } from '$lib/store.js';
+  import { page, filteredGames } from '$lib/store.js';
   const trackers = [
     'udp://tracker.leechers-paradise.org:6969/announce',
     'udp://tracker.opentrackr.org:1337/announce',
@@ -28,7 +28,7 @@
   }
 </script>
 
-{#each $games as game}
+{#each $filteredGames.slice(($page - 1) * 20, $page * 20) as game}
   <div class="box">
     <div class="level">
       <div class="level-left">
