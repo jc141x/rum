@@ -4,16 +4,36 @@
 )]
 
 mod database;
+mod library;
+pub mod config;
 pub mod util;
 
-use database::{DatabaseFetcher, get_games, get_genres, get_languages, get_tags};
+use tauri::async_runtime::Mutex;
+use database::{get_games, get_genres, get_languages, get_tags, DatabaseFetcher};
+use library::{get_local_games, reload_local_games, LibraryFetcher};
+use config::Config;
 
 fn main() {
+    let config = Config::new();
     let client = DatabaseFetcher::new();
+    let mut library = LibraryFetcher::new();
+    library.load_games(&config); 
 
     tauri::Builder::default()
         .manage(client)
-        .invoke_handler(tauri::generate_handler![get_games, get_genres, get_languages, get_tags])
+        .manage(Mutex::new(library))
+        .manage(Mutex::new(config))
+        .invoke_handler(tauri::generate_handler![
+            // Database
+            get_games,
+            get_genres,
+            get_languages,
+            get_tags,
+
+            // Library
+            get_local_games,
+            reload_local_games,
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

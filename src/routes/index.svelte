@@ -25,6 +25,11 @@
             .then(g => $games = g)
             .catch(err => console.error(err));
     }
+
+    invoke('get_local_games')
+        .then(console.log)
+        .catch(err => console.error(err));
+    
 </script>
 
 <svelte:head>

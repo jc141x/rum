@@ -1,8 +1,6 @@
 use crate::util::ChadError;
 use postgrest::Postgrest;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
-use tauri::async_runtime::Mutex;
 
 const API_KEY: &'static str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyNzY0NDc0OCwiZXhwIjoxOTQzMjIwNzQ4fQ.MheXAiuWYFGDuFhfzAnANMzJU2UU4HN2dxwMxGdQd5A";
 

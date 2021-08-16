@@ -20,6 +20,8 @@ serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.0.0-beta.5", features = ["api-all"] }
 postgrest = "1.0"
 reqwest = { version = "0.11", features = ["json"] }
+titlecase = "1.1"
+dirs = "3.0"
 thiserror = "1.0"
 
 [features]
