@@ -10,6 +10,7 @@
   const url = 'https://bkftwbhopivmrgzcagus.supabase.co/rest/v1/game?select=*';
   import axios from 'axios';
   import GameList from '$lib/GameList.svelte';
+  import GameCard from '$lib/GameCard.svelte';
   axios
     .get(url, {
       headers: {
@@ -25,15 +26,11 @@
   <title>Home | GNU/Linux P2P Pirates</title>
 </svelte:head>
 
-<div class="columns p-3">
-  <Sidebar />
-  <main class="column">
-    <Pagination />
-    {#if $mode == 'grid'}
-      <GameGrid />
-    {:else}
-      <GameList />
-    {/if}
-    <Pagination />
-  </main>
+<div class="container-fluid">
+  <Pagination />
+  {#if $mode == 'list'}
+    <GameList />
+  {:else if $mode == 'grid'}
+    <GameGrid />
+  {/if}
 </div>

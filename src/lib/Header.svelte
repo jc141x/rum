@@ -3,53 +3,29 @@
   let navVisible = false;
 </script>
 
-<header>
-  <nav class="is-fixed-top is-spaced navbar" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <a class="navbar-item has-text-weight-bold is-size-4" href="/"> GNU/Linux P2P Pirates </a>
-      <a
-        on:click={() => {
-          navVisible = !navVisible;
-        }}
-        role="button"
-        class="navbar-burger"
-        aria-label="menu"
-        aria-expanded="false"
-        data-target="mainbar"
-      >
-        <span aria-hidden="true" />
-        <span aria-hidden="true" />
-        <span aria-hidden="true" />
-      </a>
-    </div>
-
-    <div id="mainbar" class="navbar-menu" class:is-active={navVisible}>
-      <div class="navbar-start">
-        <a class="navbar-item" href="/documentation"> Documentation </a>
-        <a class="navbar-item" href="/about"> About </a>
-        <a class="navbar-item"> Matrix </a>
-        <a class="navbar-item" href="http://gitlab.com/Gnurur/chad_launcher/-/issues">
-          Report an issue
-        </a>
-      </div>
-      <div class="navbar-end">
-        <div class="field">
-          <p class="control has-icons-left">
-            <input
-              bind:value={$query}
-              class="has-background-primary-light input is-rounded"
-              type="text"
-              placeholder="Search..."
-            />
-            <span class="icon is-small is-left">
-              <span class="material-icons">search</span>
-            </span>
-          </p>
-        </div>
-      </div>
-    </div>
-  </nav>
-</header>
+<nav class="navbar">
+  <div class="navbar-content">
+    <button class="btn btn-action" type="button">
+      <span class="material-icons d-block">menu</span>
+      <span class="sr-only">Toggle sidebar</span>
+    </button>
+  </div>
+  <a href="/" class="navbar-brand">
+    <span>GNU/Linux P2P Pirates</span>
+  </a>
+  <ul class="navbar-nav d-none d-md-flex">
+    <li class="nav-item" class:active={false}>
+      <a href="/documentation" class="nav-link">Docs</a>
+    </li>
+    <li class="nav-item">
+      <a href="/about" class="nav-link">About</a>
+    </li>
+  </ul>
+  <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
+    <input type="text" bind:value={$query} class="form-control" placeholder="Search" />
+    <button class="btn btn-primary">Search</button>
+  </form>
+</nav>
 
 <style>
 </style>

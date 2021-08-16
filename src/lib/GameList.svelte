@@ -1,5 +1,6 @@
 <script>
-  import { page, filteredGames } from '$lib/store.js';
+  import { page, games } from '$lib/store.js';
+  import banner from './default.png';
   const trackers = [
     'udp://tracker.leechers-paradise.org:6969/announce',
     'udp://tracker.opentrackr.org:1337/announce',
@@ -18,7 +19,11 @@
     'udp://open.stealth.si:80/announce',
     'udp://coppersurfer.tk:6969/announce'
   ];
-
+  function get_banner(game) {
+    return game.banner_rel_path === null
+      ? banner
+      : `https://gitlab.com/chad-productions/chad_launcher_banners/-/raw/master/${game.banner_rel_path}`;
+  }
   function getMagnet(game) {
     let magnet = `magnet:?xt=urn:btih:${game.hash}&dn=${game.name}`;
     for (let tracker of trackers) {
@@ -26,29 +31,53 @@
     }
     return magnet;
   }
+  function truncateString(str, n) {
+    if (str.length > n) {
+      return str.substring(0, n) + '...';
+    } else {
+      return str;
+    }
+  }
+  function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function (txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  }
 </script>
 
-{#each $filteredGames.slice(($page - 1) * 20, $page * 20) as game}
-  <div class="box">
-    <div class="level">
-      <div class="level-left">
-        <p class="mr-3">{game.name}</p>
-        <div class="tags">
+<div class="content">
+  {#each $games.slice(($page - 1) * 20, $page * 20) as game (game.id)}
+    <div class="d-flex h-250 border rounded bg-dark mb-20">
+      <!-- Image -->
+      <img class="h-full img-fluid rounded-left" src={get_banner(game)} alt={game.name} />
+      <div class="h-full d-flex flex-column content">
+        <!-- Title -->
+        <header class="font-size-18 font-weight-bold">
+          {game.name}
+        </header>
+        <p class="text-muted my-0">
+          {toTitleCase(game.type)}
+        </p>
+        <!-- Genres -->
+        <div class="">
           {#if game.genres != ''}
-            {#each game.genres.split(';') as tag}
-              <span class="tag is-primary is-light">{tag}</span>
+            {#each game.genres.split(';') as genre}
+              <span class="badge"> {genre} </span>
             {/each}
           {/if}
           {#if game.nsfw}
-            <span class="tag is-danger is-light">NSFW</span>
+            <span class="badge badge-danger"> 18+ </span>
           {/if}
         </div>
-      </div>
-      <div class="level-right">
-        <a href={getMagnet(game)}>
-          <span class="material-icons icon">download</span>
-        </a>
+        <!-- Description -->
+        <p class="">
+          {truncateString(game.description, 230)}
+        </p>
+        <!-- Download -->
+        <div class="text-right">
+          <a href={getMagnet(game)} class="btn" target="_blank">Download</a>
+        </div>
       </div>
     </div>
-  </div>
-{/each}
+  {/each}
+</div>

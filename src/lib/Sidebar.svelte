@@ -1,5 +1,5 @@
 <script>
-  import { genres, selectedGenre, mode } from '$lib/store.js';
+  import { query, genres, selectedGenre, mode } from '$lib/store.js';
   const url = 'https://bkftwbhopivmrgzcagus.supabase.co/rest/v1/genre?select=id,name';
   import axios from 'axios';
   axios
@@ -13,65 +13,42 @@
     .catch((error) => console.log(error));
 </script>
 
-<aside class="column is-tablet is-narrow-tablet is-hidden-mobile menu fixed">
-  <p class="menu-label">Mode</p>
-  <ul class="menu-list">
-    <li>
-      <a
-        on:click={() => {
-          $mode = 'list';
-        }}
-      >
-        <span class="icon-text">
-          <span class="icon material-icons">view_list</span>
-          <span> List </span>
-        </span>
-      </a>
-    </li>
-    <li>
-      <a
-        on:click={() => {
-          $mode = 'grid';
-        }}
-      >
-        <span class="icon-text">
-          <span class="icon material-icons">grid_view</span>
-          <span> Grid </span>
-        </span>
-      </a>
-    </li>
-  </ul>
-  <p class="menu-label">Genres</p>
-  <ul class="menu-list">
+<div class="sidebar section">
+  <div class="sidebar-menu">
+    <!-- Sidebar content with the search box -->
+    <div class="sidebar-content">
+      <input type="text" class="form-control" bind:value={$query} placeholder="Search" />
+      <div class="mt-10 font-size-12">
+        <!-- mt-10 = margin-top: 1rem (10px), font-size-12 = font-size: 1.2rem (12px) -->
+        <!--  Press <kbd>/</kbd> to focus -->
+      </div>
+    </div>
+    <!-- Sidebar links and titles -->
+    <h5 class="sidebar-title">View Mode</h5>
+    <div class="sidebar-divider" />
+    <a href="" on:click={() => ($mode = 'list')} class="sidebar-link" class:active={$mode == 'list'}
+      >List</a
+    >
+    <a href="" on:click={() => ($mode = 'grid')} class="sidebar-link" class:active={$mode == 'grid'}
+      >Grid</a
+    >
+    <br />
+    <h5 class="sidebar-title">Genres</h5>
+    <div class="sidebar-divider" />
     {#each [...$genres].sort((x1, x2) => {
-      if (x1.name < x2.name) {
-        return -1;
-      }
-      if (x1.name > x2.name) {
-        return 1;
-      }
-      // a must be equal to b
+      if (x1.name > x2.name) return 1;
+      if (x1.name < x2.name) return -1;
       return 0;
     }) as genre (genre.id)}
-      <li>
-        <a
-          on:click={() => {
-            $selectedGenre = genre;
-          }}
-        >
-          <span class="icon-text">
-            <span class="icon material-icons">label</span>
-            <span>{genre.name} </span>
-          </span>
-        </a>
-      </li>
+      <a
+        href=""
+        on:click={() => ($selectedGenre = genre)}
+        class:active={$selectedGenre == genre}
+        class="sidebar-link">{genre.name}</a
+      >
     {/each}
-  </ul>
-</aside>
+  </div>
+</div>
 
 <style>
-  .fixed {
-    height: 100%;
-    overflow: auto;
-  }
 </style>

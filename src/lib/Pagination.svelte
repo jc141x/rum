@@ -12,7 +12,9 @@
   };
 </script>
 
-<nav class="pagination is-centered" role="navigation" aria-label="pagination">
-  <a class="pagination-previous" on:click={decrementPage}>Previous</a>
-  <a class="pagination-next" on:click={incrementPage}>Next page</a>
-</nav>
+<div class="content">
+  <nav class="d-flex justify-content-between flex-row" role="navigation" aria-label="pagination">
+    <a class="btn" on:click={decrementPage}>Previous</a>
+    <a class="btn" on:click={incrementPage}>Next</a>
+  </nav>
+</div>

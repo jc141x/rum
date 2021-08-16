@@ -46,34 +46,33 @@
   }
 </script>
 
-<div class="column is-half-tablet is-one-quarter-desktop">
-  <a href={getMagnet(game)}>
-    <div class="game-card card is-clickable has-background-primary:hover">
-      <div class="card-image">
-        <figure class="image">
-          <img src={get_banner(game)} alt={game.name} />
-        </figure>
-      </div>
-      <div class="card-content">
-        <p class="title is-4">{game.name}</p>
-        <p class="subtitle is-7 has-text-grey">{toTitleCase(game.type)}</p>
-        <div class="tags">
-          {#if game.genres != ''}
-            {#each game.genres.split(';') as tag}
-              <span class="tag is-primary is-light">{tag}</span>
-            {/each}
-          {/if}
-          {#if game.nsfw}
-            <span class="tag is-danger is-light">NSFW</span>
-          {/if}
-        </div>
-
-        <div class="content">
-          <p class=" has-text-grey-dark">
-            {truncateString(game.description, 300)}
-          </p>
-        </div>
-      </div>
+<div class="card p-0">
+  <!-- Image -->
+  <img class="img-fluid rounded-top" src={get_banner(game)} alt={game.name} />
+  <div class="content m-15">
+    <!-- Title -->
+    <header class="font-size-18 font-weight-bold">
+      {game.name}
+    </header>
+    <p class="text-muted my-0">
+      {toTitleCase(game.type)}
+    </p>
+    <!-- Genres -->
+    {#if game.genres != ''}
+      {#each game.genres.split(';') as genre}
+        <span class="badge"> {genre} </span>
+      {/each}
+    {/if}
+    {#if game.nsfw}
+      <span class="badge badge-danger"> 18+ </span>
+    {/if}
+    <!-- Description -->
+    <p class="">
+      {truncateString(game.description, 250)}
+    </p>
+    <!-- Download -->
+    <div class="text-right">
+      <a href={getMagnet(game)} class="btn" target="_blank">Download</a>
     </div>
-  </a>
+  </div>
 </div>

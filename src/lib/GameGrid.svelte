@@ -1,18 +1,12 @@
 <script>
-  import { page, filteredGames, selectedGame } from '$lib/store.js';
+  import { page, games } from '$lib/store.js';
   import GameCard from './GameCard.svelte';
-  $: getGridGames = () => {
-    let _games = [];
-    const n = 4;
-    for (let i = ($page - 1) * 20; i < $page * 20; i += n) {
-      _games.push($filteredGames.slice(i, i + n));
-    }
-    return _games;
-  };
 </script>
 
-{#each getGridGames() as games}
-  <div class="columns">
-    {#each games as game (game.id)}<GameCard {game} />{/each}
-  </div>
-{/each}
+<div class="row row-eq-spacing">
+  {#each $games.slice(($page - 1) * 20, $page * 20) as game (game.id)}
+    <div class="col-lg-3 col-md-4 col-sm-12">
+      <GameCard {game} />
+    </div>
+  {/each}
+</div>

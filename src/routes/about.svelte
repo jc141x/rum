@@ -18,17 +18,14 @@
   <title>About</title>
 </svelte:head>
 
-<div class="hero has-background-primary block">
-  <div class="hero-body">
-    <h2 class="has-text-white title is-size-1">GNU/Linux Pirates</h2>
-    <p class="has-text-white subitle is-size-3">
-      We are a P2P release/repacking group on 1337x. Our objective is to provide an ethical and
-      minimalist alternative for the community.
-    </p>
-  </div>
-</div>
-<div class="section block content">
-  <h2 class="">Rules of the matrix community</h2>
+<div class="content">
+  <h3>GNU/Linux Pirates</h3>
+  <h5>
+    We are a P2P release/repacking group on 1337x. Our objective is to provide an ethical and
+    minimalist alternative for the community.
+  </h5>
+  <hr />
+  <h3>Rules of the matrix community</h3>
   <ul>
     <li>Respect each other and be civilized.</li>
     <li>No doxxing.</li>

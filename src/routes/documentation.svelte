@@ -34,33 +34,29 @@
   <title>Docs</title>
 </svelte:head>
 
-<section class="section">
-  <div class="content block">
-    <h2>Notes</h2>
-    <ul>
-      <li>Some of the games are x86 only, which means ARM processors won't be able to run it.</li>
-      <li>Our distribution of choice for newbies is EndeavourOS.</li>
-      <li>We do not support Non-GNU distributions such as ChromeOS or SteamOS/GamerOS.</li>
-    </ul>
-    <h2>Requirements</h2>
-    <ul>
-      <li>Use either EXT4 or BTRFS filesystem.</li>
-      <li>Use the terminal to run the scripts.</li>
-      <li>Have glibc at 2.31 or higher.</li>
-      <li>Have the packages mentioned below.</li>
-    </ul>
-  </div>
-</section>
-<section class="section">
-  <div class="card">
-    <header class="card-header">
-      <p class="card-header-title is-size-2">Arch/EndeavourOS/Manjaro</p>
-    </header>
-    <div class="card-content">
-      <div class="content">
-        <h2>AMD</h2>
-        <pre>
-          <code>
+<div class="content">
+  <h3>Notes</h3>
+  <ul>
+    <li>Some of the games are x86 only, which means ARM processors won't be able to run it.</li>
+    <li>Our distribution of choice for newbies is EndeavourOS.</li>
+    <li>We do not support Non-GNU distributions such as ChromeOS or SteamOS/GamerOS.</li>
+  </ul>
+  <hr />
+  <h3>Requirements</h3>
+  <ul>
+    <li>Use either EXT4 or BTRFS filesystem.</li>
+    <li>Use the terminal to run the scripts.</li>
+    <li>Have glibc at 2.31 or higher.</li>
+    <li>Have the packages mentioned below.</li>
+  </ul>
+</div>
+<hr />
+<div class="content">
+  <h3>Arch/EndeavourOS/Manjaro</h3>
+  <h5 class="text-muted">AMD</h5>
+  <pre
+    class="bg-very-dark rounded p-20 overflow-auto">
+    <code>
 # sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 # pacman -Syyu
 
@@ -68,11 +64,11 @@
 
 $ git clone https://aur.archlinux.org/paru-bin.git && cd paru-bin && makepkg -si && cd ..
 $ paru -S dxvk-bin gamescope
-          </code>
-        </pre>
-        <div class="content">
-          <h2>Intel</h2>
-          <pre>
+    </code>
+  </pre>
+  <h5 class="text-muted">Intel</h5>
+  <pre
+    class="bg-very-dark rounded p-20 overflow-auto">
           <code>
 # sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 # pacman -Syyu
@@ -83,11 +79,12 @@ $ git clone https://aur.archlinux.org/paru-bin.git && cd paru-bin && makepkg -si
 $ paru -S dxvk-bin gamescope
           </code>
         </pre>
-        </div>
 
-        <div class="content">
-          <h2>NVIDIA (proprietary packages included)</h2>
-          <pre>
+  <h5 class="text-muted">
+    NVIDIA <span class="text-danger">(proprietary packages included)</span>
+  </h5>
+  <pre
+    class="bg-very-dark rounded p-20 overflow-auto">
           <code>
 # sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 # pacman -Syyu
@@ -98,8 +95,4 @@ $ git clone https://aur.archlinux.org/paru-bin.git && cd paru-bin && makepkg -si
 $ paru -S dxvk-bin
           </code>
         </pre>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+</div>
