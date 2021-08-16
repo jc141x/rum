@@ -1,5 +1,5 @@
 <script>
-    import { genres, selectedGenre, mode } from '$lib/store.js';
+    import { genres, selectedGenre, mode, query } from '$lib/store.js';
     import { invoke } from "@tauri-apps/api/tauri";
     $: invoke('get_genres')
         .then(g => $genres = g)
@@ -33,7 +33,7 @@
         href=""
         on:click={() => ($selectedGenre = genre)}
         class:active={$selectedGenre == genre}
-        class="sidebar-link">{genre.name}</a
+        class="sidebar-link">{genre}</a
       >
     {/each}
   </div>
