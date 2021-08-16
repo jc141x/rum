@@ -4,5 +4,5 @@ node_modules
 /.svelte-kit
 /functions
 tags*
-src-tauri/target
+src-tauri
 /package
