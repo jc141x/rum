@@ -20,9 +20,9 @@
     'udp://coppersurfer.tk:6969/announce'
   ];
   function get_banner(game) {
-    return game.banner_rel_path === null
+    return game.banner_path === null
       ? banner
-      : `https://gitlab.com/chad-productions/chad_launcher_banners/-/raw/master/${game.banner_rel_path}`;
+      : `https://gitlab.com/chad-productions/chad_launcher_banners/-/raw/master/${game.banner_path}`;
   }
   function getMagnet(game) {
     let magnet = `magnet:?xt=urn:btih:${game.hash}&dn=${game.name}`;

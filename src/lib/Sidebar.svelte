@@ -1,12 +1,9 @@
 <script>
-  import { query, genres, selectedGenre, mode } from '$lib/store.js';
-  import { onMount } from 'svelte';
-  onMount(async () => {
-    const { invoke } = await import('@tauri-apps/api/tauri');
-    invoke('get_genres')
-      .then((g) => ($genres = g))
-      .catch((err) => console.error(err));
-  });
+  import { genres, selectedGenre, mode, query } from '$lib/store.js';
+  import { invoke } from '../../node_modules/@tauri-apps/api/tauri';
+  $: invoke('get_genres')
+    .then((g) => ($genres = g))
+    .catch((err) => console.error(err));
 </script>
 
 <div class="sidebar section">
@@ -36,7 +33,7 @@
         href=""
         on:click={() => ($selectedGenre = genre)}
         class:active={$selectedGenre == genre}
-        class="sidebar-link">{genre.name}</a
+        class="sidebar-link">{genre}</a
       >
     {/each}
   </div>
