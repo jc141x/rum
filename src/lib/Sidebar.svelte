@@ -1,9 +1,12 @@
 <script>
-    import { genres, selectedGenre, mode } from '$lib/store.js';
-    import { invoke } from "@tauri-apps/api/tauri";
-    $: invoke('get_genres')
-        .then(g => $genres = g)
-        .catch(err => console.error(err));
+  import { query, genres, selectedGenre, mode } from '$lib/store.js';
+  import { onMount } from 'svelte';
+  onMount(async () => {
+    const { invoke } = await import('@tauri-apps/api/tauri');
+    invoke('get_genres')
+      .then((g) => ($genres = g))
+      .catch((err) => console.error(err));
+  });
 </script>
 
 <div class="sidebar section">
