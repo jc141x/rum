@@ -1,12 +1,16 @@
-use serde::Serialize;
-use std::path::PathBuf;
-use titlecase::titlecase;
 use crate::config::Config;
 use crate::util::ChadError;
+use serde::Serialize;
+use std::path::PathBuf;
+use std::process::{Command, Stdio};
 use tauri::async_runtime::Mutex;
+use titlecase::titlecase;
+use std::io::{Read, BufRead, BufReader};
+use tauri::Manager;
 
 #[derive(Serialize, Clone, Debug)]
 pub struct Game {
+    id: usize,
     name: String,
     executable_path: PathBuf,
     banner: Option<PathBuf>,
@@ -16,8 +20,15 @@ pub struct Game {
 }
 
 impl Game {
-    pub fn new(config: &Config, executable_path: PathBuf) -> Self {
-        let slug: String = executable_path.parent().unwrap().file_name().unwrap().to_str().unwrap().into();
+    pub fn new(config: &Config, id: usize, executable_path: PathBuf) -> Self {
+        let slug: String = executable_path
+            .parent()
+            .unwrap()
+            .file_name()
+            .unwrap()
+            .to_str()
+            .unwrap()
+            .into();
         let mut name = slug.clone();
         name = name.replace(".", " ");
         name = name.replace("_", " ");
@@ -37,14 +48,28 @@ impl Game {
         let log_file = executable_path.parent().unwrap().join("chad.log");
 
         Self {
-            name, executable_path, banner, data_path, log_file, config_file
+            id,
+            name,
+            executable_path,
+            banner,
+            data_path,
+            log_file,
+            config_file,
         }
+    }
+
+    pub fn launch(&self) -> Result<Box<dyn Read>, ChadError> {
+        let child = Command::new(&self.executable_path)
+            .current_dir(self.executable_path.parent().unwrap())
+            .stdout(Stdio::piped())
+            .spawn()?;
+        Ok(Box::new(child.stdout.unwrap()))
     }
 }
 
 #[derive(Debug, Default)]
 pub struct LibraryFetcher {
-    games: Vec<Game>, 
+    games: Vec<Game>,
 }
 
 impl LibraryFetcher {
@@ -54,6 +79,7 @@ impl LibraryFetcher {
 
     pub fn load_games(&mut self, config: &Config) {
         self.games = Vec::new();
+        let mut id = 0;
 
         if let Ok(entries) = config.library_path.read_dir() {
             for entry in entries {
@@ -61,9 +87,13 @@ impl LibraryFetcher {
                     if let Ok(file_type) = entry.file_type() {
                         if file_type.is_dir() {
                             if entry.path().join("start.sh").exists() {
-                                self.games.push(Game::new(&config, entry.path().join("start.sh")));
+                                self.games
+                                    .push(Game::new(&config, id, entry.path().join("start.sh")));
+                                id += 1;
                             } else if entry.path().join("start").exists() {
-                                self.games.push(Game::new(&config, entry.path().join("start")));
+                                self.games
+                                    .push(Game::new(&config, id, entry.path().join("start")));
+                                id += 1;
                             }
                         }
                     }
@@ -72,7 +102,7 @@ impl LibraryFetcher {
         }
     }
 
-    pub fn iter_games<'a>(&'a self) -> impl Iterator<Item=&'a Game> {
+    pub fn iter_games<'a>(&'a self) -> impl Iterator<Item = &'a Game> {
         self.games.iter()
     }
 
@@ -83,6 +113,46 @@ impl LibraryFetcher {
     pub fn get_games_cloned(&self) -> Vec<Game> {
         self.iter_games().cloned().collect()
     }
+
+    pub fn get_game<'a>(&'a self, index: usize) -> Option<&'a Game> {
+        self.games.get(index)
+    }
+}
+
+fn handle_stdout(app_handle: tauri::AppHandle, stdout: Box<dyn Read>) -> Result<(), ChadError> {
+    let mut reader = BufReader::new(stdout);
+
+    loop {
+        let mut line_buf = String::new();
+
+        if let Ok(status) = reader.read_line(&mut line_buf) {
+            if status == 0 {
+                break;
+            }
+
+            app_handle.emit_all("game_log", &line_buf)?;
+        }
+    }
+
+    Ok(())
+}
+
+#[tauri::command]
+pub async fn run_game(
+    index: usize,
+    fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
+    app_handle: tauri::AppHandle,
+) -> Result<(), ChadError> {
+    fetcher
+        .lock()
+        .await
+        .get_game(index)
+        .map(|game| {
+            let stdout = game.launch()?;
+            handle_stdout(app_handle, stdout)?;
+            Ok(())
+        })
+        .unwrap_or(Err(ChadError::new("Game not found".into())))
 }
 
 #[tauri::command]

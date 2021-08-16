@@ -5,6 +5,7 @@
 
 <script>
     import { invoke } from "@tauri-apps/api/tauri";
+    import { listen } from '@tauri-apps/api/event'
     import { mode, games, page, query, selectedGenre } from '$lib/store.js';
     import Sidebar from '$lib/Sidebar.svelte';
     import GameGrid from '$lib/GameGrid.svelte';
@@ -29,6 +30,18 @@
     invoke('get_local_games')
         .then(console.log)
         .catch(err => console.error(err));
+
+    invoke('run_game', { index: 7 })
+        .then(console.log)
+        .catch(err => console.error(err));
+
+    listen('game_log', event => {
+        // event.event is the event name (useful if you want to use a single callback fn for multiple event types)
+        // event.payload is the payload object
+        console.log(event.payload);
+    });
+
+    
     
 </script>
 
