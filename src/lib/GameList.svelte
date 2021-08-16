@@ -60,11 +60,9 @@
         </p>
         <!-- Genres -->
         <div class="">
-          {#if game.genres != ''}
-            {#each game.genres.split(';') as genre}
+            {#each game.genres as genre}
               <span class="badge"> {genre} </span>
             {/each}
-          {/if}
           {#if game.nsfw}
             <span class="badge badge-danger"> 18+ </span>
           {/if}
