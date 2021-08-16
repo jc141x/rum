@@ -67,6 +67,18 @@ async fn get_games(opts: GetGamesOpts, games: tauri::State<'_, Mutex<HashMap<usi
     }
 }
 
+#[tauri::command]
+async fn get_genres(client: tauri::State<'_, Postgrest>) -> Result<Vec<String>, ChadError> {
+    let result = client
+        .rpc("get_genres", "")
+        .execute()
+        .await?
+        .json::<Vec<String>>()
+        .await?;
+
+    Ok(result)
+}
+
 fn main() {
     let client = Postgrest::new("https://bkftwbhopivmrgzcagus.supabase.co/rest/v1/")
         .insert_header("apikey", API_KEY);
@@ -76,7 +88,7 @@ fn main() {
     tauri::Builder::default()
         .manage(client)
         .manage(games)
-        .invoke_handler(tauri::generate_handler![get_games])
+        .invoke_handler(tauri::generate_handler![get_games, get_genres])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

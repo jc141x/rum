@@ -1,16 +1,9 @@
 <script>
-  import { query, genres, selectedGenre, mode } from '$lib/store.js';
-  const url = 'https://bkftwbhopivmrgzcagus.supabase.co/rest/v1/genre?select=id,name';
-  import axios from 'axios';
-  axios
-    .get(url, {
-      headers: {
-        apikey:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyNzY0NDc0OCwiZXhwIjoxOTQzMjIwNzQ4fQ.MheXAiuWYFGDuFhfzAnANMzJU2UU4HN2dxwMxGdQd5A'
-      }
-    })
-    .then((response) => ($genres = response.data))
-    .catch((error) => console.log(error));
+    import { genres, selectedGenre, mode } from '$lib/store.js';
+    import { invoke } from "@tauri-apps/api/tauri";
+    $: invoke('get_genres')
+        .then(g => $genres = g)
+        .catch(err => console.error(err));
 </script>
 
 <div class="sidebar section">
@@ -35,11 +28,7 @@
     <br />
     <h5 class="sidebar-title">Genres</h5>
     <div class="sidebar-divider" />
-    {#each [...$genres].sort((x1, x2) => {
-      if (x1.name > x2.name) return 1;
-      if (x1.name < x2.name) return -1;
-      return 0;
-    }) as genre (genre.id)}
+    {#each [...$genres].sort() as genre (genre.id)}
       <a
         href=""
         on:click={() => ($selectedGenre = genre)}
