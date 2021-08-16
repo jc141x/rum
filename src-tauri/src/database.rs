@@ -38,44 +38,6 @@ pub struct GetGamesOpts {
     search: Option<String>,
 }
 
-#[derive(Default)]
-pub struct GameCache {
-    games: HashMap<usize, Game>,
-    pages: HashMap<usize, Vec<usize>>,
-}
-
-impl GameCache {
-    pub fn new() -> Self {
-        Self::default()
-    }
-
-    pub fn add_games(&mut self, games: &[Game]) {
-        for game in games {
-            self.games.insert(game.id, game.clone());
-        }
-    }
-
-    pub fn get_game(&self, id: usize) -> Option<&Game> {
-        self.games.get(&id)
-    }
-
-    pub fn get_page(&self, page: usize) -> Option<Vec<Game>> {
-        self.pages.get(&page).map(|games| {
-            games
-                .iter()
-                .filter_map(move |id| self.get_game(*id))
-                .cloned()
-                .collect()
-        })
-    }
-
-    pub fn set_page(&mut self, page: usize, games: &[Game]) {
-        self.add_games(&games);
-        self.pages
-            .insert(page, games.iter().map(|game| game.id).collect());
-    }
-}
-
 pub struct DatabaseFetcher {
     client: Postgrest,
 }
@@ -116,22 +78,9 @@ impl DatabaseFetcher {
 #[tauri::command]
 pub async fn get_games(
     opts: GetGamesOpts,
-    cache: tauri::State<'_, Mutex<GameCache>>,
     fetcher: tauri::State<'_, DatabaseFetcher>,
 ) -> Result<Vec<Game>, ChadError> {
-    // Don't use cache when using search or filters
-    let use_cache = opts.search.is_none() && opts.filter_genre.is_none() && opts.filter_language.is_none() && opts.filter_tag.is_none();
-
-    let mut cache = cache.lock().await;
-    if let (true, Some(page)) = (use_cache, cache.get_page(opts.page_number)) {
-        Ok(page)
-    } else {
-        let result = fetcher.get_games(&opts).await?;
-        if use_cache {
-            cache.set_page(opts.page_number, &result);
-        }
-        Ok(result)
-    }
+    fetcher.get_games(&opts).await
 }
 
 #[tauri::command]
