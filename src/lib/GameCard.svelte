@@ -21,9 +21,9 @@
   ];
   export let game;
   function get_banner(game) {
-    return game.banner_rel_path === null
+    return game.banner_path === null
       ? banner
-      : `https://gitlab.com/chad-productions/chad_launcher_banners/-/raw/master/${game.banner_rel_path}`;
+      : `https://gitlab.com/chad-productions/chad_launcher_banners/-/raw/master/${game.banner_path}`;
   }
   function getMagnet(game) {
     let magnet = `magnet:?xt=urn:btih:${game.hash}&dn=${game.name}`;
@@ -58,11 +58,9 @@
       {toTitleCase(game.type)}
     </p>
     <!-- Genres -->
-    {#if game.genres != ''}
-      {#each game.genres.split(';') as genre}
+    {#each game.genres as genre}
         <span class="badge"> {genre} </span>
-      {/each}
-    {/if}
+    {/each}
     {#if game.nsfw}
       <span class="badge badge-danger"> 18+ </span>
     {/if}

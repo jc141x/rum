@@ -1,15 +1,14 @@
 <script>
-  import { page, games } from '$lib/store.js';
-  $: decrementPage = () => {
-    if ($page > 1) {
-      $page--;
-    }
-  };
-  $: incrementPage = () => {
-    if ($page < Math.ceil($games.length / 20)) {
-      $page++;
-    }
-  };
+    import { page } from '$lib/store.js';
+    $: decrementPage = () => {
+        if ($page > 1) {
+            $page--;
+        }
+    };
+    $: incrementPage = () => {
+      // TODO add a wait to poll the amount of pages
+        $page++;
+    };
 </script>
 
 <div class="content">

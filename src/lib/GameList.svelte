@@ -46,7 +46,7 @@
 </script>
 
 <div class="content">
-  {#each $games.slice(($page - 1) * 20, $page * 20) as game (game.id)}
+  {#each $games as game (game.id)}
     <div class="d-flex h-250 border rounded bg-dark mb-20">
       <!-- Image -->
       <img class="h-full img-fluid rounded-left" src={get_banner(game)} alt={game.name} />
