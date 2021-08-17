@@ -92,6 +92,26 @@ impl DatabaseFetcher {
 
         Ok(result)
     }
+
+    pub async fn find_banner(&self, game_name: &str) -> Result<String, ChadError> {
+        let result = self
+            .client
+            .rpc("get_games", format!("{{ \"search\": \"{}\" }}", game_name))
+            .execute()
+            .await?
+            .json::<Vec<Game>>()
+            .await?;
+
+        if let Some(game) = result.get(0) {
+            if let Some(path) = &game.banner_path {
+                Ok(path.into())
+            } else {
+                Err(ChadError::new("No banner found".into()))
+            }
+        } else {
+            Err(ChadError::new("No game found".into()))
+        }
+    }
 }
 
 fn get_magnet(game: &Game) -> String {

@@ -7,6 +7,7 @@ use std::process::{Command, Stdio};
 use tauri::async_runtime::Mutex;
 use tauri::Manager;
 use titlecase::titlecase;
+use crate::database::DatabaseFetcher;
 
 #[derive(Serialize, Clone, Debug)]
 pub struct Game {
@@ -56,6 +57,18 @@ impl Game {
             log_file,
             config_file,
         }
+    }
+
+    pub async fn get_banner(&mut self, fetcher: tauri::State<'_, Mutex<DatabaseFetcher>>) -> Result<(), ChadError> {
+        if let Ok(banner_path) = fetcher.lock().await.find_banner(&self.name).await {
+            let target = format!("https://gitlab.com/chad-productions/chad_launcher_banners/-/raw/master/{}", banner_path);
+            let response = reqwest::get(target).await?;
+            let content =  response.text().await?;
+            std::io::copy(&mut content.as_bytes(), &mut std::fs::File::create(self.data_path.join("banner.png"))?)?;
+            self.banner = Some(self.data_path.join("banner.png"));
+        }
+
+        Ok(())
     }
 
     pub fn launch(&self) -> Result<Box<dyn Read>, ChadError> {
