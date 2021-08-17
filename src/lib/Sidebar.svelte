@@ -28,7 +28,7 @@
     <br />
     <h5 class="sidebar-title">Genres</h5>
     <div class="sidebar-divider" />
-    {#each [...$genres].sort() as genre (genre.id)}
+    {#each [...$genres].sort() as genre}
       <a
         href=""
         on:click={() => ($selectedGenre = genre)}
