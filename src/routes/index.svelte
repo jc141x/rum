@@ -27,6 +27,7 @@
       .catch((err) => console.error(err));
   }
 
+  /*
   invoke('get_local_games')
     .then(console.log)
     .catch((err) => console.error(err));
@@ -44,13 +45,14 @@
     // event.payload is the payload object
     console.log(event.payload);
   });
+*/
 </script>
 
 <svelte:head>
   <title>Home | GNU/Linux P2P Pirates</title>
 </svelte:head>
 
-<div class="container-fluid">
+<div class="d-flex flex-wrap">
   <Pagination />
   {#if $mode == 'list'}
     <GameList />

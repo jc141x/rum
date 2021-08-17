@@ -22,15 +22,15 @@
     });
   }
 
-    const handleMagnet = () => {
-        invoke("open_magnet", { game });
-    };
+  const handleMagnet = () => {
+    invoke('open_magnet', { game });
+  };
 </script>
 
-<div class="card p-0">
+<div class="card p-0 flex-fill w-200 m-10">
   <!-- Image -->
   <img class="img-fluid rounded-top" src={get_banner(game)} alt={game.name} />
-  <div class="content m-15">
+  <div class="content m-15 overflow-y-scroll h-200">
     <!-- Title -->
     <header class="font-size-18 font-weight-bold">
       {game.name}
@@ -40,18 +40,18 @@
     </p>
     <!-- Genres -->
     {#each game.genres as genre}
-        <span class="badge"> {genre} </span>
+      <span class="badge"> {genre} </span>
     {/each}
     {#if game.nsfw}
       <span class="badge badge-danger"> 18+ </span>
     {/if}
     <!-- Description -->
     <p class="">
-      {truncateString(game.description, 250)}
+      {game.description}
     </p>
     <!-- Download -->
     <div class="text-right">
-    <button on:click={() => handleMagnet()} class="btn" target="_blank">Download</button>
+      <button on:click={() => handleMagnet()} class="btn" target="_blank">Download</button>
     </div>
   </div>
 </div>
