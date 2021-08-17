@@ -1,12 +1,12 @@
 use crate::config::Config;
 use crate::util::ChadError;
 use serde::Serialize;
+use std::io::{BufRead, BufReader, Read};
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
 use tauri::async_runtime::Mutex;
-use titlecase::titlecase;
-use std::io::{Read, BufRead, BufReader};
 use tauri::Manager;
+use titlecase::titlecase;
 
 #[derive(Serialize, Clone, Debug)]
 pub struct Game {
@@ -35,7 +35,7 @@ impl Game {
         name = name.replace("-", " ");
         name = titlecase(&name).trim().into();
 
-        let data_path = config.data_path.join("library").join(slug);
+        let data_path = config.data_path().join("library").join(slug);
         let _ = std::fs::create_dir_all(&data_path);
 
         let banner = if data_path.join("banner.png").exists() {
@@ -81,19 +81,24 @@ impl LibraryFetcher {
         self.games = Vec::new();
         let mut id = 0;
 
-        if let Ok(entries) = config.library_path.read_dir() {
-            for entry in entries {
-                if let Ok(entry) = entry {
-                    if let Ok(file_type) = entry.file_type() {
-                        if file_type.is_dir() {
-                            if entry.path().join("start.sh").exists() {
-                                self.games
-                                    .push(Game::new(&config, id, entry.path().join("start.sh")));
-                                id += 1;
-                            } else if entry.path().join("start").exists() {
-                                self.games
-                                    .push(Game::new(&config, id, entry.path().join("start")));
-                                id += 1;
+        for library_path in config.library_paths() {
+            if let Ok(entries) = library_path.read_dir() {
+                for entry in entries {
+                    if let Ok(entry) = entry {
+                        if let Ok(file_type) = entry.file_type() {
+                            if file_type.is_dir() {
+                                if entry.path().join("start.sh").exists() {
+                                    self.games.push(Game::new(
+                                        &config,
+                                        id,
+                                        entry.path().join("start.sh"),
+                                    ));
+                                    id += 1;
+                                } else if entry.path().join("start").exists() {
+                                    self.games
+                                        .push(Game::new(&config, id, entry.path().join("start")));
+                                    id += 1;
+                                }
                             }
                         }
                     }
@@ -175,17 +180,23 @@ pub async fn reload_local_games(
 }
 
 #[tauri::command]
-pub async fn open_terminal(index: usize, fetcher: tauri::State<'_, Mutex<LibraryFetcher>>, config: tauri::State<'_, Mutex<Config>>) -> Result<(), ChadError> {
+pub async fn open_terminal(
+    index: usize,
+    fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
+    config: tauri::State<'_, Mutex<Config>>,
+) -> Result<(), ChadError> {
     let fetcher = fetcher.lock().await;
     let config = config.lock().await;
-    
-    fetcher.get_game(index).map(|game| {
-        Command::new(&config.terminal)
-            .current_dir(game.executable_path.parent().unwrap())
-            .stdout(Stdio::piped())
-            .spawn()?;
-        Ok(())
-    }).unwrap_or(Err(ChadError::new("Game not found".into())))?;
+
+    fetcher
+        .get_game(index)
+        .map(|game| {
+            Command::new(&config.terminal())
+                .current_dir(game.executable_path.parent().unwrap())
+                .stdout(Stdio::piped())
+                .spawn()?;
+            Ok(())
+        })
+        .unwrap_or(Err(ChadError::new("Game not found".into())))?;
     Ok(())
 }
-
