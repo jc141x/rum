@@ -1,8 +1,28 @@
 use crate::util::ChadError;
 use postgrest::Postgrest;
 use serde::{Deserialize, Serialize};
+use std::process::{Command, Stdio};
 
 const API_KEY: &'static str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyNzY0NDc0OCwiZXhwIjoxOTQzMjIwNzQ4fQ.MheXAiuWYFGDuFhfzAnANMzJU2UU4HN2dxwMxGdQd5A";
+
+const TRACKERS: &[&'static str] = &[
+    "udp://tracker.leechers-paradise.org:6969/announce",
+    "udp://tracker.opentrackr.org:1337/announce",
+    "udp://tracker.zer0day.to:1337/announce",
+    "udp://eddie4.nl:6969/announce",
+    "udp://46.148.18.250:2710",
+    "udp://opentor.org:2710",
+    "http://tracker.dler.org:6969/announce",
+    "udp://9.rarbg.me:2730/announce",
+    "udp://9.rarbg.to:2770/announce",
+    "udp://tracker.pirateparty.gr:6969/announce",
+    "http://retracker.local/announce",
+    "http://retracker.ip.ncnet.ru/announce",
+    "udp://exodus.desync.com:6969/announce",
+    "udp://ipv4.tracker.harry.lu:80/announce",
+    "udp://open.stealth.si:80/announce",
+    "udp://coppersurfer.tk:6969/announce"
+];
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Game {
@@ -73,6 +93,14 @@ impl DatabaseFetcher {
     }
 }
 
+fn get_magnet(game: &Game) -> String {
+    let mut magnet = format!("magnet:?xt=urn:btih:{}&dn={}", game.hash, game.name);
+    for tracker in TRACKERS {
+        magnet.push_str(&format!("&tr={}", tracker));
+    }
+    magnet
+}
+
 #[tauri::command]
 pub async fn get_games(
     opts: GetGamesOpts,
@@ -100,4 +128,13 @@ pub async fn get_tags(
     fetcher: tauri::State<'_, DatabaseFetcher>,
 ) -> Result<Vec<String>, ChadError> {
     fetcher.get_items("get_tags").await
+}
+
+#[tauri::command]
+pub async fn open_magnet(game: Game) -> Result<(), ChadError> {
+    let magnet = get_magnet(&game);
+    Command::new("xdg-open")
+        .arg(magnet)
+        .spawn()?;
+    Ok(())
 }

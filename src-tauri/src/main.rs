@@ -9,7 +9,7 @@ pub mod config;
 pub mod util;
 
 use tauri::async_runtime::Mutex;
-use database::{get_games, get_genres, get_languages, get_tags, DatabaseFetcher};
+use database::{get_games, get_genres, get_languages, get_tags, open_magnet, DatabaseFetcher};
 use library::{get_local_games, reload_local_games, run_game, LibraryFetcher};
 use config::Config;
 
@@ -29,6 +29,7 @@ fn main() {
             get_genres,
             get_languages,
             get_tags,
+            open_magnet,
 
             // Library
             get_local_games,
