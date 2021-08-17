@@ -173,3 +173,19 @@ pub async fn reload_local_games(
     fetcher.load_games(&*config);
     Ok(())
 }
+
+#[tauri::command]
+pub async fn open_terminal(index: usize, fetcher: tauri::State<'_, Mutex<LibraryFetcher>>, config: tauri::State<'_, Mutex<Config>>) -> Result<(), ChadError> {
+    let fetcher = fetcher.lock().await;
+    let config = config.lock().await;
+    
+    fetcher.get_game(index).map(|game| {
+        Command::new(&config.terminal)
+            .current_dir(game.executable_path.parent().unwrap())
+            .stdout(Stdio::piped())
+            .spawn()?;
+        Ok(())
+    }).unwrap_or(Err(ChadError::new("Game not found".into())))?;
+    Ok(())
+}
+

@@ -2,6 +2,7 @@ use crate::util::ChadError;
 use postgrest::Postgrest;
 use serde::{Deserialize, Serialize};
 use std::process::{Command, Stdio};
+use crate::config::Config;
 
 const API_KEY: &'static str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyNzY0NDc0OCwiZXhwIjoxOTQzMjIwNzQ4fQ.MheXAiuWYFGDuFhfzAnANMzJU2UU4HN2dxwMxGdQd5A";
 
@@ -138,3 +139,5 @@ pub async fn open_magnet(game: Game) -> Result<(), ChadError> {
         .spawn()?;
     Ok(())
 }
+
+

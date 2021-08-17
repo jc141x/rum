@@ -10,7 +10,7 @@ pub mod util;
 
 use tauri::async_runtime::Mutex;
 use database::{get_games, get_genres, get_languages, get_tags, open_magnet, DatabaseFetcher};
-use library::{get_local_games, reload_local_games, run_game, LibraryFetcher};
+use library::{get_local_games, reload_local_games, run_game, open_terminal, LibraryFetcher};
 use config::Config;
 
 fn main() {
@@ -35,6 +35,7 @@ fn main() {
             get_local_games,
             reload_local_games,
             run_game,
+            open_terminal,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

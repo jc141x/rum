@@ -4,6 +4,7 @@ use std::path::PathBuf;
 pub struct Config {
     pub data_path: PathBuf,
     pub library_path: PathBuf,
+    pub terminal: String,
 }
 
 impl Config {
@@ -11,6 +12,7 @@ impl Config {
         Self {
             data_path: dirs::data_dir().unwrap().join("chad_launcher"),
             library_path: dirs::home_dir().unwrap().join("Games/chad_launcher"),
+            terminal: "alacritty".into(),
         }
     }
 }
