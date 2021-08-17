@@ -4,8 +4,8 @@
   import '../styles/halfmoon-variables.min.css';
 </script>
 
-<div class="main page-wrapper with-navbar with-sidebar">
-  <Header />
+<div class="main page-wrapper with-sidebar">
+  <!-- <Header /> -->
   <Sidebar />
   <div class="content-wrapper">
     <slot />

@@ -27,17 +27,13 @@ dependencies:
 
 devDependencies:
   '@sveltejs/adapter-netlify': 1.0.0-next.27
-  '@sveltejs/kit': 1.0.0-next.151_svelte@3.42.1
-  prettier: 2.2.1
-  prettier-plugin-svelte: 2.3.1_prettier@2.2.1+svelte@3.42.1
-  svelte: 3.42.1
-  svelte-highlight: 3.2.0
   '@sveltejs/adapter-static': 1.0.0-next.16
-  '@sveltejs/kit': 1.0.0-next.150_svelte@3.42.1
+  '@sveltejs/kit': 1.0.0-next.151_svelte@3.42.1
   '@tauri-apps/cli': 1.0.0-beta.6
   prettier: 2.2.1
   prettier-plugin-svelte: 2.3.1_prettier@2.2.1+svelte@3.42.1
   svelte: 3.42.1
+  svelte-highlight: 3.2.0
   svelte-preprocess: 4.7.4_svelte@3.42.1
 
 packages:
@@ -119,14 +115,12 @@ packages:
       esbuild: 0.12.20
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.151_svelte@3.42.1:
-    resolution: {integrity: sha512-dioqHt4XxqiZ+5dEL6hFG1fBuVMc5t9l9bmvUeJX6neyut432IcVLdl4t3utmD10Lu8fbybJPRkHy1PVAbHWwQ==}
   /@sveltejs/adapter-static/1.0.0-next.16:
     resolution: {integrity: sha512-xGFcg+GHF0BL1fyWx2vCzlYj4S4R+Od9cF00soo1TVp/scGOi1G9grSYYW4x5H+iDn1sscoJ65OGBGWIcOgrXg==}
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.150_svelte@3.42.1:
-    resolution: {integrity: sha512-crIpEgy8dyKvaMrEYmNm38lTwcwEY0wv8+L672WhgvHVx4cmiKsGAocq73I2h3f4lnlxa1mBwi7jrNTZO1lUDg==}
+  /@sveltejs/kit/1.0.0-next.151_svelte@3.42.1:
+    resolution: {integrity: sha512-dioqHt4XxqiZ+5dEL6hFG1fBuVMc5t9l9bmvUeJX6neyut432IcVLdl4t3utmD10Lu8fbybJPRkHy1PVAbHWwQ==}
     engines: {node: ^12.20 || >=14.13}
     hasBin: true
     peerDependencies:
@@ -359,13 +353,6 @@ packages:
       tempfile: 2.0.0
     dev: true
 
-  /highlight.js/11.2.0:
-    resolution: {integrity: sha512-JOySjtOEcyG8s4MLR2MNbLUyaXqUunmSnL2kdV/KuGJOmHZuAR5xC54Ko7goAXBWNhf09Vy3B+U7vR62UZ/0iw==}
-    engines: {node: '>=12.0.0'}
-    dev: true
-
-  /is-core-module/2.5.0:
-    resolution: {integrity: sha512-TXCMSDsEHMEEZ6eCA8rwRDbLu55MRGmrctljsBX/2v1d9/GzqHOxW5c5oPSgrUt2vBFXebu9rGqckXGPWOlYpg==}
   /bin-check/4.1.0:
     resolution: {integrity: sha512-b6weQyEUKsDGFlACWSIOfveEnImkJyK/FGW6FAG42loyoquvjdtOIqO6yBFzHyqyVVhNgNkQxxx09SFLK28YnA==}
     engines: {node: '>=4'}
@@ -528,16 +515,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /svelte-highlight/3.2.0:
-    resolution: {integrity: sha512-eI1zh+bqisIH/y07pLOrqhaaKna+dV3jB4yiFqAdAbUkgcSpaaGL4lSjxKqUnAd1/lZh7NN1AxurEUQ2GfK2UA==}
-    dependencies:
-      highlight.js: 11.2.0
-    dev: true
-
-  /svelte-hmr/0.14.7_svelte@3.42.1:
-    resolution: {integrity: sha512-pDrzgcWSoMaK6AJkBWkmgIsecW0GChxYZSZieIYfCP0v2oPyx2CYU/zm7TBIcjLVUPP714WxmViE9Thht4etog==}
-    peerDependencies:
-      svelte: '>=3.19.0'
   /camelcase/6.2.0:
     resolution: {integrity: sha512-c7wVvbw3f37nuobQNtgsgG9POC9qMbNuMQmTCqZv23b6MIz0fcYpBiOlv9gEN/hdLdnZTDQhg6e9Dq5M1vKvfg==}
     engines: {node: '>=10'}
@@ -1426,6 +1403,11 @@ packages:
     engines: {node: '>= 0.4.0'}
     dependencies:
       function-bind: 1.1.1
+    dev: true
+
+  /highlight.js/11.2.0:
+    resolution: {integrity: sha512-JOySjtOEcyG8s4MLR2MNbLUyaXqUunmSnL2kdV/KuGJOmHZuAR5xC54Ko7goAXBWNhf09Vy3B+U7vR62UZ/0iw==}
+    engines: {node: '>=12.0.0'}
     dev: true
 
   /hosted-git-info/2.8.9:
@@ -2876,6 +2858,12 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       has-flag: 4.0.0
+    dev: true
+
+  /svelte-highlight/3.2.0:
+    resolution: {integrity: sha512-eI1zh+bqisIH/y07pLOrqhaaKna+dV3jB4yiFqAdAbUkgcSpaaGL4lSjxKqUnAd1/lZh7NN1AxurEUQ2GfK2UA==}
+    dependencies:
+      highlight.js: 11.2.0
     dev: true
 
   /svelte-hmr/0.14.7_svelte@3.42.1:
