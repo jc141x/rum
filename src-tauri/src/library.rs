@@ -1,4 +1,5 @@
 use crate::config::Config;
+use crate::database::DatabaseFetcher;
 use crate::util::ChadError;
 use serde::Serialize;
 use std::io::{BufRead, BufReader, Read};
@@ -7,7 +8,6 @@ use std::process::{Command, Stdio};
 use tauri::async_runtime::Mutex;
 use tauri::Manager;
 use titlecase::titlecase;
-use crate::database::DatabaseFetcher;
 
 #[derive(Serialize, Clone, Debug)]
 pub struct Game {
@@ -22,7 +22,10 @@ pub struct Game {
 }
 
 fn load_banner(banner_path: &Path) -> Option<String> {
-    std::fs::read(banner_path).ok().map(|b| base64::encode(b)).map(|b64| format!("data:image/png;base64,{}", b64))
+    std::fs::read(banner_path)
+        .ok()
+        .map(|b| base64::encode(b))
+        .map(|b64| format!("data:image/png;base64,{}", b64))
 }
 
 impl Game {
@@ -67,12 +70,21 @@ impl Game {
         }
     }
 
-    pub async fn get_banner(&mut self, fetcher: tauri::State<'_, Mutex<DatabaseFetcher>>) -> Result<(), ChadError> {
+    pub async fn get_banner(
+        &mut self,
+        fetcher: tauri::State<'_, Mutex<DatabaseFetcher>>,
+    ) -> Result<(), ChadError> {
         if let Ok(banner_path) = fetcher.lock().await.find_banner(&self.name).await {
-            let target = format!("https://gitlab.com/chad-productions/chad_launcher_banners/-/raw/master/{}", banner_path);
+            let target = format!(
+                "https://gitlab.com/chad-productions/chad_launcher_banners/-/raw/master/{}",
+                banner_path
+            );
             let response = reqwest::get(target).await?;
-            let content =  response.text().await?;
-            std::io::copy(&mut content.as_bytes(), &mut std::fs::File::create(self.data_path.join("banner.png"))?)?;
+            let content = response.text().await?;
+            std::io::copy(
+                &mut content.as_bytes(),
+                &mut std::fs::File::create(self.data_path.join("banner.png"))?,
+            )?;
             self.banner_path = Some(self.data_path.join("banner.png"));
             self.banner = self.banner_path.as_ref().and_then(|p| load_banner(&p));
         }
@@ -117,8 +129,11 @@ impl LibraryFetcher {
                                     ));
                                     id += 1;
                                 } else if entry.path().join("start").exists() {
-                                    self.games
-                                        .push(Game::new(&config, id, entry.path().join("start")));
+                                    self.games.push(Game::new(
+                                        &config,
+                                        id,
+                                        entry.path().join("start"),
+                                    ));
                                     id += 1;
                                 }
                             }

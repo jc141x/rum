@@ -9,6 +9,10 @@
     game.banner === null
       ? banner
       : game.banner;
+
+  const handleLaunch = () => {
+    invoke('run_game', { index: game.id });
+  };
 </script>
 
 <Card
@@ -16,7 +20,7 @@
   banner={banner_src}
   height={150}
 >
-  <button slot="buttons" class="btn" target="_blank">
+  <button slot="buttons" on:click={handleLaunch} class="btn" target="_blank">
     Launch
   </button>
 </Card>
