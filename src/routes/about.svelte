@@ -19,7 +19,7 @@
 </svelte:head>
 
 <div class="content">
-  <h3>GNU/Linux Pirates</h3>
+  <h3>Chad Launcher - About</h3>
   <h5>
     We are a P2P release/repacking group on 1337x. Our objective is to provide an ethical and
     minimalist alternative for the community.

@@ -11,9 +11,15 @@
     </button>
   </div>
   <a href="/" class="navbar-brand">
-    <span>GNU/Linux P2P Pirates</span>
+    <span>Chad Launcher</span>
   </a>
   <ul class="navbar-nav d-none d-md-flex">
+    <li class="nav-item" class:active={false}>
+      <a href="/library" class="nav-link">Library</a>
+    </li>
+    <li class="nav-item" class:active={false}>
+      <a href="/discover" class="nav-link">Discover</a>
+    </li>
     <li class="nav-item" class:active={false}>
       <a href="/documentation" class="nav-link">Docs</a>
     </li>
@@ -21,10 +27,12 @@
       <a href="/about" class="nav-link">About</a>
     </li>
   </ul>
+    <!--
   <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
     <input type="text" bind:value={$query} class="form-control" placeholder="Search" />
     <button class="btn btn-primary">Search</button>
   </form>
+    -->
 </nav>
 
 <style>

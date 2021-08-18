@@ -4,45 +4,40 @@
 </script>
 
 <script>
-  import { invoke } from '../../node_modules/@tauri-apps/api/tauri';
-  import { listen } from '../../node_modules/@tauri-apps/api/event';
-  import { mode } from '$lib/store.js';
-  import Sidebar from '$lib/Sidebar.svelte';
-  import GameGrid from '$lib/GameGrid.svelte';
-  import LocalGameGrid from '$lib/LocalGameGrid.svelte';
-  import Pagination from '$lib/Pagination.svelte';
-  import GameList from '$lib/GameList.svelte';
-
-  /*
-  invoke('get_local_games')
-    .then(console.log)
-    .catch((err) => console.error(err));
-
-  invoke('run_game', { index: 7 })
-    .then(console.log)
-    .catch((err) => console.error(err));
-
-  invoke('open_terminal', { index: 7 })
-    .then(console.log)
-    .catch((err) => console.error(err));
-
-  listen('game_log', (event) => {
-    // event.event is the event name (useful if you want to use a single callback fn for multiple event types)
-    // event.payload is the payload object
-    console.log(event.payload);
-  });
-*/
+  import LocalGameCard from '$lib/LocalGameCard.svelte';
+  import Card from '$lib/Card.svelte';
+  import banner from '$lib/default.png';
 </script>
 
 <svelte:head>
-  <title>Home | GNU/Linux P2P Pirates</title>
+  <title>Chad Launcher</title>
 </svelte:head>
 
 <div class="d-flex flex-wrap">
-  <Pagination />
-  {#if $mode == 'list'}
-    <GameList />
-  {:else if $mode == 'grid'}
-    <LocalGameGrid />
-  {/if}
+  <div class="content">
+    <h1 class="content-title">Welcome to Chad Launcher</h1>
+  </div>
+
+  <div class="card w-full">
+    <h2 class="card-title">Play</h2>
+    <div class="d-flex flex-row overflow-x-scroll">
+      <Card title="Cool game" {banner} height="100" />
+      <Card title="Other game" {banner} height="100" />
+      <Card title="Boring game" {banner} height="100" />
+      <Card title="Fun game" {banner} height="100" />
+      <Card title="Hard game" {banner} height="100" />
+    </div>
+  </div>
+
+  <div class="card w-full">
+    <h2 class="card-title">Discover</h2>
+    <p>Popular/trending games here</p>
+    <div class="d-flex flex-row overflow-x-scroll">
+      <Card title="Popular game" {banner} height="100" />
+      <Card title="Other game" {banner} height="100" />
+      <Card title="Nice game" {banner} height="100" />
+      <Card title="Fun game" {banner} height="100" />
+      <Card title="Easy game" {banner} height="100" />
+    </div>
+  </div>
 </div>

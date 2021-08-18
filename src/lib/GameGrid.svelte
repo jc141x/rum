@@ -4,6 +4,7 @@
   import GameCard from './GameCard.svelte';
 
   $: {
+      console.log("update");
     let opts = { page_number: $page - 1, page_size: 20 };
 
     if ($query != '') {
@@ -12,11 +13,11 @@
     if ($selectedGenre != '') {
       opts.filter_genre = $selectedGenre;
     }
-  }
 
-  invoke('get_games', { opts })
-    .then((g) => ($games = g))
-    .catch((err) => console.error(err));
+    invoke('get_games', { opts })
+      .then((g) => ($games = g))
+      .catch((err) => console.error(err));
+  }
 </script>
 
 <div class="flex-container">

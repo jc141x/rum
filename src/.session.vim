@@ -8,21 +8,33 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +31 routes/index.svelte
-badd +23 lib/GameGrid.svelte
+badd +27 routes/index.svelte
+badd +7 lib/GameGrid.svelte
 badd +14 lib/GameCard.svelte
 badd +1 lib/store.js
-badd +16 lib/Pagination.svelte
+badd +19 lib/Pagination.svelte
 badd +48 lib/GameList.svelte
-badd +1 lib/Header.svelte
-badd +2 lib/Sidebar.svelte
-badd +1 routes/__layout.svelte
+badd +31 lib/Header.svelte
+badd +13 lib/Sidebar.svelte
+badd +9 routes/__layout.svelte
 badd +16 lib/Card.svelte
-badd +12 lib/LocalGameCard.svelte
+badd +23 lib/LocalGameCard.svelte
 badd +8 lib/LocalGameGrid.svelte
+badd +22 routes/about.svelte
+badd +11 routes/library.svelte
+badd +42 routes/discover.svelte
 argglobal
 %argdel
 set stal=2
+tabnew
+tabnew
+tabnew
+tabnew
+tabnew
+tabnew
+tabnew
+tabnew
+tabnew
 tabnew
 tabnew
 tabnew
@@ -47,14 +59,15 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 3 - ((2 * winheight(0) + 32) / 65)
+let s:l = 13 - ((12 * winheight(0) + 32) / 65)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 3
-normal! 0
+keepjumps 13
+normal! 026|
+lcd ~/Documents/Development/pirates/src
 tabnext
-edit routes/index.svelte
+edit ~/Documents/Development/pirates/src/routes/index.svelte
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -66,14 +79,53 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 25 - ((24 * winheight(0) + 32) / 65)
+let s:l = 39 - ((38 * winheight(0) + 32) / 65)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 25
+keepjumps 39
+normal! 010|
+tabnext
+edit ~/Documents/Development/pirates/src/routes/discover.svelte
+argglobal
+balt ~/Documents/Development/pirates/src/routes/index.svelte
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 1 - ((0 * winheight(0) + 32) / 65)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 1
+normal! 08|
+tabnext
+edit ~/Documents/Development/pirates/src/lib/Sidebar.svelte
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 4 - ((3 * winheight(0) + 32) / 65)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 4
 normal! 03|
 tabnext
-edit lib/GameList.svelte
+edit ~/Documents/Development/pirates/src/lib/GameList.svelte
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -92,7 +144,7 @@ normal! zt
 keepjumps 25
 normal! 0
 tabnext
-edit lib/Pagination.svelte
+edit ~/Documents/Development/pirates/src/lib/Pagination.svelte
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -104,14 +156,14 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 19 - ((18 * winheight(0) + 32) / 65)
+let s:l = 12 - ((11 * winheight(0) + 32) / 65)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 19
-normal! 0
+keepjumps 12
+normal! 028|
 tabnext
-edit lib/store.js
+edit ~/Documents/Development/pirates/src/lib/store.js
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -130,7 +182,7 @@ normal! zt
 keepjumps 4
 normal! 023|
 tabnext
-edit lib/GameGrid.svelte
+edit ~/Documents/Development/pirates/src/lib/GameGrid.svelte
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -142,16 +194,16 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 13 - ((12 * winheight(0) + 32) / 65)
+let s:l = 7 - ((6 * winheight(0) + 32) / 65)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 13
-normal! 07|
+keepjumps 7
+normal! 028|
 tabnext
-edit lib/LocalGameGrid.svelte
+edit ~/Documents/Development/pirates/src/lib/LocalGameGrid.svelte
 argglobal
-balt lib/GameGrid.svelte
+balt ~/Documents/Development/pirates/src/lib/GameGrid.svelte
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -162,14 +214,111 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 8 - ((7 * winheight(0) + 32) / 65)
+let s:l = 4 - ((3 * winheight(0) + 32) / 65)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 8
-normal! 07|
+keepjumps 4
+normal! 047|
 tabnext
-edit lib/GameCard.svelte
+edit ~/Documents/Development/pirates/src/routes/discover.svelte
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 57 - ((0 * winheight(0) + 32) / 65)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 57
+normal! 0
+tabnext
+edit ~/Documents/Development/pirates/src/lib/Pagination.svelte
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 61 - ((0 * winheight(0) + 32) / 65)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 61
+normal! 0
+lcd ~/Documents/Development/pirates/src
+tabnext
+edit ~/Documents/Development/pirates/src/lib/GameCard.svelte
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 5 - ((4 * winheight(0) + 32) / 65)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 5
+normal! 037|
+tabnext
+edit ~/Documents/Development/pirates/src/lib/LocalGameCard.svelte
+argglobal
+balt ~/Documents/Development/pirates/src/lib/GameCard.svelte
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 25 - ((24 * winheight(0) + 32) / 65)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 25
+normal! 011|
+tabnext
+edit ~/Documents/Development/pirates/src/routes/__layout.svelte
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 7 - ((6 * winheight(0) + 32) / 65)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 7
+normal! 041|
+tabnext
+edit ~/Documents/Development/pirates/src/lib/Header.svelte
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -186,11 +335,12 @@ if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
 keepjumps 31
-normal! 0
+normal! 07|
+lcd ~/Documents/Development/pirates/src
 tabnext
-edit lib/LocalGameCard.svelte
+edit ~/Documents/Development/pirates/src/routes/library.svelte
 argglobal
-balt lib/GameCard.svelte
+balt ~/Documents/Development/pirates/src/lib/Header.svelte
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -201,16 +351,54 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 11 - ((10 * winheight(0) + 32) / 65)
+let s:l = 14 - ((13 * winheight(0) + 32) / 65)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 11
-normal! 08|
+keepjumps 14
+normal! 023|
 tabnext
-edit lib/Card.svelte
+edit ~/Documents/Development/pirates/src/lib/LocalGameGrid.svelte
 argglobal
-balt lib/GameCard.svelte
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 8 - ((7 * winheight(0) + 32) / 65)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 8
+normal! 0
+tabnext
+edit ~/Documents/Development/pirates/src/routes/about.svelte
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 1 - ((0 * winheight(0) + 32) / 65)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 1
+normal! 025|
+tabnext
+edit ~/Documents/Development/pirates/src/lib/Card.svelte
+argglobal
+balt ~/Documents/Development/pirates/src/lib/GameCard.svelte
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -228,7 +416,7 @@ normal! zt
 keepjumps 13
 normal! 0
 tabnext
-edit lib/Header.svelte
+edit ~/Documents/Development/pirates/src/lib/Header.svelte
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -240,16 +428,16 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 20 - ((19 * winheight(0) + 32) / 65)
+let s:l = 26 - ((25 * winheight(0) + 32) / 65)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 20
+keepjumps 26
 normal! 0
 tabnext
-edit routes/__layout.svelte
+edit ~/Documents/Development/pirates/src/routes/__layout.svelte
 argglobal
-balt lib/Header.svelte
+balt ~/Documents/Development/pirates/src/lib/Header.svelte
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
