@@ -8,18 +8,24 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +53 routes/index.svelte
-badd +14 lib/GameGrid.svelte
-badd +2 lib/GameCard.svelte
+badd +31 routes/index.svelte
+badd +23 lib/GameGrid.svelte
+badd +14 lib/GameCard.svelte
 badd +1 lib/store.js
 badd +16 lib/Pagination.svelte
 badd +48 lib/GameList.svelte
 badd +1 lib/Header.svelte
 badd +2 lib/Sidebar.svelte
 badd +1 routes/__layout.svelte
+badd +16 lib/Card.svelte
+badd +12 lib/LocalGameCard.svelte
+badd +8 lib/LocalGameGrid.svelte
 argglobal
 %argdel
 set stal=2
+tabnew
+tabnew
+tabnew
 tabnew
 tabnew
 tabnew
@@ -60,12 +66,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 53 - ((49 * winheight(0) + 32) / 65)
+let s:l = 25 - ((24 * winheight(0) + 32) / 65)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 53
-normal! 0
+keepjumps 25
+normal! 03|
 tabnext
 edit lib/GameList.svelte
 argglobal
@@ -117,12 +123,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 6 - ((5 * winheight(0) + 32) / 65)
+let s:l = 4 - ((3 * winheight(0) + 32) / 65)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 6
-normal! 0
+keepjumps 4
+normal! 023|
 tabnext
 edit lib/GameGrid.svelte
 argglobal
@@ -141,7 +147,27 @@ if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
 keepjumps 13
-normal! 0
+normal! 07|
+tabnext
+edit lib/LocalGameGrid.svelte
+argglobal
+balt lib/GameGrid.svelte
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 8 - ((7 * winheight(0) + 32) / 65)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 8
+normal! 07|
 tabnext
 edit lib/GameCard.svelte
 argglobal
@@ -155,11 +181,51 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 10 - ((9 * winheight(0) + 32) / 65)
+let s:l = 31 - ((30 * winheight(0) + 32) / 65)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 10
+keepjumps 31
+normal! 0
+tabnext
+edit lib/LocalGameCard.svelte
+argglobal
+balt lib/GameCard.svelte
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 11 - ((10 * winheight(0) + 32) / 65)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 11
+normal! 08|
+tabnext
+edit lib/Card.svelte
+argglobal
+balt lib/GameCard.svelte
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 13 - ((12 * winheight(0) + 32) / 65)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 13
 normal! 0
 tabnext
 edit lib/Header.svelte
@@ -200,7 +266,7 @@ keepjumps exe s:l
 normal! zt
 keepjumps 2
 normal! 0
-tabnext 2
+tabnext 6
 set stal=1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0&& getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

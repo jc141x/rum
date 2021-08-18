@@ -23,6 +23,7 @@ reqwest = { version = "0.11", features = ["json"] }
 titlecase = "1.1"
 dirs = "3.0"
 thiserror = "1.0"
+base64 = "0.13"
 
 [features]
 default = [ "custom-protocol" ]

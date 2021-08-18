@@ -2,7 +2,7 @@ use crate::config::Config;
 use crate::util::ChadError;
 use serde::Serialize;
 use std::io::{BufRead, BufReader, Read};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use tauri::async_runtime::Mutex;
 use tauri::Manager;
@@ -14,10 +14,15 @@ pub struct Game {
     id: usize,
     name: String,
     executable_path: PathBuf,
-    banner: Option<PathBuf>,
+    banner_path: Option<PathBuf>,
+    banner: Option<String>,
     data_path: PathBuf,
     log_file: PathBuf,
     config_file: PathBuf,
+}
+
+fn load_banner(banner_path: &Path) -> Option<String> {
+    std::fs::read(banner_path).ok().map(|b| base64::encode(b)).map(|b64| format!("data:image/png;base64,{}", b64))
 }
 
 impl Game {
@@ -39,11 +44,13 @@ impl Game {
         let data_path = config.data_path().join("library").join(slug);
         let _ = std::fs::create_dir_all(&data_path);
 
-        let banner = if data_path.join("banner.png").exists() {
+        let banner_path = if data_path.join("banner.png").exists() {
             Some(data_path.join("banner.png"))
         } else {
             None // TODO Fetch banner
         };
+
+        let banner = banner_path.as_ref().and_then(|p| load_banner(&p));
 
         let config_file = data_path.join("game.yaml");
         let log_file = executable_path.parent().unwrap().join("chad.log");
@@ -52,6 +59,7 @@ impl Game {
             id,
             name,
             executable_path,
+            banner_path,
             banner,
             data_path,
             log_file,
@@ -65,7 +73,9 @@ impl Game {
             let response = reqwest::get(target).await?;
             let content =  response.text().await?;
             std::io::copy(&mut content.as_bytes(), &mut std::fs::File::create(self.data_path.join("banner.png"))?)?;
-            self.banner = Some(self.data_path.join("banner.png"));
+            self.banner_path = Some(self.data_path.join("banner.png"));
+            self.banner = self.banner_path.as_ref().and_then(|p| std::fs::read(p).ok()).map(|b| base64::encode(b));
+            self.banner = self.banner_path.as_ref().and_then(|p| load_banner(&p));
         }
 
         Ok(())

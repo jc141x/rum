@@ -1,24 +1,23 @@
-<style>
-.flex-container {
-    display: flex;
-    flex-wrap: wrap;
-}
-</style>
-
 <script>
-  import { page, games } from '$lib/store.js';
+  import { invoke } from '../../node_modules/@tauri-apps/api/tauri';
+  import { games, page, query, selectedGenre } from '$lib/store.js';
   import GameCard from './GameCard.svelte';
-</script>
 
-<!--
-<div class="row row-eq-spacing">
-  {#each $games as game (game.id)}
-    <div class="col-lg-3 col-md-4 col-sm-12">
-      <GameCard {game} />
-    </div>
-  {/each}
-</div>
-    -->
+  $: {
+    let opts = { page_number: $page - 1, page_size: 20 };
+
+    if ($query != '') {
+      opts.search = $query;
+    }
+    if ($selectedGenre != '') {
+      opts.filter_genre = $selectedGenre;
+    }
+  }
+
+  invoke('get_games', { opts })
+    .then((g) => ($games = g))
+    .catch((err) => console.error(err));
+</script>
 
 <div class="flex-container">
   {#each $games as game (game.id)}
@@ -26,3 +25,9 @@
   {/each}
 </div>
 
+<style>
+  .flex-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+</style>

@@ -6,26 +6,12 @@
 <script>
   import { invoke } from '../../node_modules/@tauri-apps/api/tauri';
   import { listen } from '../../node_modules/@tauri-apps/api/event';
-  import { mode, games, page, query, selectedGenre } from '$lib/store.js';
+  import { mode } from '$lib/store.js';
   import Sidebar from '$lib/Sidebar.svelte';
   import GameGrid from '$lib/GameGrid.svelte';
+  import LocalGameGrid from '$lib/LocalGameGrid.svelte';
   import Pagination from '$lib/Pagination.svelte';
   import GameList from '$lib/GameList.svelte';
-
-  $: {
-    let opts = { page_number: $page - 1, page_size: 20 };
-
-    if ($query != '') {
-      opts.search = $query;
-    }
-    if ($selectedGenre != '') {
-      opts.filter_genre = $selectedGenre;
-    }
-
-    invoke('get_games', { opts })
-      .then((g) => ($games = g))
-      .catch((err) => console.error(err));
-  }
 
   /*
   invoke('get_local_games')
@@ -57,6 +43,6 @@
   {#if $mode == 'list'}
     <GameList />
   {:else if $mode == 'grid'}
-    <GameGrid />
+    <LocalGameGrid />
   {/if}
 </div>
