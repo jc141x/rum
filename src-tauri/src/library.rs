@@ -74,7 +74,6 @@ impl Game {
             let content =  response.text().await?;
             std::io::copy(&mut content.as_bytes(), &mut std::fs::File::create(self.data_path.join("banner.png"))?)?;
             self.banner_path = Some(self.data_path.join("banner.png"));
-            self.banner = self.banner_path.as_ref().and_then(|p| std::fs::read(p).ok()).map(|b| base64::encode(b));
             self.banner = self.banner_path.as_ref().and_then(|p| load_banner(&p));
         }
 
