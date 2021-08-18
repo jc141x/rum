@@ -156,12 +156,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 12 - ((11 * winheight(0) + 32) / 65)
+let s:l = 20 - ((19 * winheight(0) + 32) / 65)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 12
-normal! 028|
+keepjumps 20
+normal! 033|
 tabnext
 edit ~/Documents/Development/pirates/src/lib/store.js
 argglobal
