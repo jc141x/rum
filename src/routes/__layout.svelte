@@ -15,29 +15,29 @@
 
 <style>
   :global(.content-wrapper)::-webkit-scrollbar {
-    width: 0.5rem;
+    width: 1rem;
   }
 
   :global(.content-wrapper)::-webkit-scrollbar-track {
-    background-color: darkgray;
-    border-radius: 100px;
+    background-color: #25282C;
+    border-radius: 0px;
   }
 
   :global(.content-wrapper)::-webkit-scrollbar-thumb {
-    background-color: darkslategray;
-    border-radius: 100px;
+    background-color: #191C20;
+    border-radius: 0px;
   }
   :global(.sidebar)::-webkit-scrollbar {
-    width: 0.5rem;
+    width: 1rem;
   }
 
   :global(.sidebar)::-webkit-scrollbar-track {
-    background-color: darkgray;
-    border-radius: 100px;
+    background-color: #25282C;
+    border-radius: 0px;
   }
 
   :global(.sidebar)::-webkit-scrollbar-thumb {
-    background-color: darkslategray;
-    border-radius: 100px;
+    background-color: #191C20;
+    border-radius: 0px;
   }
 </style>
