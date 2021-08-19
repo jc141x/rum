@@ -4,12 +4,14 @@
 </script>
 
 <nav class="navbar">
+    <!--
   <div class="navbar-content">
     <button class="btn btn-action" type="button">
       <span class="material-icons d-block">menu</span>
       <span class="sr-only">Toggle sidebar</span>
     </button>
   </div>
+    -->
   <a href="/" class="navbar-brand">
     <span>Chad Launcher</span>
   </a>

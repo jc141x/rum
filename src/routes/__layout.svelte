@@ -2,6 +2,7 @@
   import Header from '$lib/Header.svelte';
   import Sidebar from '$lib/Sidebar.svelte';
   import '../styles/halfmoon-variables.min.css';
+  import '../fa/css/all.min.css';
 </script>
 
 <div class="main page-wrapper with-navbar">
