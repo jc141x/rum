@@ -201,6 +201,12 @@ async fn set_config_terminal(
     Ok(())
 }
 
+#[tauri::command]
+async fn get_reqs_markdown() -> Result<String, TauriChadError> {
+    Ok(reqwest::get("https://rentry.co/johncena141-reqs/raw").await?.text().await?)
+}
+
+
 fn main() {
     let config = Config::new();
     let client = DatabaseFetcher::new();
@@ -229,6 +235,8 @@ fn main() {
             set_config_data_path,
             set_config_library_paths,
             set_config_terminal,
+            // Misc
+            get_reqs_markdown,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -15,25 +15,36 @@
 </script>
 
 <script>
-  const url = 'https://bkftwbhopivmrgzcagus.supabase.co/rest/v1/game?select=id,name';
-  import axios from 'axios';
-  let games = [];
-  axios
-    .get(url, {
-      headers: {
-        apikey:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyNzY0NDc0OCwiZXhwIjoxOTQzMjIwNzQ4fQ.MheXAiuWYFGDuFhfzAnANMzJU2UU4HN2dxwMxGdQd5A'
-      }
-    })
-    .then((response) => response.data)
-    .then((data) => (games = data))
-    .catch((error) => console.log(error));
+  import { onMount } from 'svelte';
+  import { invoke } from '../../node_modules/@tauri-apps/api/tauri';
+  import showdown from 'showdown';
+  showdown.setFlavor('github');
+  const converter = new showdown.Converter();
+  onMount(async () => {
+    const text = await invoke('get_reqs_markdown');
+    const html = converter.makeHtml(text);
+    const div = document.querySelector("#md");
+    div.innerHTML = html;
+    
+    // Make code blocks look better
+    div.querySelectorAll("code").forEach(c => {
+      const pre = document.createElement("pre");
+      const c2 = document.createElement("code");
+      c2.innerHTML = c.innerHTML;
+      pre.appendChild(c2);
+      pre.className = "bg-very-dark rounded p-20 overflow-auto";
+      c.replaceWith(pre);
+    });
+  });
 </script>
 
 <svelte:head>
   <title>Docs</title>
 </svelte:head>
 
+<div id="md" class="content"></div>
+
+    <!--
 <div class="content">
   <h3>Notes</h3>
   <ul>
@@ -96,3 +107,4 @@ $ paru -S dxvk-bin
           </code>
         </pre>
 </div>
+    -->

@@ -23,10 +23,7 @@
       <a href="/discover" class="nav-link">Discover</a>
     </li>
     <li class="nav-item" class:active={false}>
-      <a href="/documentation" class="nav-link">Docs</a>
-    </li>
-    <li class="nav-item">
-      <a href="/about" class="nav-link">About</a>
+      <a href="/documentation" class="nav-link">Documentation</a>
     </li>
   </ul>
     <!--
