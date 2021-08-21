@@ -2,11 +2,9 @@ use crate::config::Config;
 use crate::database::DatabaseFetcher;
 use crate::util::ChadError;
 use serde::Serialize;
-use std::io::{BufRead, BufReader, Read};
+use std::io::Read;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
-use tauri::async_runtime::Mutex;
-use tauri::Manager;
 use titlecase::titlecase;
 
 #[derive(Serialize, Clone, Debug)]
@@ -70,11 +68,15 @@ impl Game {
         }
     }
 
+    pub fn executable_path(&self) -> &Path {
+        &self.executable_path
+    }
+
     pub async fn get_banner(
         &mut self,
-        fetcher: tauri::State<'_, Mutex<DatabaseFetcher>>,
+        fetcher: &DatabaseFetcher,
     ) -> Result<(), ChadError> {
-        if let Ok(banner_path) = fetcher.lock().await.find_banner(&self.name).await {
+        if let Ok(banner_path) = fetcher.find_banner(&self.name).await {
             let target = format!(
                 "https://gitlab.com/chad-productions/chad_launcher_banners/-/raw/master/{}",
                 banner_path
@@ -161,79 +163,3 @@ impl LibraryFetcher {
     }
 }
 
-fn handle_stdout(app_handle: tauri::AppHandle, stdout: Box<dyn Read>) -> Result<(), ChadError> {
-    let mut reader = BufReader::new(stdout);
-
-    loop {
-        let mut line_buf = String::new();
-
-        if let Ok(status) = reader.read_line(&mut line_buf) {
-            if status == 0 {
-                break;
-            }
-
-            app_handle.emit_all("game_log", &line_buf)?;
-        }
-    }
-
-    Ok(())
-}
-
-#[tauri::command]
-pub async fn run_game(
-    index: usize,
-    fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
-    app_handle: tauri::AppHandle,
-) -> Result<(), ChadError> {
-    fetcher
-        .lock()
-        .await
-        .get_game(index)
-        .map(|game| {
-            let stdout = game.launch()?;
-            handle_stdout(app_handle, stdout)?;
-            Ok(())
-        })
-        .unwrap_or(Err(ChadError::new("Game not found".into())))
-}
-
-#[tauri::command]
-pub async fn get_local_games(
-    fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
-) -> Result<Vec<Game>, ChadError> {
-    let fetcher = fetcher.lock().await;
-    Ok(fetcher.get_games_cloned())
-}
-
-#[tauri::command]
-pub async fn reload_local_games(
-    config: tauri::State<'_, Mutex<Config>>,
-    fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
-) -> Result<(), ChadError> {
-    let mut fetcher = fetcher.lock().await;
-    let config = config.lock().await;
-    fetcher.load_games(&*config);
-    Ok(())
-}
-
-#[tauri::command]
-pub async fn open_terminal(
-    index: usize,
-    fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
-    config: tauri::State<'_, Mutex<Config>>,
-) -> Result<(), ChadError> {
-    let fetcher = fetcher.lock().await;
-    let config = config.lock().await;
-
-    fetcher
-        .get_game(index)
-        .map(|game| {
-            Command::new(&config.terminal())
-                .current_dir(game.executable_path.parent().unwrap())
-                .stdout(Stdio::piped())
-                .spawn()?;
-            Ok(())
-        })
-        .unwrap_or(Err(ChadError::new("Game not found".into())))?;
-    Ok(())
-}

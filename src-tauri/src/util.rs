@@ -1,20 +1,23 @@
 use serde::Serialize;
-use std::error::Error;
+use thiserror::Error;
 
-#[derive(Debug, Serialize)]
-pub struct ChadError {
-    message: String,
+#[derive(Debug, Error)]
+pub enum ChadError {
+    #[error("Json (de)serialization error: {0}")]
+    JsonError(#[from] serde_json::Error),
+
+    #[error("IO Error: {0}")]
+    Io(#[from] std::io::Error),
+
+    #[error("HTTP Error: {0}")]
+    HttpError(#[from] reqwest::Error),
+
+    #[error("Message: {0}")]
+    Message(String),
 }
 
 impl ChadError {
-    pub fn new(message: String) -> Self {
-        Self { message }
+    pub fn message<T: Into<String>>(message: T) -> Self {
+        Self::Message(message.into())
     }
 }
-
-impl<T: Error> From<T> for ChadError {
-    fn from(error: T) -> ChadError {
-        ChadError { message: format!("{}", error) }
-    }
-}
-

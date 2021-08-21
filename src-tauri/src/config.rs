@@ -1,7 +1,6 @@
 use crate::util::ChadError;
 use serde::{Deserialize, Serialize};
 use std::path::{PathBuf, Path};
-use tauri::async_runtime::Mutex;
 
 #[derive(Serialize, Deserialize)]
 pub struct Config {
@@ -75,47 +74,4 @@ impl Config {
         self.library_paths = other.library_paths;
         self.terminal = other.terminal;
     }
-}
-
-#[tauri::command]
-pub async fn save_config(
-    config: tauri::State<'_, Mutex<Config>>,
-) -> Result<(), ChadError> {
-    config.lock().await.save()
-}
-
-#[tauri::command]
-pub async fn set_config(
-    new_config: Config,
-    config: tauri::State<'_, Mutex<Config>>,
-) -> Result<(), ChadError> {
-    config.lock().await.set_config(new_config);
-    Ok(())
-}
-
-#[tauri::command]
-pub async fn set_config_data_path(
-    data_path: PathBuf,
-    config: tauri::State<'_, Mutex<Config>>,
-) -> Result<(), ChadError> {
-    config.lock().await.set_data_path(&data_path);
-    Ok(())
-}
-
-#[tauri::command]
-pub async fn set_config_library_paths(
-    library_paths: Vec<PathBuf>,
-    config: tauri::State<'_, Mutex<Config>>,
-) -> Result<(), ChadError> {
-    config.lock().await.set_library_paths(&library_paths);
-    Ok(())
-}
-
-#[tauri::command]
-pub async fn set_config_terminal(
-    terminal: String,
-    config: tauri::State<'_, Mutex<Config>>,
-) -> Result<(), ChadError> {
-    config.lock().await.set_terminal(&terminal);
-    Ok(())
 }

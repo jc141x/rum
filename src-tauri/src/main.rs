@@ -9,9 +9,190 @@ pub mod config;
 pub mod util;
 
 use tauri::async_runtime::Mutex;
-use database::{get_games, get_genres, get_languages, get_tags, open_magnet, DatabaseFetcher};
-use library::{get_local_games, reload_local_games, run_game, open_terminal, LibraryFetcher};
-use config::{save_config, set_config, set_config_data_path, set_config_library_paths, set_config_terminal, Config};
+use tauri::Manager;
+use std::path::PathBuf;
+use std::process::{Command, Stdio};
+use std::io::{BufRead, BufReader, Read};
+use serde::Serialize;
+use database::{get_magnet, DatabaseFetcher, GetGamesOpts};
+use library::LibraryFetcher;
+use config::Config;
+
+#[derive(Debug, Serialize)]
+pub struct TauriChadError {
+    message: String,
+}
+
+impl TauriChadError {
+    pub fn new(message: String) -> Self {
+        Self { message }
+    }
+}
+
+impl<T: std::error::Error> From<T> for TauriChadError {
+    fn from(error: T) -> TauriChadError {
+        TauriChadError { message: format!("{}", error) }
+    }
+}
+
+fn handle_stdout(app_handle: tauri::AppHandle, stdout: Box<dyn Read>) -> Result<(), TauriChadError> {
+    let mut reader = BufReader::new(stdout);
+
+    loop {
+        let mut line_buf = String::new();
+
+        if let Ok(status) = reader.read_line(&mut line_buf) {
+            if status == 0 {
+                break;
+            }
+
+            app_handle.emit_all("game_log", &line_buf)?;
+        }
+    }
+
+    Ok(())
+}
+
+#[tauri::command]
+async fn run_game(
+    index: usize,
+    fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
+    app_handle: tauri::AppHandle,
+) -> Result<(), TauriChadError> {
+    fetcher
+        .lock()
+        .await
+        .get_game(index)
+        .map(|game| {
+            let stdout = game.launch()?;
+            handle_stdout(app_handle, stdout)?;
+            Ok(())
+        })
+        .unwrap_or(Err(TauriChadError::new("Game not found".into())))
+}
+
+#[tauri::command]
+async fn get_local_games(
+    fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
+) -> Result<Vec<library::Game>, TauriChadError> {
+    let fetcher = fetcher.lock().await;
+    Ok(fetcher.get_games_cloned())
+}
+
+#[tauri::command]
+async fn reload_local_games(
+    config: tauri::State<'_, Mutex<Config>>,
+    fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
+) -> Result<(), TauriChadError> {
+    let mut fetcher = fetcher.lock().await;
+    let config = config.lock().await;
+    fetcher.load_games(&*config);
+    Ok(())
+}
+
+#[tauri::command]
+async fn open_terminal(
+    index: usize,
+    fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
+    config: tauri::State<'_, Mutex<Config>>,
+) -> Result<(), TauriChadError> {
+    let fetcher = fetcher.lock().await;
+    let config = config.lock().await;
+
+    fetcher
+        .get_game(index)
+        .map(|game| {
+            Command::new(&config.terminal())
+                .current_dir(game.executable_path().parent().unwrap())
+                .stdout(Stdio::piped())
+                .spawn()?;
+            Ok(())
+        })
+        .unwrap_or(Err(TauriChadError::new("Game not found".into())))?;
+    Ok(())
+}
+
+#[tauri::command]
+async fn get_games(
+    opts: GetGamesOpts,
+    fetcher: tauri::State<'_, DatabaseFetcher>,
+) -> Result<Vec<database::Game>, TauriChadError> {
+    fetcher.get_games(&opts).await.map_err(|e| e.into())
+}
+
+#[tauri::command]
+async fn get_genres(
+    fetcher: tauri::State<'_, DatabaseFetcher>,
+) -> Result<Vec<String>, TauriChadError> {
+    fetcher.get_items("get_genres").await.map_err(|e| e.into())
+}
+
+#[tauri::command]
+async fn get_languages(
+    fetcher: tauri::State<'_, DatabaseFetcher>,
+) -> Result<Vec<String>, TauriChadError> {
+    fetcher.get_items("get_languages").await.map_err(|e| e.into())
+}
+
+#[tauri::command]
+async fn get_tags(
+    fetcher: tauri::State<'_, DatabaseFetcher>,
+) -> Result<Vec<String>, TauriChadError> {
+    fetcher.get_items("get_tags").await.map_err(|e| e.into())
+}
+
+#[tauri::command]
+async fn open_magnet(game: database::Game) -> Result<(), TauriChadError> {
+    let magnet = get_magnet(&game);
+    Command::new("xdg-open")
+        .arg(magnet)
+        .spawn()?;
+    Ok(())
+}
+
+#[tauri::command]
+async fn save_config(
+    config: tauri::State<'_, Mutex<Config>>,
+) -> Result<(), TauriChadError> {
+    config.lock().await.save()?;
+    Ok(())
+}
+
+#[tauri::command]
+async fn set_config(
+    new_config: Config,
+    config: tauri::State<'_, Mutex<Config>>,
+) -> Result<(), TauriChadError> {
+    config.lock().await.set_config(new_config);
+    Ok(())
+}
+
+#[tauri::command]
+async fn set_config_data_path(
+    data_path: PathBuf,
+    config: tauri::State<'_, Mutex<Config>>,
+) -> Result<(), TauriChadError> {
+    config.lock().await.set_data_path(&data_path);
+    Ok(())
+}
+
+#[tauri::command]
+async fn set_config_library_paths(
+    library_paths: Vec<PathBuf>,
+    config: tauri::State<'_, Mutex<Config>>,
+) -> Result<(), TauriChadError> {
+    config.lock().await.set_library_paths(&library_paths);
+    Ok(())
+}
+
+#[tauri::command]
+async fn set_config_terminal(
+    terminal: String,
+    config: tauri::State<'_, Mutex<Config>>,
+) -> Result<(), TauriChadError> {
+    config.lock().await.set_terminal(&terminal);
+    Ok(())
+}
 
 fn main() {
     let config = Config::new();

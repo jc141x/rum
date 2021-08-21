@@ -1,8 +1,6 @@
 use crate::util::ChadError;
 use postgrest::Postgrest;
 use serde::{Deserialize, Serialize};
-use std::process::{Command, Stdio};
-use crate::config::Config;
 
 const API_KEY: &'static str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyNzY0NDc0OCwiZXhwIjoxOTQzMjIwNzQ4fQ.MheXAiuWYFGDuFhfzAnANMzJU2UU4HN2dxwMxGdQd5A";
 
@@ -106,58 +104,19 @@ impl DatabaseFetcher {
             if let Some(path) = &game.banner_path {
                 Ok(path.into())
             } else {
-                Err(ChadError::new("No banner found".into()))
+                Err(ChadError::message("No banner found"))
             }
         } else {
-            Err(ChadError::new("No game found".into()))
+            Err(ChadError::message("No game found"))
         }
     }
 }
 
-fn get_magnet(game: &Game) -> String {
+pub fn get_magnet(game: &Game) -> String {
     let mut magnet = format!("magnet:?xt=urn:btih:{}&dn={}", game.hash, game.name);
     for tracker in TRACKERS {
         magnet.push_str(&format!("&tr={}", tracker));
     }
     magnet
 }
-
-#[tauri::command]
-pub async fn get_games(
-    opts: GetGamesOpts,
-    fetcher: tauri::State<'_, DatabaseFetcher>,
-) -> Result<Vec<Game>, ChadError> {
-    fetcher.get_games(&opts).await
-}
-
-#[tauri::command]
-pub async fn get_genres(
-    fetcher: tauri::State<'_, DatabaseFetcher>,
-) -> Result<Vec<String>, ChadError> {
-    fetcher.get_items("get_genres").await
-}
-
-#[tauri::command]
-pub async fn get_languages(
-    fetcher: tauri::State<'_, DatabaseFetcher>,
-) -> Result<Vec<String>, ChadError> {
-    fetcher.get_items("get_languages").await
-}
-
-#[tauri::command]
-pub async fn get_tags(
-    fetcher: tauri::State<'_, DatabaseFetcher>,
-) -> Result<Vec<String>, ChadError> {
-    fetcher.get_items("get_tags").await
-}
-
-#[tauri::command]
-pub async fn open_magnet(game: Game) -> Result<(), ChadError> {
-    let magnet = get_magnet(&game);
-    Command::new("xdg-open")
-        .arg(magnet)
-        .spawn()?;
-    Ok(())
-}
-
 
