@@ -1,6 +1,6 @@
 use crate::util::ChadError;
 use serde::{Deserialize, Serialize};
-use std::path::{PathBuf, Path};
+use std::path::{Path, PathBuf};
 
 #[derive(Serialize, Deserialize)]
 pub struct Config {

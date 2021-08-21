@@ -20,7 +20,7 @@ const TRACKERS: &[&'static str] = &[
     "udp://exodus.desync.com:6969/announce",
     "udp://ipv4.tracker.harry.lu:80/announce",
     "udp://open.stealth.si:80/announce",
-    "udp://coppersurfer.tk:6969/announce"
+    "udp://coppersurfer.tk:6969/announce",
 ];
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
@@ -119,4 +119,3 @@ pub fn get_magnet(game: &Game) -> String {
     }
     magnet
 }
-

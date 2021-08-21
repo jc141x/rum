@@ -3,20 +3,18 @@
     windows_subsystem = "windows"
 )]
 
-mod database;
-mod library;
-pub mod config;
-pub mod util;
-
-use tauri::async_runtime::Mutex;
-use tauri::Manager;
-use std::path::PathBuf;
-use std::process::{Command, Stdio};
-use std::io::{BufRead, BufReader, Read};
+use chad_launcher::{
+    config::Config,
+    database::{self, get_magnet, DatabaseFetcher, GetGamesOpts},
+    library::{self, LibraryFetcher},
+};
 use serde::Serialize;
-use database::{get_magnet, DatabaseFetcher, GetGamesOpts};
-use library::LibraryFetcher;
-use config::Config;
+use std::{
+    io::{BufRead, BufReader, Read},
+    path::PathBuf,
+    process::{Command, Stdio},
+};
+use tauri::{async_runtime::Mutex, Manager};
 
 #[derive(Debug, Serialize)]
 pub struct TauriChadError {
@@ -31,11 +29,16 @@ impl TauriChadError {
 
 impl<T: std::error::Error> From<T> for TauriChadError {
     fn from(error: T) -> TauriChadError {
-        TauriChadError { message: format!("{}", error) }
+        TauriChadError {
+            message: format!("{}", error),
+        }
     }
 }
 
-fn handle_stdout(app_handle: tauri::AppHandle, stdout: Box<dyn Read>) -> Result<(), TauriChadError> {
+fn handle_stdout(
+    app_handle: tauri::AppHandle,
+    stdout: Box<dyn Read>,
+) -> Result<(), TauriChadError> {
     let mut reader = BufReader::new(stdout);
 
     loop {
@@ -83,10 +86,14 @@ async fn get_local_games(
 async fn reload_local_games(
     config: tauri::State<'_, Mutex<Config>>,
     fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
+    _database_fetcher: tauri::State<'_, DatabaseFetcher>,
 ) -> Result<(), TauriChadError> {
     let mut fetcher = fetcher.lock().await;
     let config = config.lock().await;
     fetcher.load_games(&*config);
+    //fetcher.download_banners(&*database_fetcher).await;
+    // TODO: GUI would need a wait to manually
+    // load banners, because we don't want to block the GUI while loading banners
     Ok(())
 }
 
@@ -131,7 +138,10 @@ async fn get_genres(
 async fn get_languages(
     fetcher: tauri::State<'_, DatabaseFetcher>,
 ) -> Result<Vec<String>, TauriChadError> {
-    fetcher.get_items("get_languages").await.map_err(|e| e.into())
+    fetcher
+        .get_items("get_languages")
+        .await
+        .map_err(|e| e.into())
 }
 
 #[tauri::command]
@@ -144,16 +154,12 @@ async fn get_tags(
 #[tauri::command]
 async fn open_magnet(game: database::Game) -> Result<(), TauriChadError> {
     let magnet = get_magnet(&game);
-    Command::new("xdg-open")
-        .arg(magnet)
-        .spawn()?;
+    Command::new("xdg-open").arg(magnet).spawn()?;
     Ok(())
 }
 
 #[tauri::command]
-async fn save_config(
-    config: tauri::State<'_, Mutex<Config>>,
-) -> Result<(), TauriChadError> {
+async fn save_config(config: tauri::State<'_, Mutex<Config>>) -> Result<(), TauriChadError> {
     config.lock().await.save()?;
     Ok(())
 }
@@ -197,8 +203,7 @@ async fn set_config_terminal(
 fn main() {
     let config = Config::new();
     let client = DatabaseFetcher::new();
-    let mut library = LibraryFetcher::new();
-    library.load_games(&config); 
+    let library = LibraryFetcher::new();
     let _ = config.save();
 
     tauri::Builder::default()
@@ -212,13 +217,11 @@ fn main() {
             get_languages,
             get_tags,
             open_magnet,
-
             // Library
             get_local_games,
             reload_local_games,
             run_game,
             open_terminal,
-
             // Config
             save_config,
             set_config,

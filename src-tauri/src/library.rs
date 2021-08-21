@@ -1,10 +1,11 @@
-use crate::config::Config;
-use crate::database::DatabaseFetcher;
-use crate::util::ChadError;
+use crate::{config::Config, database::DatabaseFetcher, util::ChadError};
+use futures::future::join_all;
 use serde::Serialize;
-use std::io::Read;
-use std::path::{Path, PathBuf};
-use std::process::{Command, Stdio};
+use std::{
+    io::Read,
+    path::{Path, PathBuf},
+    process::{Command, Stdio},
+};
 use titlecase::titlecase;
 
 #[derive(Serialize, Clone, Debug)]
@@ -72,10 +73,7 @@ impl Game {
         &self.executable_path
     }
 
-    pub async fn get_banner(
-        &mut self,
-        fetcher: &DatabaseFetcher,
-    ) -> Result<(), ChadError> {
+    pub async fn get_banner(&mut self, fetcher: &DatabaseFetcher) -> Result<(), ChadError> {
         if let Ok(banner_path) = fetcher.find_banner(&self.name).await {
             let target = format!(
                 "https://gitlab.com/chad-productions/chad_launcher_banners/-/raw/master/{}",
@@ -146,6 +144,16 @@ impl LibraryFetcher {
         }
     }
 
+    pub async fn download_banners(&mut self, fetcher: &DatabaseFetcher) {
+        join_all(
+            self.games
+                .iter_mut()
+                .filter(|g| g.banner == None)
+                .map(|g| g.get_banner(&fetcher)),
+        )
+        .await;
+    }
+
     pub fn iter_games<'a>(&'a self) -> impl Iterator<Item = &'a Game> {
         self.games.iter()
     }
@@ -162,4 +170,3 @@ impl LibraryFetcher {
         self.games.get(index)
     }
 }
-

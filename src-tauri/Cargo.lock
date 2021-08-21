@@ -35,6 +35,7 @@ version = "0.1.0"
 dependencies = [
  "base64",
  "dirs 3.0.2",
+ "futures",
  "postgrest",
  "reqwest",
  "serde",
