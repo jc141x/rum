@@ -59,6 +59,7 @@ fn handle_stdout(
 #[tauri::command]
 async fn run_game(
     index: usize,
+    script: String,
     fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
     app_handle: tauri::AppHandle,
 ) -> Result<(), TauriChadError> {
@@ -67,7 +68,7 @@ async fn run_game(
         .await
         .get_game(index)
         .map(|game| {
-            let stdout = game.launch()?;
+            let stdout = game.launch(&script)?;
             handle_stdout(app_handle, stdout)?;
             Ok(())
         })
@@ -110,7 +111,7 @@ async fn open_terminal(
         .get_game(index)
         .map(|game| {
             Command::new(&config.terminal())
-                .current_dir(game.executable_path().parent().unwrap())
+                .current_dir(game.executable_dir())
                 .stdout(Stdio::piped())
                 .spawn()?;
             Ok(())

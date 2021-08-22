@@ -1,6 +1,7 @@
 use crate::{config::Config, database::DatabaseFetcher, util::ChadError};
 use futures::future::join_all;
 use serde::Serialize;
+use std::os::unix::fs::PermissionsExt;
 use std::{
     io::Read,
     path::{Path, PathBuf},
@@ -12,7 +13,8 @@ use titlecase::titlecase;
 pub struct Game {
     id: usize,
     name: String,
-    executable_path: PathBuf,
+    executable_dir: PathBuf,
+    scripts: Vec<String>,
     banner_path: Option<PathBuf>,
     banner: Option<String>,
     data_path: PathBuf,
@@ -27,16 +29,29 @@ fn load_banner(banner_path: &Path) -> Option<String> {
         .map(|b64| format!("data:image/png;base64,{}", b64))
 }
 
+fn find_scripts(executable_dir: &Path) -> Result<Vec<String>, ChadError> {
+    Ok(executable_dir
+        // Try to read the directory
+        .read_dir()?
+        // Filter out errors
+        .filter_map(|e| e.ok())
+        // Only check files
+        .filter(|e| e.file_type().map(|f| f.is_file() || f.is_symlink()).unwrap_or(false))
+        // Find executable files
+        .filter(|e| {
+            std::fs::metadata(e.path())
+                .map(|m| m.permissions().mode() & 0o111 != 0)
+                .unwrap_or(false)
+        })
+        // Map DirEntry to String
+        .filter_map(|d| d.file_name().to_str().map(|s| s.into()))
+        // Collect into a Vec
+        .collect())
+}
+
 impl Game {
-    pub fn new(config: &Config, id: usize, executable_path: PathBuf) -> Self {
-        let slug: String = executable_path
-            .parent()
-            .unwrap()
-            .file_name()
-            .unwrap()
-            .to_str()
-            .unwrap()
-            .into();
+    pub fn new(config: &Config, id: usize, executable_dir: PathBuf) -> Self {
+        let slug: String = executable_dir.file_name().unwrap().to_str().unwrap().into();
         let mut name = slug.clone();
         name = name.replace(".", " ");
         name = name.replace("_", " ");
@@ -55,12 +70,14 @@ impl Game {
         let banner = banner_path.as_ref().and_then(|p| load_banner(&p));
 
         let config_file = data_path.join("game.yaml");
-        let log_file = executable_path.parent().unwrap().join("chad.log");
+        let log_file = executable_dir.join("chad.log");
+        let scripts = find_scripts(&executable_dir).unwrap_or(Vec::new());
 
         Self {
             id,
             name,
-            executable_path,
+            executable_dir,
+            scripts,
             banner_path,
             banner,
             data_path,
@@ -69,8 +86,8 @@ impl Game {
         }
     }
 
-    pub fn executable_path(&self) -> &Path {
-        &self.executable_path
+    pub fn executable_dir(&self) -> &Path {
+        &self.executable_dir
     }
 
     pub async fn get_banner(&mut self, fetcher: &DatabaseFetcher) -> Result<(), ChadError> {
@@ -92,9 +109,9 @@ impl Game {
         Ok(())
     }
 
-    pub fn launch(&self) -> Result<Box<dyn Read>, ChadError> {
-        let child = Command::new(&self.executable_path)
-            .current_dir(self.executable_path.parent().unwrap())
+    pub fn launch(&self, script: &str) -> Result<Box<dyn Read>, ChadError> {
+        let child = Command::new(&self.executable_dir.join(&script))
+            .current_dir(&self.executable_dir)
             .stdout(Stdio::piped())
             .spawn()?;
         Ok(Box::new(child.stdout.unwrap()))
@@ -112,36 +129,28 @@ impl LibraryFetcher {
     }
 
     pub fn load_games(&mut self, config: &Config) {
-        self.games = Vec::new();
-        let mut id = 0;
-
-        for library_path in config.library_paths() {
-            if let Ok(entries) = library_path.read_dir() {
-                for entry in entries {
-                    if let Ok(entry) = entry {
-                        if let Ok(file_type) = entry.file_type() {
-                            if file_type.is_dir() {
-                                if entry.path().join("start.sh").exists() {
-                                    self.games.push(Game::new(
-                                        &config,
-                                        id,
-                                        entry.path().join("start.sh"),
-                                    ));
-                                    id += 1;
-                                } else if entry.path().join("start").exists() {
-                                    self.games.push(Game::new(
-                                        &config,
-                                        id,
-                                        entry.path().join("start"),
-                                    ));
-                                    id += 1;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        self.games = config
+            // Iterate over all library paths
+            .library_paths()
+            .into_iter()
+            // Read each library path
+            .map(|lp| {
+                lp.read_dir().unwrap()
+                    // Filter out any errors
+                    .filter_map(|e| e.ok())
+                    // Find all directories
+                    .filter(|e| e.file_type().map(|t| t.is_dir()).unwrap_or(false))
+            })
+            // Flatten those nested iterators into a single iterator
+            .flatten()
+            // Zip it with indices
+            .zip(0..)
+            // Create games
+            .map(|(e, i)| {
+                Game::new(&config, i, e.path())
+            })
+            // Collect them into a vec
+            .collect();
     }
 
     pub async fn download_banners(&mut self, fetcher: &DatabaseFetcher) {
