@@ -3,6 +3,7 @@
   import { invoke } from '../../node_modules/@tauri-apps/api/tauri';
   import Card from './Card.svelte';
   import banner from './default.png';
+  import { Button } from 'svelte-materialify/src';
 
   export let game;
 
@@ -29,7 +30,7 @@
   badges={game.genres}
   dangerBadges={game.nsfw ? ['18+'] : []}
 >
-  <button slot="buttons" on:click={() => handleMagnet()} class="btn" target="_blank">
+  <Button slot="buttons" on:click={() => handleMagnet()}>
     Download
-  </button>
+  </Button>
 </Card>

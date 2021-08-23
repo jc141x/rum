@@ -4,7 +4,6 @@
   import GameCard from './GameCard.svelte';
 
   $: {
-      console.log("update");
     let opts = { page_number: $page - 1, page_size: 20 };
 
     if ($query != '') {
@@ -20,15 +19,8 @@
   }
 </script>
 
-<div class="flex-container">
+<div class="d-flex flex-row flex-wrap">
   {#each $games as game (game.id)}
     <GameCard {game} />
   {/each}
 </div>
-
-<style>
-  .flex-container {
-    display: flex;
-    flex-wrap: wrap;
-  }
-</style>

@@ -8,15 +8,8 @@
     .catch((err) => console.error(err));
 </script>
 
-<div class="flex-container">
+<div class="d-flex flex-row flex-wrap">
   {#each $localGames as game (game.id)}
     <LocalGameCard {game} />
   {/each}
 </div>
-
-<style>
-  .flex-container {
-    display: flex;
-    flex-wrap: wrap;
-  }
-</style>

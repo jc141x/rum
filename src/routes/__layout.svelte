@@ -1,17 +1,31 @@
 <script>
   import Header from '$lib/Header.svelte';
-  import Sidebar from '$lib/Sidebar.svelte';
-  import '../styles/halfmoon-variables.min.css';
-  import '../fa/css/all.min.css';
+  import Index from './index.svelte';
+  import Library from './library.svelte';
+  import Discover from './discover.svelte';
+  import Documentation from './documentation.svelte';
+  import { MaterialApp, Button, Window, WindowItem } from 'svelte-materialify/src';
+  let theme = 'dark';
+  let value = 0;
 </script>
 
-<div class="main page-wrapper with-navbar">
-  <Header />
-  <!-- <Sidebar /> -->
-  <div class="content-wrapper">
-    <slot />
-  </div>
-</div>
+<MaterialApp {theme}>
+  <Header bind:value />
+  <Window {value} class="pa-4">
+    <WindowItem>
+      <Index />
+    </WindowItem>
+    <WindowItem>
+      <Library />
+    </WindowItem>
+    <WindowItem>
+      <Discover />
+    </WindowItem>
+    <WindowItem>
+      <Documentation />
+    </WindowItem>
+  </Window>
+</MaterialApp>
 
 <style>
   :global(.content-wrapper)::-webkit-scrollbar {
@@ -19,12 +33,12 @@
   }
 
   :global(.content-wrapper)::-webkit-scrollbar-track {
-    background-color: #25282C;
+    background-color: #25282c;
     border-radius: 0px;
   }
 
   :global(.content-wrapper)::-webkit-scrollbar-thumb {
-    background-color: #191C20;
+    background-color: #191c20;
     border-radius: 0px;
   }
   :global(.sidebar)::-webkit-scrollbar {
@@ -32,12 +46,12 @@
   }
 
   :global(.sidebar)::-webkit-scrollbar-track {
-    background-color: #25282C;
+    background-color: #25282c;
     border-radius: 0px;
   }
 
   :global(.sidebar)::-webkit-scrollbar-thumb {
-    background-color: #191C20;
+    background-color: #191c20;
     border-radius: 0px;
   }
 </style>

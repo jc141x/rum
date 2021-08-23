@@ -208,6 +208,9 @@ async fn get_reqs_markdown() -> Result<String, TauriChadError> {
 
 
 fn main() {
+    // Should improve performance
+    std::env::set_var("WEBKIT_FORCE_COMPOSITING_MODE", "1");
+
     let config = Config::new();
     let client = DatabaseFetcher::new();
     let library = LibraryFetcher::new();
