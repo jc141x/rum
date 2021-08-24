@@ -14,15 +14,20 @@
   } from 'svelte-materialify/src';
 
   let modal_active = false;
+  let config_temp = {};
 
-  const loadConfig = async () => ($config = await invoke('get_config'));
-  loadConfig().then(() => console.log($config));
+  const loadConfig = async () => {
+    config_temp = await invoke('get_config')
+    $config = config_temp
+  };
+  loadConfig().then(() => console.log(config_temp));
 
-  const addPath = () => ($config.library_paths = [...$config.library_paths, '']);
+  const addPath = () => (config_temp.library_paths = [...config_temp.library_paths, '']);
 
   const save = async () => {
-    await invoke('set_config', { newConfig: $config });
+    await invoke('set_config', { newConfig: config_temp });
     await invoke('save_config');
+    await loadConfig();
     modal_active = true;
   };
 
@@ -40,13 +45,13 @@
   <Row>
     <Col sm={2}>Data path:</Col>
     <Col sm={10}>
-      <TextField bind:value={$config.data_path} />
+      <TextField bind:value={config_temp.data_path} />
     </Col>
   </Row>
   <Row>
     <Col sm={2}>Terminal:</Col>
     <Col sm={10}>
-      <TextField bind:value={$config.terminal} />
+      <TextField bind:value={config_temp.terminal} />
     </Col>
   </Row>
   <Row>
@@ -55,8 +60,8 @@
   <Row noGutters class="mb-2">
     <h6>Library paths</h6>
   </Row>
-  {#if $config.library_paths}
-    {#each $config.library_paths as path}
+  {#if config_temp.library_paths}
+    {#each config_temp.library_paths as path}
       <Row noGutters>
         <TextField bind:value={path} />
       </Row>

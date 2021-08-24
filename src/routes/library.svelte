@@ -3,7 +3,6 @@
   import { invoke } from '../../node_modules/@tauri-apps/api/tauri';
   import LocalGameGrid from '$lib/LocalGameGrid.svelte';
 
-  invoke('reload_local_games');
 </script>
 
 <svelte:head>

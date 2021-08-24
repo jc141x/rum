@@ -2,7 +2,7 @@ use crate::util::ChadError;
 use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Config {
     data_path: PathBuf,
     library_paths: Vec<PathBuf>,

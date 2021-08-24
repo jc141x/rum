@@ -129,17 +129,22 @@ impl LibraryFetcher {
     }
 
     pub fn load_games(&mut self, config: &Config) {
+        println!("{:#?}", &config);
         self.games = config
             // Iterate over all library paths
             .library_paths()
             .into_iter()
             // Read each library path
             .map(|lp| {
-                lp.read_dir().unwrap()
-                    // Filter out any errors
-                    .filter_map(|e| e.ok())
-                    // Find all directories
-                    .filter(|e| e.file_type().map(|t| t.is_dir()).unwrap_or(false))
+                if let Ok(dir) = lp.read_dir() {
+                    Box::new(dir
+                        // Filter out any errors
+                        .filter_map(|e| e.ok())
+                        // Find all directories
+                        .filter(|e| e.file_type().map(|t| t.is_dir()).unwrap_or(false))) as Box<dyn Iterator<Item = std::fs::DirEntry>>
+                } else {
+                    Box::new(std::iter::empty())
+                }
             })
             // Flatten those nested iterators into a single iterator
             .flatten()

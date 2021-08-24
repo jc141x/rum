@@ -1,6 +1,6 @@
 import { writable, derived } from 'svelte/store';
 
-export const config = writable({});
+export const config = writable(null);
 export const games = writable([]);
 export const localGames = writable([]);
 export const genres = writable([]);
