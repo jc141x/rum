@@ -23,6 +23,7 @@
   loadConfig().then(() => console.log(config_temp));
 
   const addPath = () => (config_temp.library_paths = [...config_temp.library_paths, '']);
+  const removePath = path => (config_temp.library_paths = config_temp.library_paths.filter(p => p != path));   
 
   const save = async () => {
     await invoke('set_config', { newConfig: config_temp });
@@ -63,7 +64,12 @@
   {#if config_temp.library_paths}
     {#each config_temp.library_paths as path}
       <Row noGutters>
-        <TextField bind:value={path} />
+        <Col>
+            <TextField bind:value={path} />
+        </Col>
+        <Col>
+            <Button on:click={() => removePath(path)}>Remove</Button>
+        </Col>
       </Row>
     {/each}
     <Row class="mt-2">
