@@ -26,6 +26,7 @@
         <Tab>Library</Tab>
         <Tab>Discover</Tab>
         <Tab>Information</Tab>
+        <Tab>Settings</Tab>
       </div>
     </Tabs>
     </div>
