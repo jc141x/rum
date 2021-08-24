@@ -36,7 +36,11 @@ fn find_scripts(executable_dir: &Path) -> Result<Vec<String>, ChadError> {
         // Filter out errors
         .filter_map(|e| e.ok())
         // Only check files
-        .filter(|e| e.file_type().map(|f| f.is_file() || f.is_symlink()).unwrap_or(false))
+        .filter(|e| {
+            e.file_type()
+                .map(|f| f.is_file() || f.is_symlink())
+                .unwrap_or(false)
+        })
         // Find executable files
         .filter(|e| {
             std::fs::metadata(e.path())
@@ -137,11 +141,13 @@ impl LibraryFetcher {
             // Read each library path
             .map(|lp| {
                 if let Ok(dir) = lp.read_dir() {
-                    Box::new(dir
-                        // Filter out any errors
-                        .filter_map(|e| e.ok())
-                        // Find all directories
-                        .filter(|e| e.file_type().map(|t| t.is_dir()).unwrap_or(false))) as Box<dyn Iterator<Item = std::fs::DirEntry>>
+                    Box::new(
+                        dir
+                            // Filter out any errors
+                            .filter_map(|e| e.ok())
+                            // Find all directories
+                            .filter(|e| e.file_type().map(|t| t.is_dir()).unwrap_or(false)),
+                    ) as Box<dyn Iterator<Item = std::fs::DirEntry>>
                 } else {
                     Box::new(std::iter::empty())
                 }
@@ -151,9 +157,7 @@ impl LibraryFetcher {
             // Zip it with indices
             .zip(0..)
             // Create games
-            .map(|(e, i)| {
-                Game::new(&config, i, e.path())
-            })
+            .map(|(e, i)| Game::new(&config, i, e.path()))
             // Collect them into a vec
             .collect();
     }
