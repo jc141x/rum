@@ -1,4 +1,5 @@
 <script>
+    import "roboto-fontface-woff/css/roboto/sass/roboto-fontface.scss";
     import "../global.scss";
   import Header from '$lib/Header.svelte';
   import Index from './index.svelte';

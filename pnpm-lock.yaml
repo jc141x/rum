@@ -14,6 +14,7 @@ specifiers:
   postcss: ^8.3.6
   prettier: ~2.2.1
   prettier-plugin-svelte: ^2.3.1
+  roboto-fontface-woff: ^0.8.0
   sass: ^1.38.0
   showdown: ^1.9.1
   svelte: ^3.34.0
@@ -28,6 +29,7 @@ dependencies:
   '@tauri-apps/api': 1.0.0-beta.5
   axios: 0.21.1
   cookie: 0.4.1
+  roboto-fontface-woff: 0.8.0
   showdown: 1.9.1
 
 devDependencies:
@@ -2623,6 +2625,10 @@ packages:
     dependencies:
       glob: 7.1.7
     dev: true
+
+  /roboto-fontface-woff/0.8.0:
+    resolution: {integrity: sha512-Bx9ABEL6FHGNSYpcq0z5tztCDfBm2YYoM+3yc5xiZI4cYVH8jkHlAnQu4W4ahugr1Ewq4zE2X7N2plPOuIh1Nw==}
+    dev: false
 
   /rollup/2.56.2:
     resolution: {integrity: sha512-s8H00ZsRi29M2/lGdm1u8DJpJ9ML8SUOpVVBd33XNeEeL3NVaTiUcSBHzBdF3eAyR0l7VSpsuoVUGrRHq7aPwQ==}
