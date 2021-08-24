@@ -82,14 +82,4 @@
       </span>
     </SlideGroup>
   </div>
-
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
 </div>

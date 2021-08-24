@@ -1,4 +1,5 @@
 <script>
+    import "../global.scss";
   import Header from '$lib/Header.svelte';
   import Index from './index.svelte';
   import Library from './library.svelte';
@@ -27,31 +28,10 @@
   </Window>
 </MaterialApp>
 
-<style>
-  :global(.content-wrapper)::-webkit-scrollbar {
-    width: 1rem;
-  }
+<style lang="scss">
+  @import 'svelte-materialify/src/styles/variables';
 
-  :global(.content-wrapper)::-webkit-scrollbar-track {
-    background-color: #25282c;
-    border-radius: 0px;
-  }
-
-  :global(.content-wrapper)::-webkit-scrollbar-thumb {
-    background-color: #191c20;
-    border-radius: 0px;
-  }
-  :global(.sidebar)::-webkit-scrollbar {
-    width: 1rem;
-  }
-
-  :global(.sidebar)::-webkit-scrollbar-track {
-    background-color: #25282c;
-    border-radius: 0px;
-  }
-
-  :global(.sidebar)::-webkit-scrollbar-thumb {
-    background-color: #191c20;
-    border-radius: 0px;
+  :global(body) {
+    background-color: map-get($material-dark-theme, "surface");
   }
 </style>
