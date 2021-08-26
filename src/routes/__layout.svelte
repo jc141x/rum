@@ -1,6 +1,9 @@
 <script>
-    import "roboto-fontface-woff/css/roboto/sass/roboto-fontface.scss";
-    import "../global.scss";
+  import 'roboto-fontface-woff/css/roboto/sass/roboto-fontface.scss';
+  import '../global.scss';
+
+  import Navbar from '$lib/Navbar.svelte';
+  import Sidebar from '$lib/Sidebar.svelte';
   import Header from '$lib/Header.svelte';
   import Index from './index.svelte';
   import Library from './library.svelte';
@@ -12,27 +15,15 @@
 </script>
 
 <MaterialApp {theme}>
-  <Header bind:value />
-  <Window {value} class="pa-4">
-    <WindowItem>
-      <Index />
-    </WindowItem>
-    <WindowItem>
-      <Library />
-    </WindowItem>
-    <WindowItem>
-      <Discover />
-    </WindowItem>
-    <WindowItem>
-      <Documentation />
-    </WindowItem>
-  </Window>
+  <Navbar />
+  <Sidebar />
+  <slot />
 </MaterialApp>
 
 <style lang="scss">
   @import 'svelte-materialify/src/styles/variables';
 
   :global(body) {
-    background-color: map-get($material-dark-theme, "surface");
+    background-color: map-get($material-dark-theme, 'surface');
   }
 </style>
