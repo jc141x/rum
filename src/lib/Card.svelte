@@ -6,9 +6,10 @@
     CardActions,
     Button,
     Row,
-    Col, 
-CardText,
-      Chip} from 'svelte-materialify/src';
+    Col,
+    CardText,
+    Chip
+  } from 'svelte-materialify/src';
 
   export let title = '';
   export let subtitle = '';
@@ -20,53 +21,26 @@ CardText,
 </script>
 
 <div class="card flex-shrink-1 flex-grow-1">
-    <Card class="ma-5">
-      <img src={banner} alt="banner" />
-      <CardTitle><p class="title">{title}</p></CardTitle>
-      <CardSubtitle>{subtitle}</CardSubtitle>
-      <div class="d-flex flex-row">
-          {#each badges as badge}
-            <Chip class="ma-1"> {badge} </Chip>
-          {/each}
-          {#each dangerBadges as badge}
-            <Chip class="ma-1 red"> {badge} </Chip>
-          {/each}
-      </div>
-      <CardText><p class="description">{description}</p></CardText>
-      <CardActions>
-        <slot name="buttons" />
-      </CardActions>
-    </Card>
+  <Card class="ma-5">
+    <img src={banner} alt="banner" />
+    <CardTitle><p class="title">{title}</p></CardTitle>
+    <CardSubtitle>{subtitle}</CardSubtitle>
+    <div class="d-flex flex-row">
+      {#each badges as badge}
+        <Chip class="ma-1">{badge}</Chip>
+      {/each}
+      {#each dangerBadges as badge}
+        <Chip class="ma-1 red">{badge}</Chip>
+      {/each}
+    </div>
+    <CardText><p class="description">{description}</p></CardText>
+    <CardActions>
+      <slot name="buttons" />
+    </CardActions>
+  </Card>
 </div>
 
-<style>
-  .card {
-     width: 350px;
-  }
-
-  img {
-    width: 100%;
-    height: 100%;
-  }
-
-  .title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-  }
-
-  .description {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-  }
-</style>
-
-    <!--
+<!--
 <div class="card p-0 flex-fill w-250 m-10 d-flex flex-column">
   <img class="img-fluid rounded-top w-full mh-full" src={banner} alt={title} />
   <div class={contentClass}>
@@ -102,3 +76,30 @@ CardText,
   }
 </style>
 -->
+<style>
+  .card {
+    flex-basis: 350px;
+    max-width: 350px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+
+  .description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+</style>
