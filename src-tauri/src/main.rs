@@ -257,21 +257,102 @@ async fn list_clients(
     Ok(download.lock().await.clients().cloned().collect())
 }
 
+fn get_backend(
+    client: String,
+    download: &DownloadManager,
+) -> Result<&Box<dyn chad_torrent::TorrentBackend + Send + Sync>, TauriChadError> {
+    if let Some(backend) = download.client(&client) {
+        Ok(backend)
+    } else {
+        Err(TauriChadError::new("Client not found".into()))
+    }
+}
+
 #[tauri::command]
 async fn list_downloads(
     client: String,
     download: tauri::State<'_, Mutex<DownloadManager>>,
 ) -> Result<Vec<TauriTorrent>, TauriChadError> {
     let download = download.lock().await;
-    if let Some(backend) = download.client(&client) {
-        let list = backend
-            .list(Some("chad"))
-            .await
-            .map_err(|e| TauriChadError::from(&*e))?;
-        Ok(list.iter().map(|t| (**t).into()).collect())
-    } else {
-        Err(TauriChadError::new("Client not found".into()))
-    }
+    let backend = get_backend(client, &*download)?;
+    let list = backend
+        .list(Some("chad"))
+        .await
+        .map_err(|e| TauriChadError::from(&*e))?;
+    Ok(list.iter().map(|t| (**t).into()).collect())
+}
+
+#[tauri::command]
+async fn add_magnet(
+    client: String,
+    magnet: String,
+    options: chad_torrent::Options,
+    download: tauri::State<'_, Mutex<DownloadManager>>,
+) -> Result<String, TauriChadError> {
+    let download = download.lock().await;
+    let backend = get_backend(client, &*download)?;
+    backend
+        .add_magnet(&magnet, options)
+        .await
+        .map_err(|e| TauriChadError::from(&*e))
+}
+
+#[tauri::command]
+async fn pause_download(
+    client: String,
+    torrent_id: String,
+    download: tauri::State<'_, Mutex<DownloadManager>>,
+) -> Result<(), TauriChadError> {
+    let download = download.lock().await;
+    let backend = get_backend(client, &*download)?;
+    backend
+        .pause(&torrent_id)
+        .await
+        .map_err(|e| TauriChadError::from(&*e))
+}
+
+#[tauri::command]
+async fn resume_download(
+    client: String,
+    torrent_id: String,
+    download: tauri::State<'_, Mutex<DownloadManager>>,
+) -> Result<(), TauriChadError> {
+    let download = download.lock().await;
+    let backend = get_backend(client, &*download)?;
+    backend
+        .resume(&torrent_id)
+        .await
+        .map_err(|e| TauriChadError::from(&*e))
+}
+
+#[tauri::command]
+async fn remove_download(
+    client: String,
+    torrent_id: String,
+    remove_files: bool,
+    download: tauri::State<'_, Mutex<DownloadManager>>,
+) -> Result<(), TauriChadError> {
+    let download = download.lock().await;
+    let backend = get_backend(client, &*download)?;
+    backend
+        .remove_torrent(&torrent_id, remove_files)
+        .await
+        .map_err(|e| TauriChadError::from(&*e))
+}
+
+#[tauri::command]
+async fn get_download_status(
+    client: String,
+    torrent_id: String,
+    download: tauri::State<'_, Mutex<DownloadManager>>,
+) -> Result<TauriTorrent, TauriChadError> {
+    let download = download.lock().await;
+    let backend = get_backend(client, &*download)?;
+    backend
+        .torrent(&torrent_id)
+        .await
+        .map(|t| (*t).into())
+        .map_err(|e| TauriChadError::from(&*e))
 }
 
 #[tauri::command]
@@ -319,6 +400,11 @@ fn main() {
             init_download_clients,
             list_clients,
             list_downloads,
+            add_magnet,
+            pause_download,
+            resume_download,
+            remove_download,
+            get_download_status,
             // Misc
             get_reqs_markdown,
         ])

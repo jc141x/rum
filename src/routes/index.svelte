@@ -20,7 +20,15 @@
 
     for (const client of clients) {
       console.log(client);
-      console.log(await invoke('list_downloads', { client }));
+      const list = await invoke('list_downloads', { client });
+      console.log(list);
+
+      /*
+      if (client == 'Deluge') {
+        let torrent = list.filter((t) => t.name == 'Arch Linux')[0];
+        await invoke('resume_download', { client, torrentId: torrent.id });
+      }
+        */
     }
   };
 
