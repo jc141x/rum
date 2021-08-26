@@ -13,6 +13,9 @@ pub enum ChadError {
 
     #[error("Message: {0}")]
     Message(String),
+
+    #[error(transparent)]
+    Other(#[from] anyhow::Error),
 }
 
 impl ChadError {

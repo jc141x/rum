@@ -23,8 +23,10 @@ reqwest = { version = "0.11", features = ["json"] }
 titlecase = "1.1"
 dirs = "3.0"
 thiserror = "1.0"
+anyhow = "1.0"
 base64 = "0.13"
 futures = "0.3"
+chad-torrent = { git = "https://gitlab.com/Gnurur/chad-torrent" }
 
 [lib]
 name = "chad_launcher"

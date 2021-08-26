@@ -2,11 +2,24 @@ use crate::util::ChadError;
 use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
 
+#[derive(Serialize, Deserialize, Default)]
+pub struct TorrentClientConfig {
+    pub name: String,
+    pub backend: String,
+    pub options: serde_json::Value,
+}
+
+#[derive(Serialize, Deserialize, Default)]
+pub struct TorrentConfig {
+    pub clients: Vec<TorrentClientConfig>,
+}
+
 #[derive(Serialize, Deserialize)]
 pub struct Config {
-    data_path: PathBuf,
-    library_paths: Vec<PathBuf>,
-    terminal: String,
+    pub data_path: PathBuf,
+    pub library_paths: Vec<PathBuf>,
+    pub terminal: String,
+    pub torrent: TorrentConfig,
 }
 
 impl Default for Config {
@@ -15,6 +28,7 @@ impl Default for Config {
             data_path: dirs::data_dir().unwrap().join("chad_launcher"),
             library_paths: vec![dirs::home_dir().unwrap().join("Games/chad_launcher")],
             terminal: "alacritty".into(),
+            torrent: TorrentConfig::default(),
         }
     }
 }

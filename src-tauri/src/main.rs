@@ -6,6 +6,7 @@
 use chad_launcher::{
     config::Config,
     database::{self, get_magnet, DatabaseFetcher, GetGamesOpts},
+    download::DownloadManager,
     library::{self, LibraryFetcher},
 };
 use serde::Serialize;
@@ -31,6 +32,41 @@ impl<T: std::error::Error> From<T> for TauriChadError {
     fn from(error: T) -> TauriChadError {
         TauriChadError {
             message: format!("{}", error),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize)]
+struct TauriTorrent {
+    name: String,
+    id: String,
+    label: Option<String>,
+    eta: i64,
+    progress: f64,
+    download_speed: f64,
+    upload_speed: f64,
+    num_peers: i64,
+    save_path: String,
+    size: i64,
+    downloaded: i64,
+    //state: String,
+}
+
+impl From<&dyn chad_torrent::Torrent> for TauriTorrent {
+    fn from(t: &dyn chad_torrent::Torrent) -> Self {
+        Self {
+            name: t.name().into(),
+            id: t.id().into(),
+            label: t.label().map(|l| l.into()),
+            eta: t.eta(),
+            progress: t.progress(),
+            download_speed: t.download_speed(),
+            upload_speed: t.upload_speed(),
+            num_peers: t.num_peers(),
+            save_path: t.save_path().into(),
+            size: t.size(),
+            downloaded: t.downloaded(),
+            //state: t.state().into(),
         }
     }
 }
@@ -202,10 +238,49 @@ async fn set_config_terminal(
 }
 
 #[tauri::command]
-async fn get_reqs_markdown() -> Result<String, TauriChadError> {
-    Ok(reqwest::get("https://rentry.co/johncena141-reqs/raw").await?.text().await?)
+async fn init_download_clients(
+    config: tauri::State<'_, Mutex<Config>>,
+    download: tauri::State<'_, Mutex<DownloadManager>>,
+) -> Result<(), TauriChadError> {
+    download
+        .lock()
+        .await
+        .load_config(&*config.lock().await)
+        .await?;
+    Ok(())
 }
 
+#[tauri::command]
+async fn list_clients(
+    download: tauri::State<'_, Mutex<DownloadManager>>,
+) -> Result<Vec<String>, TauriChadError> {
+    Ok(download.lock().await.clients().cloned().collect())
+}
+
+#[tauri::command]
+async fn list_downloads(
+    client: String,
+    download: tauri::State<'_, Mutex<DownloadManager>>,
+) -> Result<Vec<TauriTorrent>, TauriChadError> {
+    let download = download.lock().await;
+    if let Some(backend) = download.client(&client) {
+        let list = backend
+            .list(Some("chad"))
+            .await
+            .map_err(|e| TauriChadError::from(&*e))?;
+        Ok(list.iter().map(|t| (**t).into()).collect())
+    } else {
+        Err(TauriChadError::new("Client not found".into()))
+    }
+}
+
+#[tauri::command]
+async fn get_reqs_markdown() -> Result<String, TauriChadError> {
+    Ok(reqwest::get("https://rentry.co/johncena141-reqs/raw")
+        .await?
+        .text()
+        .await?)
+}
 
 fn main() {
     // Should improve performance
@@ -214,10 +289,12 @@ fn main() {
     let config = Config::new();
     let client = DatabaseFetcher::new();
     let library = LibraryFetcher::new();
+    let download = DownloadManager::new();
     let _ = config.save();
 
     tauri::Builder::default()
         .manage(client)
+        .manage(Mutex::new(download))
         .manage(Mutex::new(library))
         .manage(Mutex::new(config))
         .invoke_handler(tauri::generate_handler![
@@ -238,6 +315,10 @@ fn main() {
             set_config_data_path,
             set_config_library_paths,
             set_config_terminal,
+            // Downloads
+            init_download_clients,
+            list_clients,
+            list_downloads,
             // Misc
             get_reqs_markdown,
         ])
