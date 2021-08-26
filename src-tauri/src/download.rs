@@ -8,7 +8,7 @@ use std::collections::HashMap;
 pub struct DelugeConfig {
     web_address: String,
     web_password: String,
-    daemon_id: Option<String>,
+    pub daemon_id: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -58,6 +58,10 @@ impl DownloadManager {
             }?,
         );
         Ok(())
+    }
+
+    pub fn add_client(&mut self, name: &str, client: Backend) {
+        self.clients.insert(name.into(), client);
     }
 
     pub async fn deluge_connect(&self, config: &DelugeConfig) -> Result<DelugeBackend, ChadError> {

@@ -71,6 +71,12 @@ impl From<&dyn chad_torrent::Torrent> for TauriTorrent {
     }
 }
 
+#[derive(Default)]
+struct AppState {
+    deluge_client: Option<chad_torrent::DelugeBackend>,
+    deluge_config: Option<chad_launcher::download::DelugeConfig>,
+}
+
 fn handle_stdout(
     app_handle: tauri::AppHandle,
     stdout: Box<dyn Read>,
@@ -362,8 +368,9 @@ async fn add_qbittorrent_client(
     config: tauri::State<'_, Mutex<Config>>,
     download: tauri::State<'_, Mutex<DownloadManager>>,
 ) -> Result<(), TauriChadError> {
-    let download = download.lock().await;
-    download.qbittorrent_connect(&options).await?;
+    let mut download = download.lock().await;
+    let client = download.qbittorrent_connect(&options).await?;
+    download.add_client(&name, Box::new(client));
     let client_config = TorrentClientConfig {
         backend: "qbittorrent".into(),
         options: serde_json::to_value(options)?,
@@ -374,36 +381,66 @@ async fn add_qbittorrent_client(
 }
 
 #[tauri::command]
-async fn add_deluge_client(
+async fn deluge_connect_daemon(
     name: String,
-    options: chad_launcher::download::DelugeConfig,
-    config: tauri::State<'_, Mutex<Config>>,
-    download: tauri::State<'_, Mutex<DownloadManager>>,
-) -> Result<(), TauriChadError> {
-    let download = download.lock().await;
-    download.deluge_connect(&options).await?;
-    let client_config = TorrentClientConfig {
-        backend: "deluge".into(),
-        options: serde_json::to_value(options)?,
-    };
-    let mut config = config.lock().await;
-    config.insert_download_client(name, client_config);
-    Ok(config.save()?)
-}
-
-/*
-#[tauri::command]
-async fn connect_deluge_daemon(
-    client: String,
     daemon_id: String,
     config: tauri::State<'_, Mutex<Config>>,
     download: tauri::State<'_, Mutex<DownloadManager>>,
+    app_state: tauri::State<'_, Mutex<AppState>>,
+) -> Result<(), TauriChadError> {
+    let mut app_state = app_state.lock().await;
+    if let (Some(backend), Some(mut options)) = (
+        app_state.deluge_client.take(),
+        app_state.deluge_config.take(),
+    ) {
+        backend
+            .connect(&daemon_id)
+            .await
+            .map_err(|e| TauriChadError::from(&*e))?;
+        let mut download = download.lock().await;
+        download.add_client(&name, Box::new(backend));
+        options.daemon_id = Some(daemon_id);
+        let client_config = TorrentClientConfig {
+            backend: "deluge".into(),
+            options: serde_json::to_value(options)?,
+        };
+        let mut config = config.lock().await;
+        config.insert_download_client(name, client_config);
+        Ok(config.save()?)
+    } else {
+        Err(TauriChadError::new(
+            "Failed to connect to deluge daemon: no active Web UI connection".into(),
+        ))
+    }
+}
+
+#[tauri::command]
+async fn create_deluge_client(
+    options: chad_launcher::download::DelugeConfig,
+    download: tauri::State<'_, Mutex<DownloadManager>>,
+    app_state: tauri::State<'_, Mutex<AppState>>,
 ) -> Result<(), TauriChadError> {
     let download = download.lock().await;
-    let backend = get_backend(client, &*download)?;
-    backend
+    let client = download.deluge_connect(&options).await?;
+    let mut app_state = app_state.lock().await;
+    app_state.deluge_client = Some(client);
+    app_state.deluge_config = Some(options);
+    Ok(())
 }
-*/
+
+#[tauri::command]
+async fn list_deluge_hosts(
+    app_state: tauri::State<'_, Mutex<AppState>>,
+) -> Result<Vec<chad_torrent::backend::deluge::Host>, TauriChadError> {
+    let app_state = app_state.lock().await;
+    let backend = app_state.deluge_client.as_ref().ok_or(TauriChadError::new(
+        "Failed to list deluge hosts: no active Web UI connection".into(),
+    ))?;
+    backend
+        .list_hosts()
+        .await
+        .map_err(|e| TauriChadError::from(&*e))
+}
 
 #[tauri::command]
 async fn get_reqs_markdown() -> Result<String, TauriChadError> {
@@ -421,6 +458,7 @@ fn main() {
     let client = DatabaseFetcher::new();
     let library = LibraryFetcher::new();
     let download = DownloadManager::new();
+    let state = AppState::default();
     let _ = config.save();
 
     tauri::Builder::default()
@@ -428,6 +466,7 @@ fn main() {
         .manage(Mutex::new(download))
         .manage(Mutex::new(library))
         .manage(Mutex::new(config))
+        .manage(Mutex::new(state))
         .invoke_handler(tauri::generate_handler![
             // Database
             get_games,
@@ -456,6 +495,9 @@ fn main() {
             remove_download,
             get_download_status,
             add_qbittorrent_client,
+            create_deluge_client,
+            deluge_connect_daemon,
+            list_deluge_hosts,
             // Misc
             get_reqs_markdown,
         ])

@@ -15,8 +15,10 @@
   import { invoke } from '../../node_modules/@tauri-apps/api/tauri';
 
   const test_downloads = async () => {
+    // Reconnects to previously added torrent clients
     await invoke('init_download_clients');
 
+    // Adding a new QBittorrent client is straightforward
     await invoke('add_qbittorrent_client', {
       name: 'NewQBittorrent',
       options: {
@@ -26,10 +28,33 @@
       }
     });
 
+    // But adding a Deluge client is more complicated
+    // First we create a connection to the Web API
+    await invoke('create_deluge_client', {
+      options: {
+        web_address: 'http://localhost:8112/json',
+        web_password: 'deluge'
+      }
+    });
+
+    // Now we can list the hosts and choose one
+    let hosts = await invoke('list_deluge_hosts');
+    console.log(hosts);
+    let daemonId = hosts.filter((h) => h.host == 'localhost')[0].id;
+
+    // Finally we connect to the chosen daemon
+    // This will also store the connection in the config file
+    await invoke('deluge_connect_daemon', {
+      name: 'NewDeluge',
+      daemonId
+    });
+
+    // We can list the connected torrent clients
     let clients = await invoke('list_clients');
 
     for (const client of clients) {
       console.log(client);
+      // And list downloads with label/catergory "chad" for each client
       const list = await invoke('list_downloads', { client });
       console.log(list);
 
