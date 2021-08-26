@@ -16,6 +16,16 @@
 
   const test_downloads = async () => {
     await invoke('init_download_clients');
+
+    await invoke('add_qbittorrent_client', {
+      name: 'NewQBittorrent',
+      options: {
+        host: 'http://localhost:8080',
+        username: 'admin',
+        password: 'adminadmin'
+      }
+    });
+
     let clients = await invoke('list_clients');
 
     for (const client of clients) {

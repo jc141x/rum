@@ -4,7 +4,7 @@
 )]
 
 use chad_launcher::{
-    config::Config,
+    config::{Config, TorrentClientConfig},
     database::{self, get_magnet, DatabaseFetcher, GetGamesOpts},
     download::DownloadManager,
     library::{self, LibraryFetcher},
@@ -356,6 +356,56 @@ async fn get_download_status(
 }
 
 #[tauri::command]
+async fn add_qbittorrent_client(
+    name: String,
+    options: chad_launcher::download::QBittorrentConfig,
+    config: tauri::State<'_, Mutex<Config>>,
+    download: tauri::State<'_, Mutex<DownloadManager>>,
+) -> Result<(), TauriChadError> {
+    let download = download.lock().await;
+    download.qbittorrent_connect(&options).await?;
+    let client_config = TorrentClientConfig {
+        backend: "qbittorrent".into(),
+        options: serde_json::to_value(options)?,
+    };
+    let mut config = config.lock().await;
+    config.insert_download_client(name, client_config);
+    Ok(config.save()?)
+}
+
+#[tauri::command]
+async fn add_deluge_client(
+    name: String,
+    options: chad_launcher::download::DelugeConfig,
+    config: tauri::State<'_, Mutex<Config>>,
+    download: tauri::State<'_, Mutex<DownloadManager>>,
+) -> Result<(), TauriChadError> {
+    let download = download.lock().await;
+    download.deluge_connect(&options).await?;
+    let client_config = TorrentClientConfig {
+        backend: "deluge".into(),
+        options: serde_json::to_value(options)?,
+    };
+    let mut config = config.lock().await;
+    config.insert_download_client(name, client_config);
+    Ok(config.save()?)
+}
+
+/*
+#[tauri::command]
+async fn connect_deluge_daemon(
+    client: String,
+    daemon_id: String,
+    config: tauri::State<'_, Mutex<Config>>,
+    download: tauri::State<'_, Mutex<DownloadManager>>,
+) -> Result<(), TauriChadError> {
+    let download = download.lock().await;
+    let backend = get_backend(client, &*download)?;
+    backend
+}
+*/
+
+#[tauri::command]
 async fn get_reqs_markdown() -> Result<String, TauriChadError> {
     Ok(reqwest::get("https://rentry.co/johncena141-reqs/raw")
         .await?
@@ -405,6 +455,7 @@ fn main() {
             resume_download,
             remove_download,
             get_download_status,
+            add_qbittorrent_client,
             // Misc
             get_reqs_markdown,
         ])

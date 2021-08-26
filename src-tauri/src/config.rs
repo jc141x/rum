@@ -1,17 +1,17 @@
 use crate::util::ChadError;
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 
 #[derive(Serialize, Deserialize, Default)]
 pub struct TorrentClientConfig {
-    pub name: String,
     pub backend: String,
     pub options: serde_json::Value,
 }
 
 #[derive(Serialize, Deserialize, Default)]
 pub struct TorrentConfig {
-    pub clients: Vec<TorrentClientConfig>,
+    pub clients: HashMap<String, TorrentClientConfig>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -87,5 +87,13 @@ impl Config {
         self.data_path = other.data_path;
         self.library_paths = other.library_paths;
         self.terminal = other.terminal;
+    }
+
+    pub fn insert_download_client(
+        &mut self,
+        name: impl Into<String>,
+        client_config: TorrentClientConfig,
+    ) {
+        self.torrent.clients.insert(name.into(), client_config);
     }
 }
