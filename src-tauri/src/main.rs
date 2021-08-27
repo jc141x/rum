@@ -53,6 +53,7 @@ fn main() {
             command::download::download_init_clients,
             command::download::download_list_clients,
             command::download::download_list_downloads,
+            command::download::download_list_all_downloads,
             command::download::download_add_magnet,
             command::download::download_pause,
             command::download::download_resume,

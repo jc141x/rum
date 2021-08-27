@@ -50,20 +50,24 @@
 
     // We can list the connected torrent clients
     let clients = await command.download('list_clients');
+    console.log(clients);
 
+    const list = await command.download('list_all_downloads');
+    console.log(list);
+
+    /*
     for (const client of clients) {
       console.log(client);
       // And list downloads with label/catergory "chad" for each client
       const list = await command.download('list_downloads', { client });
       console.log(list);
 
-      /*
       if (client == 'Deluge') {
         let torrent = list.filter((t) => t.name == 'Arch Linux')[0];
         await invoke('resume_download', { client, torrentId: torrent.id });
       }
-        */
     }
+      */
   };
 
   //test_downloads().catch((err) => console.error(err));

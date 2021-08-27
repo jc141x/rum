@@ -1,7 +1,7 @@
 use crate::command::{AppState, TauriChadError};
 use chad_launcher::{
     config::Config,
-    download::{DownloadManager, TorrentClientConfig},
+    download::{DownloadManager, Torrent, TorrentClientConfig},
 };
 use chad_torrent::TorrentBackend;
 use tauri::async_runtime::Mutex;
@@ -41,14 +41,45 @@ fn get_backend(
 pub async fn download_list_downloads(
     client: String,
     download: tauri::State<'_, Mutex<DownloadManager>>,
-) -> Result<Vec<chad_torrent::Torrent>, TauriChadError> {
+) -> Result<Vec<Torrent>, TauriChadError> {
     let download = download.lock().await;
-    let backend = get_backend(client, &*download)?;
+    let backend = get_backend(client.clone(), &*download)?;
     let list = backend
         .list(Some("chad"))
         .await
-        .map_err(|e| TauriChadError::from(&*e))?;
+        .map_err(|e| TauriChadError::from(&*e))?
+        .into_iter()
+        .map(|t| Torrent {
+            client: client.clone(),
+            torrent: t,
+        })
+        .collect();
     Ok(list)
+}
+
+#[tauri::command]
+pub async fn download_list_all_downloads(
+    download: tauri::State<'_, Mutex<DownloadManager>>,
+) -> Result<Vec<Torrent>, TauriChadError> {
+    let download = download.lock().await;
+    let mut result = Vec::new();
+
+    for client in download.clients() {
+        let backend = get_backend(client.clone(), &*download)?;
+        let mut list = backend
+            .list(Some("chad"))
+            .await
+            .map_err(|e| TauriChadError::from(&*e))?
+            .into_iter()
+            .map(|t| Torrent {
+                client: client.clone(),
+                torrent: t,
+            })
+            .collect();
+        result.append(&mut list);
+    }
+
+    Ok(result)
 }
 
 #[tauri::command]

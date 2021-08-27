@@ -5,6 +5,28 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Torrent {
+    pub client: String,
+
+    #[serde(flatten)]
+    pub torrent: chad_torrent::Torrent,
+}
+
+impl std::ops::Deref for Torrent {
+    type Target = chad_torrent::Torrent;
+
+    fn deref(&self) -> &Self::Target {
+        &self.torrent
+    }
+}
+
+impl std::ops::DerefMut for Torrent {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.torrent
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "backend")]
 pub enum TorrentClientConfig {
     #[serde(rename = "deluge")]
