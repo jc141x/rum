@@ -174,6 +174,38 @@ async fn save_config(config: tauri::State<'_, Mutex<Config>>) -> Result<(), Taur
 }
 
 #[tauri::command]
+async fn get_config(config: tauri::State<'_, Mutex<Config>>) -> Result<Config, TauriChadError> {
+    Ok(config.lock().await.clone())
+}
+
+#[tauri::command]
+async fn get_config_data_path(
+    config: tauri::State<'_, Mutex<Config>>,
+) -> Result<PathBuf, TauriChadError> {
+    Ok(config.lock().await.data_path().to_owned())
+}
+
+#[tauri::command]
+async fn get_config_library_paths(
+    config: tauri::State<'_, Mutex<Config>>,
+) -> Result<Vec<PathBuf>, TauriChadError> {
+    Ok(config
+        .lock()
+        .await
+        .library_paths()
+        .iter()
+        .map(|p| p.to_owned())
+        .collect())
+}
+
+#[tauri::command]
+async fn get_config_terminal(
+    config: tauri::State<'_, Mutex<Config>>,
+) -> Result<String, TauriChadError> {
+    Ok(config.lock().await.terminal().into())
+}
+
+#[tauri::command]
 async fn set_config(
     new_config: Config,
     config: tauri::State<'_, Mutex<Config>>,
@@ -448,6 +480,10 @@ fn main() {
             set_config_data_path,
             set_config_library_paths,
             set_config_terminal,
+            get_config,
+            get_config_data_path,
+            get_config_library_paths,
+            get_config_terminal,
             // Downloads
             init_download_clients,
             list_clients,

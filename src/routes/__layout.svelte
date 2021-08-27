@@ -10,6 +10,7 @@
   import Discover from './discover.svelte';
   import Documentation from './documentation.svelte';
   import { MaterialApp, Button, Window, WindowItem } from 'svelte-materialify/src';
+  import Settings from './settings.svelte';
   let theme = 'dark';
   let value = 0;
 </script>

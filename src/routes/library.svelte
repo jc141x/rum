@@ -4,7 +4,6 @@
   import LocalGameGrid from '$lib/LocalGameGrid.svelte';
   import { Container } from 'svelte-materialify';
 
-  invoke('reload_local_games');
 </script>
 
 <svelte:head>
