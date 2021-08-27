@@ -8,7 +8,14 @@
     ListItemGroup,
     Icon
   } from 'svelte-materialify';
-  import { mdiLibrary, mdiCompass, mdiGavel, mdiHome, mdiBookOpenVariant } from '@mdi/js';
+  import {
+    mdiLibrary,
+    mdiCompass,
+    mdiGavel,
+    mdiHome,
+    mdiBookOpenVariant,
+    mdiDownload
+  } from '@mdi/js';
   import { sidebarActive as active } from './store.js';
 </script>
 
@@ -38,6 +45,14 @@
               <Icon path={mdiCompass} />
             </span>
             Discover
+          </ListItem>
+        </a>
+        <a href="/downloads" style="text-decoration: none" on:click={() => ($active = false)}>
+          <ListItem>
+            <span slot="prepend">
+              <Icon path={mdiDownload} />
+            </span>
+            Downloads
           </ListItem>
         </a>
         <a href="/settings" style="text-decoration: none" on:click={() => ($active = false)}>
