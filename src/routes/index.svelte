@@ -8,13 +8,10 @@
   import LocalGameCard from '$lib/LocalGameCard.svelte';
   import Card from '$lib/Card.svelte';
   import banner from '$lib/default.png';
-  import { config } from '$lib/store';
 
   import { Container, SlideGroup, SlideItem, Icon } from 'svelte-materialify';
   import { mdiChevronLeft, mdiChevronRight } from '@mdi/js';
   const games = ['Cool Game', 'Other Game', 'Boring Game', 'Fun Game', 'Hard Game', 'Dumb Game'];
-
-  command.config('get').then(config.set);
 
   const test_downloads = async () => {
     // Reconnects to previously added torrent clients
