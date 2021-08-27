@@ -19,8 +19,16 @@
   }
 </script>
 
-<div class="d-flex flex-row flex-wrap">
+<div class="grid">
   {#each $games as game (game.id)}
     <GameCard {game} />
   {/each}
 </div>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+    gap: 1rem;
+  }
+</style>

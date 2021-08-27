@@ -12,8 +12,8 @@
   import { sidebarActive as active } from './store.js';
 </script>
 
-<div class="sidebar">
-  <NavigationDrawer active={$active} class="elevation-4" style="z-index:5">
+<div class="sidebar" class:active={$active}>
+  <NavigationDrawer fixed active={$active} class="pt-16 elevation-4">
     <List nav dense>
       <a href="/" style="text-decoration: none" on:click={() => ($active = false)}>
         <ListItem>
@@ -62,9 +62,7 @@
 />
 
 <style>
-  .sidebar {
+  .sidebar.active {
     z-index: 5;
-    position: fixed;
-    height: 100%;
   }
 </style>
