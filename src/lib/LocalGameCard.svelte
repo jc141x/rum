@@ -1,5 +1,5 @@
 <script>
-  import { invoke } from '../../node_modules/@tauri-apps/api/tauri';
+  import command from '$lib/command';
   import Card from './Card.svelte';
   import banner from './default.png';
   import { Button, Menu, List, ListItem } from 'svelte-materialify/src';
@@ -9,9 +9,8 @@
   $: banner_src = game.banner === null ? banner : game.banner;
 
   const handleLaunch = (script) => {
-    invoke('run_game', { index: game.id, script });
+    command.library('run_game', { index: game.id, script });
   };
-
 </script>
 
 <Card title={game.name} banner={banner_src} height={150}>

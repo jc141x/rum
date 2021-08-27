@@ -1,12 +1,12 @@
 <script>
   import { config } from '$lib/store';
-  import { invoke } from '../../node_modules/@tauri-apps/api/tauri';
+  import command from '$lib/command';
   import { Row, Col, TextField, Button, Divider } from 'svelte-materialify/src';
 
   let config_temp = {};
 
   const loadConfig = async () => {
-    config_temp = await invoke('get_config');
+    config_temp = await command.config('get');
     $config = config_temp;
   };
   loadConfig().then(() => console.log(config_temp));
@@ -16,8 +16,8 @@
     (config_temp.library_paths = config_temp.library_paths.filter((p) => p != path));
 
   const save = async () => {
-    await invoke('set_config', { newConfig: config_temp });
-    await invoke('save_config');
+    await command.config('set', { newConfig: config_temp });
+    await command.config('save');
     await loadConfig();
   };
 

@@ -1,6 +1,6 @@
 <script>
   import { selectedGame } from '$lib/store.js';
-  import { invoke } from '../../node_modules/@tauri-apps/api/tauri';
+  import command from '$lib/command';
   import Card from './Card.svelte';
   import banner from './default.png';
   import { Icon, Button } from 'svelte-materialify/src';
@@ -19,7 +19,7 @@
   );
 
   const handleMagnet = () => {
-    invoke('open_magnet', { game });
+    command.misc('open_magnet', { game });
   };
 </script>
 

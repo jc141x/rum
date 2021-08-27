@@ -1,5 +1,5 @@
 <script>
-  import { invoke } from '../../node_modules/@tauri-apps/api/tauri';
+  import command from '$lib/command';
   import { games, page, query, selectedGenre } from '$lib/store.js';
   import GameCard from './GameCard.svelte';
 
@@ -13,7 +13,8 @@
       opts.filter_genre = $selectedGenre;
     }
 
-    invoke('get_games', { opts })
+    command
+      .database('get_games', { opts })
       .then((g) => ($games = g))
       .catch((err) => console.error(err));
   }
