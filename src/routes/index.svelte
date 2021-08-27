@@ -11,7 +11,6 @@
   import { Container, SlideGroup, SlideItem, Icon } from 'svelte-materialify';
   import { mdiChevronLeft, mdiChevronRight } from '@mdi/js';
   const games = ['Cool Game', 'Other Game', 'Boring Game', 'Fun Game', 'Hard Game', 'Dumb Game'];
-  import { SlideGroup, SlideItem, Icon } from 'svelte-materialify';
   import { invoke } from '../../node_modules/@tauri-apps/api/tauri';
 
   const test_downloads = async () => {
@@ -67,7 +66,7 @@
     }
   };
 
-  test_downloads().catch((err) => console.error(err));
+  //test_downloads().catch((err) => console.error(err));
 </script>
 
 <svelte:head>
