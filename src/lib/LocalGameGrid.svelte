@@ -8,8 +8,16 @@
     .catch((err) => console.error(err));
 </script>
 
-<div class="d-flex flex-row flex-wrap">
+<div class="grid">
   {#each $localGames as game (game.id)}
     <LocalGameCard {game} />
   {/each}
 </div>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+    gap: 1rem;
+  }
+</style>

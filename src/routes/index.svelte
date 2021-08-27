@@ -8,78 +8,53 @@
   import Card from '$lib/Card.svelte';
   import banner from '$lib/default.png';
 
-  import { SlideGroup, SlideItem, Icon } from 'svelte-materialify';
-  import { mdiMinus, mdiPlus } from '@mdi/js';
+  import { Container, SlideGroup, SlideItem, Icon } from 'svelte-materialify';
+  import { mdiChevronLeft, mdiChevronRight } from '@mdi/js';
+  const games = ['Cool Game', 'Other Game', 'Boring Game', 'Fun Game', 'Hard Game', 'Dumb Game'];
 </script>
 
 <svelte:head>
   <title>Chad Launcher</title>
 </svelte:head>
 
-<div>
-  <div class="content">
-    <h6>Welcome to Chad Launcher</h6>
-  </div>
-
-  <div>
-    <h8>Play</h8>
-    <p>Recently played games here</p>
+<Container fluid>
+  <div class="elevation-4 pa-4 rounded-lg">
+    <h4 class="text-h4">Play</h4>
+    <p class="text-subtitle-1">Recently played games here</p>
     <SlideGroup activeClass="white-text">
       <span slot="previous">
-        <Icon path={mdiMinus} />
+        <Icon path={mdiChevronLeft} />
       </span>
-      <SlideItem>
-        <Card title="Cool game" {banner} height="100" />
-      </SlideItem>
-      <SlideItem>
-        <Card title="Other game" {banner} height="100" />
-      </SlideItem>
-      <SlideItem>
-        <Card title="Boring game" {banner} height="100" />
-      </SlideItem>
-      <SlideItem>
-        <Card title="Fun game" {banner} height="100" />
-      </SlideItem>
-      <SlideItem>
-        <Card title="Hard game" {banner} height="100" />
-      </SlideItem>
-      <SlideItem>
-        <Card title="Dumb game" {banner} height="100" />
-      </SlideItem>
+      {#each games as game}
+        <SlideItem>
+          <div class="ml-2 mr-2">
+            <Card title={game} {banner} height="100" />
+          </div>
+        </SlideItem>
+      {/each}
       <span slot="next">
-        <Icon path={mdiPlus} />
+        <Icon path={mdiChevronRight} />
       </span>
     </SlideGroup>
   </div>
 
-  <div>
-    <h8>Discover</h8>
-    <p>Popular/trending/featured games here</p>
+  <div class="mt-12 elevation-4 pa-4 rounded-lg">
+    <h4 class="text-h4">Discover</h4>
+    <p class="text-subtitle-1">Popular/trending/featured games here</p>
     <SlideGroup activeClass="white-text">
       <span slot="previous">
-        <Icon path={mdiMinus} />
+        <Icon path={mdiChevronLeft} />
       </span>
-      <SlideItem>
-        <Card title="Cool game" {banner} height="100" />
-      </SlideItem>
-      <SlideItem>
-        <Card title="Other game" {banner} height="100" />
-      </SlideItem>
-      <SlideItem>
-        <Card title="Boring game" {banner} height="100" />
-      </SlideItem>
-      <SlideItem>
-        <Card title="Fun game" {banner} height="100" />
-      </SlideItem>
-      <SlideItem>
-        <Card title="Hard game" {banner} height="100" />
-      </SlideItem>
-      <SlideItem>
-        <Card title="Dumb game" {banner} height="100" />
-      </SlideItem>
+      {#each games as game}
+        <SlideItem>
+          <div class="ml-2 mr-2">
+            <Card title={game} {banner} height="100" />
+          </div>
+        </SlideItem>
+      {/each}
       <span slot="next">
-        <Icon path={mdiPlus} />
+        <Icon path={mdiChevronRight} />
       </span>
     </SlideGroup>
   </div>
-</div>
+</Container>

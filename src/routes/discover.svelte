@@ -3,7 +3,7 @@
   import GameGrid from '$lib/GameGrid.svelte';
   import Pagination from '$lib/Pagination.svelte';
   import { invoke } from '../../node_modules/@tauri-apps/api/tauri';
-  import { Select, TextField, Row, Col } from 'svelte-materialify/src';
+  import { Container, Select, TextField, Row, Col } from 'svelte-materialify/src';
 
   let searchValue = '';
 
@@ -36,24 +36,26 @@
   <title>Chad Launcher - Discover</title>
 </svelte:head>
 
-  <Row class="pl-5 pr-5">
-    <Col>
-      <Pagination />
-    </Col>
-    <Col>
-      <Select items={genreItems} bind:value />
-    </Col>
+<Row class="pl-5 pr-5">
+  <Col>
+    <Pagination />
+  </Col>
+  <Col>
+    <Select items={genreItems} bind:value />
+  </Col>
 
-    <Col>
-      <form
-        on:submit={(e) => {
-          e.preventDefault();
-          $query = searchValue;
-        }}
-      >
-        <TextField bind:value={searchValue} placeholder="Search" />
-      </form>
-    </Col>
-  </Row>
+  <Col>
+    <form
+      on:submit={(e) => {
+        e.preventDefault();
+        $query = searchValue;
+      }}
+    >
+      <TextField bind:value={searchValue} placeholder="Search" />
+    </form>
+  </Col>
+</Row>
 
-<GameGrid />
+<Container fluid>
+  <GameGrid />
+</Container>

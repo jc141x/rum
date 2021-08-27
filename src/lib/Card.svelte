@@ -20,20 +20,26 @@
   export let height = 250;
 </script>
 
-<div class="card flex-shrink-1 flex-grow-1">
-  <Card class="ma-5">
+<div>
+  <Card>
     <img src={banner} alt="banner" />
-    <CardTitle><p class="title">{title}</p></CardTitle>
-    <CardSubtitle>{subtitle}</CardSubtitle>
-    <div class="d-flex flex-row">
-      {#each badges as badge}
-        <Chip class="ma-1">{badge}</Chip>
-      {/each}
-      {#each dangerBadges as badge}
-        <Chip class="ma-1 red">{badge}</Chip>
-      {/each}
-    </div>
-    <CardText><p class="description">{description}</p></CardText>
+    <CardTitle>{title}</CardTitle>
+    {#if subtitle != ''}
+      <CardSubtitle>{subtitle}</CardSubtitle>
+    {/if}
+    {#if badges.length + dangerBadges.length > 0}
+      <div style="gap: 7px;" class="ml-4 mr-4 d-flex flex-row flex-wrap">
+        {#each badges as badge}
+          <Chip size="small" class="primary-color">{badge}</Chip>
+        {/each}
+        {#each dangerBadges as badge}
+          <Chip size="small" class="red">{badge}</Chip>
+        {/each}
+      </div>
+    {/if}
+    {#if description != ''}
+      <CardText><p class="description">{description}</p></CardText>
+    {/if}
     <CardActions>
       <slot name="buttons" />
     </CardActions>
