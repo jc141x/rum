@@ -4,11 +4,12 @@
 )]
 
 use chad_launcher::{
-    config::{Config, TorrentClientConfig},
+    config::Config,
     database::{self, get_magnet, DatabaseFetcher, GetGamesOpts},
-    download::DownloadManager,
+    download::{DownloadManager, TorrentClientConfig},
     library::{self, LibraryFetcher},
 };
+use chad_torrent::TorrentBackend;
 use serde::Serialize;
 use std::{
     io::{BufRead, BufReader, Read},
@@ -36,45 +37,10 @@ impl<T: std::error::Error> From<T> for TauriChadError {
     }
 }
 
-#[derive(Debug, Clone, Serialize)]
-struct TauriTorrent {
-    name: String,
-    id: String,
-    label: Option<String>,
-    eta: i64,
-    progress: f64,
-    download_speed: f64,
-    upload_speed: f64,
-    num_peers: i64,
-    save_path: String,
-    size: i64,
-    downloaded: i64,
-    //state: String,
-}
-
-impl From<&dyn chad_torrent::Torrent> for TauriTorrent {
-    fn from(t: &dyn chad_torrent::Torrent) -> Self {
-        Self {
-            name: t.name().into(),
-            id: t.id().into(),
-            label: t.label().map(|l| l.into()),
-            eta: t.eta(),
-            progress: t.progress(),
-            download_speed: t.download_speed(),
-            upload_speed: t.upload_speed(),
-            num_peers: t.num_peers(),
-            save_path: t.save_path().into(),
-            size: t.size(),
-            downloaded: t.downloaded(),
-            //state: t.state().into(),
-        }
-    }
-}
-
 #[derive(Default)]
 struct AppState {
-    deluge_client: Option<chad_torrent::DelugeBackend>,
-    deluge_config: Option<chad_launcher::download::DelugeConfig>,
+    current_client: Option<chad_torrent::TorrentClient>,
+    current_config: Option<TorrentClientConfig>,
 }
 
 fn handle_stdout(
@@ -266,7 +232,7 @@ async fn list_clients(
 fn get_backend(
     client: String,
     download: &DownloadManager,
-) -> Result<&Box<dyn chad_torrent::TorrentBackend + Send + Sync>, TauriChadError> {
+) -> Result<&chad_torrent::TorrentClient, TauriChadError> {
     if let Some(backend) = download.client(&client) {
         Ok(backend)
     } else {
@@ -278,14 +244,14 @@ fn get_backend(
 async fn list_downloads(
     client: String,
     download: tauri::State<'_, Mutex<DownloadManager>>,
-) -> Result<Vec<TauriTorrent>, TauriChadError> {
+) -> Result<Vec<chad_torrent::Torrent>, TauriChadError> {
     let download = download.lock().await;
     let backend = get_backend(client, &*download)?;
     let list = backend
         .list(Some("chad"))
         .await
         .map_err(|e| TauriChadError::from(&*e))?;
-    Ok(list.iter().map(|t| (**t).into()).collect())
+    Ok(list)
 }
 
 #[tauri::command]
@@ -351,13 +317,12 @@ async fn get_download_status(
     client: String,
     torrent_id: String,
     download: tauri::State<'_, Mutex<DownloadManager>>,
-) -> Result<TauriTorrent, TauriChadError> {
+) -> Result<chad_torrent::Torrent, TauriChadError> {
     let download = download.lock().await;
     let backend = get_backend(client, &*download)?;
     backend
         .torrent(&torrent_id)
         .await
-        .map(|t| (*t).into())
         .map_err(|e| TauriChadError::from(&*e))
 }
 
@@ -370,13 +335,9 @@ async fn add_qbittorrent_client(
 ) -> Result<(), TauriChadError> {
     let mut download = download.lock().await;
     let client = download.qbittorrent_connect(&options).await?;
-    download.add_client(&name, Box::new(client));
-    let client_config = TorrentClientConfig {
-        backend: "qbittorrent".into(),
-        options: serde_json::to_value(options)?,
-    };
+    download.add_client(&name, client);
     let mut config = config.lock().await;
-    config.insert_download_client(name, client_config);
+    config.insert_download_client(name, TorrentClientConfig::QBittorrent(options));
     Ok(config.save()?)
 }
 
@@ -389,23 +350,22 @@ async fn deluge_connect_daemon(
     app_state: tauri::State<'_, Mutex<AppState>>,
 ) -> Result<(), TauriChadError> {
     let mut app_state = app_state.lock().await;
-    if let (Some(backend), Some(mut options)) = (
-        app_state.deluge_client.take(),
-        app_state.deluge_config.take(),
+    if let (
+        Some(chad_torrent::TorrentClient::DelugeBackend(backend)),
+        Some(TorrentClientConfig::Deluge(mut options)),
+    ) = (
+        app_state.current_client.take(),
+        app_state.current_config.take(),
     ) {
         backend
             .connect(&daemon_id)
             .await
             .map_err(|e| TauriChadError::from(&*e))?;
         let mut download = download.lock().await;
-        download.add_client(&name, Box::new(backend));
+        download.add_client(&name, backend);
         options.daemon_id = Some(daemon_id);
-        let client_config = TorrentClientConfig {
-            backend: "deluge".into(),
-            options: serde_json::to_value(options)?,
-        };
         let mut config = config.lock().await;
-        config.insert_download_client(name, client_config);
+        config.insert_download_client(name, TorrentClientConfig::Deluge(options));
         Ok(config.save()?)
     } else {
         Err(TauriChadError::new(
@@ -423,8 +383,8 @@ async fn create_deluge_client(
     let download = download.lock().await;
     let client = download.deluge_connect(&options).await?;
     let mut app_state = app_state.lock().await;
-    app_state.deluge_client = Some(client);
-    app_state.deluge_config = Some(options);
+    app_state.current_client = Some(client.into());
+    app_state.current_config = Some(TorrentClientConfig::Deluge(options));
     Ok(())
 }
 
@@ -433,13 +393,16 @@ async fn list_deluge_hosts(
     app_state: tauri::State<'_, Mutex<AppState>>,
 ) -> Result<Vec<chad_torrent::backend::deluge::Host>, TauriChadError> {
     let app_state = app_state.lock().await;
-    let backend = app_state.deluge_client.as_ref().ok_or(TauriChadError::new(
-        "Failed to list deluge hosts: no active Web UI connection".into(),
-    ))?;
-    backend
-        .list_hosts()
-        .await
-        .map_err(|e| TauriChadError::from(&*e))
+    if let Some(chad_torrent::TorrentClient::DelugeBackend(backend)) = &app_state.current_client {
+        backend
+            .list_hosts()
+            .await
+            .map_err(|e| TauriChadError::from(&*e))
+    } else {
+        Err(TauriChadError::new(
+            "Failed to list deluge hosts: no active Web UI connection".into(),
+        ))
+    }
 }
 
 #[tauri::command]

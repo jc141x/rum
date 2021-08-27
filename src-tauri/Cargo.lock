@@ -37,6 +37,7 @@ dependencies = [
  "base64",
  "chad-torrent",
  "dirs 3.0.2",
+ "enum_dispatch",
  "futures",
  "postgrest",
  "reqwest",
@@ -346,12 +347,13 @@ checksum = "fd16c4719339c4530435d38e511904438d07cce7950afa3718a84ac36c10e89e"
 [[package]]
 name = "chad-torrent"
 version = "0.1.0"
-source = "git+https://gitlab.com/Gnurur/chad-torrent#26da046ffcf9f9bd88ba9d464acc1db774b1358f"
+source = "git+https://gitlab.com/Gnurur/chad-torrent#0f73c8e49bd6d300df5bbcc0414913e3ee0fdeab"
 dependencies = [
  "anyhow",
  "async-json-rpc",
  "async-trait",
  "deluge-rpc",
+ "enum_dispatch",
  "hyper",
  "qbittorrent",
  "serde",
@@ -894,6 +896,18 @@ version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4e40a16955681d469ab3da85aaa6b42ff656b3c67b52e1d8d3dd36afe97fd462"
 dependencies = [
+ "proc-macro2",
+ "quote 1.0.9",
+ "syn 1.0.75",
+]
+
+[[package]]
+name = "enum_dispatch"
+version = "0.3.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bd53b3fde38a39a06b2e66dc282f3e86191e53bd04cc499929c15742beae3df8"
+dependencies = [
+ "once_cell",
  "proc-macro2",
  "quote 1.0.9",
  "syn 1.0.75",

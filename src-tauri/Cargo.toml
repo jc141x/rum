@@ -27,6 +27,7 @@ anyhow = "1.0"
 base64 = "0.13"
 futures = "0.3"
 chad-torrent = { git = "https://gitlab.com/Gnurur/chad-torrent" }
+enum_dispatch = "0.3"
 
 [lib]
 name = "chad_launcher"

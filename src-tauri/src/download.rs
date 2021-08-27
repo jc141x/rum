@@ -1,8 +1,17 @@
-use crate::config::{Config, TorrentClientConfig, TorrentConfig};
+use crate::config::Config;
 use crate::util::ChadError;
-use chad_torrent::{DelugeBackend, QBittorrentBackend, Torrent, TorrentBackend};
+use chad_torrent::{DelugeBackend, QBittorrentBackend, TorrentClient};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "backend")]
+pub enum TorrentClientConfig {
+    #[serde(rename = "deluge")]
+    Deluge(DelugeConfig),
+    #[serde(rename = "qbittorrent")]
+    QBittorrent(QBittorrentConfig),
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DelugeConfig {
@@ -18,11 +27,9 @@ pub struct QBittorrentConfig {
     password: String,
 }
 
-pub type Backend = Box<dyn TorrentBackend + Send + Sync>;
-
 #[derive(Default)]
 pub struct DownloadManager {
-    clients: HashMap<String, Backend>,
+    clients: HashMap<String, TorrentClient>,
 }
 
 impl DownloadManager {
@@ -45,23 +52,20 @@ impl DownloadManager {
     ) -> Result<(), ChadError> {
         self.clients.insert(
             name.into(),
-            match config.backend.as_str() {
-                "deluge" => Ok(Box::new(
-                    self.deluge_connect(&serde_json::from_value(config.options.clone())?)
-                        .await?,
-                ) as Backend),
-                "qbittorrent" => Ok(Box::new(
-                    self.qbittorrent_connect(&serde_json::from_value(config.options.clone())?)
-                        .await?,
-                ) as Backend),
-                _ => Err(ChadError::Message("Invalid configuration".into())),
+            match config {
+                TorrentClientConfig::Deluge(options) => {
+                    self.deluge_connect(&options).await.map(|c| c.into())
+                }
+                TorrentClientConfig::QBittorrent(options) => {
+                    self.qbittorrent_connect(&options).await.map(|c| c.into())
+                }
             }?,
         );
         Ok(())
     }
 
-    pub fn add_client(&mut self, name: &str, client: Backend) {
-        self.clients.insert(name.into(), client);
+    pub fn add_client(&mut self, name: &str, client: impl Into<TorrentClient>) {
+        self.clients.insert(name.into(), client.into());
     }
 
     pub async fn deluge_connect(&self, config: &DelugeConfig) -> Result<DelugeBackend, ChadError> {
@@ -85,7 +89,7 @@ impl DownloadManager {
         self.clients.keys()
     }
 
-    pub fn client(&self, name: &str) -> Option<&Backend> {
+    pub fn client(&self, name: &str) -> Option<&TorrentClient> {
         self.clients.get(name)
     }
 }
