@@ -1,19 +1,8 @@
 <script>
   import { config } from '$lib/store';
   import { invoke } from '../../node_modules/@tauri-apps/api/tauri';
-  import {
-    Row,
-    Col,
-    TextField,
-    Button,
-    Divider,
-    Overlay,
-    Card,
-    CardTitle,
-    CardActions
-  } from 'svelte-materialify/src';
+  import { Row, Col, TextField, Button, Divider } from 'svelte-materialify/src';
 
-  let modal_active = false;
   let config_temp = {};
 
   const loadConfig = async () => {
@@ -30,7 +19,6 @@
     await invoke('set_config', { newConfig: config_temp });
     await invoke('save_config');
     await loadConfig();
-    modal_active = true;
   };
 
   $: console.log($config);
@@ -40,7 +28,7 @@
   <title>Chad Launcher - Settings</title>
 </svelte:head>
 
-<div>
+<div class="ma-10">
   <Row noGutters class="mb-2">
     <h6>General options</h6>
   </Row>
@@ -87,19 +75,4 @@
       <Button on:click={save}>Save</Button>
     </Col>
   </Row>
-
-  <Overlay opacity={0.5} active={modal_active}>
-    <Card>
-      <CardTitle>Settings saved!</CardTitle>
-      <CardActions>
-        <Button
-          on:click={() => {
-            modal_active = false;
-          }}
-        >
-          Ok
-        </Button>
-      </CardActions>
-    </Card>
-  </Overlay>
 </div>
