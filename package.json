@@ -19,6 +19,7 @@
     "prettier": "~2.2.1",
     "prettier-plugin-svelte": "^2.3.1",
     "sass": "^1.38.1",
+    "showdown": "^1.9.1",
     "svelte": "^3.42.3",
     "svelte-highlight": "^3.2.0",
     "svelte-materialify": "^0.3.11",
@@ -32,7 +33,6 @@
     "@tauri-apps/api": "^1.0.0-beta.8",
     "axios": "^0.21.1",
     "cookie": "^0.4.1",
-    "roboto-fontface-woff": "^0.8.0",
-    "showdown": "^1.9.1"
+    "roboto-fontface-woff": "^0.8.0"
   }
 }

@@ -16,29 +16,29 @@
 
 <script>
   import { onMount } from 'svelte';
-  import { invoke } from '../../node_modules/@tauri-apps/api/tauri';
+  import command from '$lib/command';
   import showdown from 'showdown';
   showdown.setFlavor('github');
   const converter = new showdown.Converter();
   onMount(async () => {
-    const text = await invoke('get_reqs_markdown');
+    const text = await command.misc('get_reqs_markdown');
     const html = converter.makeHtml(text);
-    const div = document.querySelector("#md");
+    const div = document.querySelector('#md');
     div.innerHTML = html;
-      div.querySelectorAll("h1").forEach(h => {
-          h.style.fontSize = "34px";
-          h.style.fontWeight = "bold";
-      });
-    div.querySelectorAll("h2").forEach(h => h.style.fontSize = "30px");
-    div.querySelectorAll("h3").forEach(h => h.style.fontSize = "22px");
-    div.querySelectorAll("h4").forEach(h => h.style.fontSize = "18px");
-    div.querySelectorAll("h5").forEach(h => h.style.fontSize = "16px");
-    div.querySelectorAll("h6").forEach(h => h.style.fontSize = "14px");
+    div.querySelectorAll('h1').forEach((h) => {
+      h.style.fontSize = '34px';
+      h.style.fontWeight = 'bold';
+    });
+    div.querySelectorAll('h2').forEach((h) => (h.style.fontSize = '30px'));
+    div.querySelectorAll('h3').forEach((h) => (h.style.fontSize = '22px'));
+    div.querySelectorAll('h4').forEach((h) => (h.style.fontSize = '18px'));
+    div.querySelectorAll('h5').forEach((h) => (h.style.fontSize = '16px'));
+    div.querySelectorAll('h6').forEach((h) => (h.style.fontSize = '14px'));
   });
 </script>
 
 <svelte:head>
-  <title>Docs</title>
+  <title>Chad Launcher - Documentation</title>
 </svelte:head>
 
-<div id="md" class="content"></div>
+<div id="md" class="content" />

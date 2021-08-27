@@ -9,4 +9,4 @@ export const selectedGenre = writable('');
 export const page = writable(1);
 export const mode = writable('grid');
 export const query = writable('');
-export const sidebarActive = writable(true);
+export const sidebarActive = writable(false);
