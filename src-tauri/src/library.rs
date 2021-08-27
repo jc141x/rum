@@ -133,7 +133,6 @@ impl LibraryFetcher {
     }
 
     pub fn load_games(&mut self, config: &Config) {
-        println!("{:#?}", &config);
         self.games = config
             // Iterate over all library paths
             .library_paths()

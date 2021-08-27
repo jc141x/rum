@@ -4,12 +4,12 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 
-#[derive(Serialize, Deserialize, Default)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct TorrentConfig {
     pub clients: HashMap<String, TorrentClientConfig>,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Config {
     pub data_path: PathBuf,
     pub library_paths: Vec<PathBuf>,
@@ -21,7 +21,7 @@ impl Default for Config {
     fn default() -> Self {
         Self {
             data_path: dirs::data_dir().unwrap().join("chad_launcher"),
-            library_paths: vec![dirs::home_dir().unwrap().join("Games/chad_launcher")],
+            library_paths: vec![],
             terminal: "alacritty".into(),
             torrent: TorrentConfig::default(),
         }
