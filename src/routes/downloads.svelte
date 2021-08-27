@@ -4,12 +4,18 @@
 
   let downloads = [];
 
-  const init_downloads = async () => {
-    await command.download('init_clients');
+  const updateDownloads = async () => {
     downloads = await command.download('list_all_downloads');
   };
 
-  init_downloads();
+  const initDownloads = async () => {
+    await command.download('init_clients');
+    await updateDownloads();
+  };
+
+  initDownloads();
+
+  window.setInterval(updateDownloads, 1000);
 </script>
 
 <svelte:head>
@@ -17,5 +23,5 @@
 </svelte:head>
 
 <div class="ma-10">
-  <DownloadsList {downloads} />
+  <DownloadsList {downloads} on:update={updateDownloads} />
 </div>

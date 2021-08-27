@@ -44,7 +44,7 @@ pub async fn download_list_downloads(
 ) -> Result<Vec<Torrent>, TauriChadError> {
     let download = download.lock().await;
     let backend = get_backend(client.clone(), &*download)?;
-    let list = backend
+    let mut list = backend
         .list(Some("chad"))
         .await
         .map_err(|e| TauriChadError::from(&*e))?
@@ -53,7 +53,8 @@ pub async fn download_list_downloads(
             client: client.clone(),
             torrent: t,
         })
-        .collect();
+        .collect::<Vec<_>>();
+    list.sort_by_key(|t| t.name.clone());
     Ok(list)
 }
 
@@ -75,9 +76,10 @@ pub async fn download_list_all_downloads(
                 client: client.clone(),
                 torrent: t,
             })
-            .collect();
+            .collect::<Vec<_>>();
         result.append(&mut list);
     }
+    result.sort_by_key(|t| t.name.clone());
 
     Ok(result)
 }
