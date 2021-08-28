@@ -188,6 +188,19 @@ pub async fn download_add_qbittorrent_client(
 }
 
 #[tauri::command]
+pub async fn download_remove_client(
+    name: String,
+    config: tauri::State<'_, Mutex<Config>>,
+    download: tauri::State<'_, Mutex<DownloadManager>>,
+) -> Result<(), TauriChadError> {
+    let mut download = download.lock().await;
+    download.remove_client(&name);
+    let mut config = config.lock().await;
+    config.remove_download_client(&name);
+    Ok(config.save()?)
+}
+
+#[tauri::command]
 pub async fn download_deluge_connect_daemon(
     name: String,
     daemon_id: String,

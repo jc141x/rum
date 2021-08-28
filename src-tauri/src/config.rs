@@ -91,4 +91,8 @@ impl Config {
     ) {
         self.torrent.clients.insert(name.into(), client_config);
     }
+
+    pub fn remove_download_client(&mut self, name: &str) {
+        self.torrent.clients.remove(name);
+    }
 }

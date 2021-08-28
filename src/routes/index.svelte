@@ -78,6 +78,11 @@
 </svelte:head>
 
 <Container fluid>
+  Welcome to Chad Launcher! <br /><br />
+
+  Start by going opening the menu and going to the settings page to configure library paths and
+  torrent clients.
+  <!--
   <div class="elevation-4 pa-4 rounded-lg">
     <h4 class="text-h4">Play</h4>
     <p class="text-subtitle-1">Recently played games here</p>
@@ -116,5 +121,6 @@
         <Icon path={mdiChevronRight} />
       </span>
     </SlideGroup>
-  </div>
+    </div>
+    -->
 </Container>

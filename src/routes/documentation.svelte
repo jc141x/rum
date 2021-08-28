@@ -41,4 +41,4 @@
   <title>Chad Launcher - Documentation</title>
 </svelte:head>
 
-<div id="md" class="content" />
+<div id="md" class="content ma-5" />

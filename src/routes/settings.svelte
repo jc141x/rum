@@ -2,6 +2,8 @@
   import { config } from '$lib/store';
   import command from '$lib/command';
   import { Row, Col, TextField, Button, Divider } from 'svelte-materialify/src';
+  import { onMount } from 'svelte';
+  import AddTorrentClientModal from '$lib/AddTorrentClientModal.svelte';
 
   let config_temp = {};
 
@@ -21,7 +23,29 @@
     await loadConfig();
   };
 
-  $: console.log($config);
+  $: config_clients = config_temp?.torrent?.clients;
+  let addClientModalActive = false;
+  const addClient = () => {
+    addClientModalActive = true;
+  };
+
+  const removeClient = async (name) => {
+    await command.download('remove_client', { name });
+    await loadConfig();
+  };
+
+  const handleModalClose = async () => {
+    addClientModalActive = false;
+    await loadConfig();
+  };
+
+  /*
+  let active_clients = [];
+
+  onMount(async () => {
+    active_clients = await command.download('list_clients');
+  });
+*/
 </script>
 
 <svelte:head>
@@ -56,7 +80,7 @@
         <Col>
           <TextField bind:value={path} />
         </Col>
-        <Col>
+        <Col sm={2} class="ml-5">
           <Button on:click={() => removePath(path)}>Remove</Button>
         </Col>
       </Row>
@@ -68,6 +92,29 @@
     </Row>
   {/if}
   <Row>
+    <Divider class="mt-4 mb-4" />
+  </Row>
+  <Row noGutters class="mb-2">
+    <h6>Torrent Clients</h6>
+  </Row>
+  {#if config_clients}
+    {#each Object.entries(config_clients) as [name, config]}
+      <Row noGutters class="mb-2">
+        <Col>
+          <h8>{name}</h8>
+        </Col>
+        <Col sm={2}>
+          <Button on:click={() => removeClient(name)}>Remove</Button>
+        </Col>
+      </Row>
+    {/each}
+  {/if}
+  <Row noGutters>
+    <Col>
+      <Button on:click={addClient}>Add client</Button>
+    </Col>
+  </Row>
+  <Row>
     <Divider class="mt-4" />
   </Row>
   <Row>
@@ -75,4 +122,7 @@
       <Button on:click={save}>Save</Button>
     </Col>
   </Row>
+  {#if addClientModalActive}
+    <AddTorrentClientModal on:close={handleModalClose} />
+  {/if}
 </div>

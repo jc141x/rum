@@ -347,7 +347,7 @@ checksum = "fd16c4719339c4530435d38e511904438d07cce7950afa3718a84ac36c10e89e"
 [[package]]
 name = "chad-torrent"
 version = "0.1.0"
-source = "git+https://gitlab.com/Gnurur/chad-torrent#4b24529a8959129032ac3cf8727140c2e634a290"
+source = "git+https://gitlab.com/Gnurur/chad-torrent#a80cebc0ce557bcf91454d798397b3043884d4c4"
 dependencies = [
  "anyhow",
  "async-json-rpc",

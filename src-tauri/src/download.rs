@@ -93,6 +93,10 @@ impl DownloadManager {
         self.clients.insert(name.into(), client.into());
     }
 
+    pub fn remove_client(&mut self, name: &str) {
+        self.clients.remove(name);
+    }
+
     pub async fn deluge_connect(&self, config: &DelugeConfig) -> Result<DelugeBackend, ChadError> {
         let backend = DelugeBackend::new(&config.web_address, &config.web_password).await?;
 

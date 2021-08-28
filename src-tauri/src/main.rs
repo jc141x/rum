@@ -64,6 +64,7 @@ fn main() {
             command::download::download_create_deluge_client,
             command::download::download_deluge_connect_daemon,
             command::download::download_list_deluge_hosts,
+            command::download::download_remove_client,
             // Misc
             command::misc_get_reqs_markdown,
             command::misc_open_magnet,
