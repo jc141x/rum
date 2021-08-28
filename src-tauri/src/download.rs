@@ -61,7 +61,7 @@ impl DownloadManager {
 
     pub async fn load_config(&mut self, config: &Config) -> Result<(), ChadError> {
         for (name, c) in &config.torrent.clients {
-            self.load_client(&name, &c).await?;
+            self.load_client(&name, &c).await.ok();
         }
 
         Ok(())
@@ -72,17 +72,20 @@ impl DownloadManager {
         name: &str,
         config: &TorrentClientConfig,
     ) -> Result<(), ChadError> {
-        self.clients.insert(
-            name.into(),
-            match config {
-                TorrentClientConfig::Deluge(options) => {
-                    self.deluge_connect(&options).await.map(|c| c.into())
-                }
-                TorrentClientConfig::QBittorrent(options) => {
-                    self.qbittorrent_connect(&options).await.map(|c| c.into())
-                }
-            }?,
-        );
+        if !self.clients.contains_key(name) {
+            println!("Connecting to {:#?}", &name);
+            self.clients.insert(
+                name.into(),
+                match config {
+                    TorrentClientConfig::Deluge(options) => {
+                        self.deluge_connect(&options).await.map(|c| c.into())
+                    }
+                    TorrentClientConfig::QBittorrent(options) => {
+                        self.qbittorrent_connect(&options).await.map(|c| c.into())
+                    }
+                }?,
+            );
+        }
         Ok(())
     }
 

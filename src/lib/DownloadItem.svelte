@@ -15,7 +15,7 @@
   import GameCard from './GameCard.svelte';
   import { mdiPause, mdiPlay } from '@mdi/js';
   import command from '$lib/command';
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, onMount } from 'svelte';
   const dispatch = createEventDispatcher();
 
   export let torrent;
@@ -32,19 +32,24 @@
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   };
 
-  let buttonIcon = mdiPlay;
+  let buttonIcon = null;
 
-  switch (torrent.state) {
-    case 'Paused':
-      buttonIcon = mdiPlay;
-    case 'Active':
-      buttonIcon = mdiPause;
-    default:
-      buttonIcon = mdiPlay;
+  $: {
+    switch (torrent.state) {
+      case 'Paused':
+        buttonIcon = mdiPlay;
+        break;
+      case 'Active':
+        buttonIcon = mdiPause;
+        break;
+      default:
+        buttonIcon = mdiPlay;
+        break;
+    }
   }
 
   const handleButtonClick = () => {
-    dispatch('button-click');
+    dispatch('toggle-pause');
   };
 </script>
 
@@ -58,6 +63,9 @@
     </Col>
     <Col class="d-flex align-center">
       <ProgressLinear value={torrent.progress * 100} />
+    </Col>
+    <Col class="d-flex align-center" sm={2} md={2} lg={1}>
+      {(torrent.progress * 100).toFixed(2)}%
     </Col>
     <Col class="d-flex align-center" sm={2} md={2} lg={1}>
       {formatBytes(torrent.download_speed)}/s

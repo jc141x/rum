@@ -2,6 +2,7 @@ import { invoke } from '../../node_modules/@tauri-apps/api/tauri';
 
 class Command {
   async run(mod, command, ...args) {
+    console.debug(`Invoke command ${mod}.${command} with ${JSON.stringify([...args])}`);
     return await invoke(`${mod}_${command}`, ...args);
   }
 

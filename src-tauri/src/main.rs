@@ -55,6 +55,7 @@ fn main() {
             command::download::download_list_downloads,
             command::download::download_list_all_downloads,
             command::download::download_add_magnet,
+            command::download::download_add_game,
             command::download::download_pause,
             command::download::download_resume,
             command::download::download_remove,

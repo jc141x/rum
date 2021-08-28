@@ -1,6 +1,7 @@
 use crate::command::{AppState, TauriChadError};
 use chad_launcher::{
     config::Config,
+    database::get_magnet,
     download::{DownloadManager, Torrent, TorrentClientConfig},
 };
 use chad_torrent::TorrentBackend;
@@ -95,6 +96,21 @@ pub async fn download_add_magnet(
     let backend = get_backend(client, &*download)?;
     backend
         .add_magnet(&magnet, options)
+        .await
+        .map_err(|e| TauriChadError::from(&*e))
+}
+
+#[tauri::command]
+pub async fn download_add_game(
+    client: String,
+    game: chad_launcher::database::Game,
+    options: chad_torrent::Options,
+    download: tauri::State<'_, Mutex<DownloadManager>>,
+) -> Result<String, TauriChadError> {
+    let download = download.lock().await;
+    let backend = get_backend(client, &*download)?;
+    backend
+        .add_magnet(&get_magnet(&game), options)
         .await
         .map_err(|e| TauriChadError::from(&*e))
 }

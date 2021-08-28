@@ -2,6 +2,9 @@
   import command from '$lib/command';
   import { games, page, query, selectedGenre } from '$lib/store.js';
   import GameCard from './GameCard.svelte';
+  import DownloadGameModal from '$lib/DownloadGameModal.svelte';
+
+  let downloadGame = null;
 
   $: {
     let opts = { page_number: $page - 1, page_size: 20 };
@@ -20,10 +23,16 @@
   }
 </script>
 
-<div class="grid">
-  {#each $games as game (game.id)}
-    <GameCard {game} />
-  {/each}
+<div>
+  <div class="grid">
+    {#each $games as game (game.id)}
+      <GameCard {game} on:download={() => (downloadGame = game)} />
+    {/each}
+  </div>
+
+  {#if downloadGame !== null}
+    <DownloadGameModal game={downloadGame} on:close={() => (downloadGame = null)} />
+  {/if}
 </div>
 
 <style>

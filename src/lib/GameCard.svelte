@@ -5,6 +5,8 @@
   import banner from './default.png';
   import { Icon, Button } from 'svelte-materialify/src';
   import { mdiDownload } from '@mdi/js';
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
 
   export let game;
 
@@ -18,8 +20,9 @@
     (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
   );
 
-  const handleMagnet = () => {
-    command.misc('open_magnet', { game });
+  const handleDownload = () => {
+    //command.misc('open_magnet', { game });
+    dispatch('download');
   };
 </script>
 
@@ -31,7 +34,7 @@
   badges={game.genres}
   dangerBadges={game.nsfw ? ['18+'] : []}
 >
-  <Button icon slot="buttons" on:click={() => handleMagnet()}>
+  <Button icon slot="buttons" on:click={() => handleDownload()}>
     <Icon path={mdiDownload} />
   </Button>
 </Card>

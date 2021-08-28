@@ -24,7 +24,7 @@
 <div>
   {#each downloads as torrent}
     <Row class="mb-5">
-      <DownloadItem {torrent} on:button-click={() => handleButtonClick(torrent)} />
+      <DownloadItem {torrent} on:toggle-pause={() => handleButtonClick(torrent)} />
     </Row>
   {/each}
 </div>
