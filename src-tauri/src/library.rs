@@ -14,12 +14,18 @@ pub struct Game {
     id: usize,
     name: String,
     executable_dir: PathBuf,
-    scripts: Vec<String>,
+    scripts: Vec<Script>,
     banner_path: Option<PathBuf>,
     banner: Option<String>,
     data_path: PathBuf,
     log_file: PathBuf,
     config_file: PathBuf,
+}
+
+#[derive(Serialize, Clone, Debug)]
+pub struct Script {
+    pub name: String,
+    pub script: String,
 }
 
 fn load_banner(banner_path: &Path) -> Option<String> {
@@ -29,7 +35,28 @@ fn load_banner(banner_path: &Path) -> Option<String> {
         .map(|b64| format!("data:image/png;base64,{}", b64))
 }
 
-fn find_scripts(executable_dir: &Path) -> Result<Vec<String>, ChadError> {
+fn prettify_slug(slug: &str) -> String {
+    let mut name = slug.replace(".", " ");
+    name = name.replace("_", " ");
+    name = name.replace("-", " ");
+    name = titlecase(&name).trim().into();
+    name
+}
+
+fn script_name(script_file: &str) -> String {
+    if script_file == "start" || script_file == "start.sh" {
+        String::from("Start")
+    } else {
+        prettify_slug(
+            script_file
+                .strip_prefix("start")
+                .map(|s| s.strip_suffix("sh").unwrap_or(s))
+                .unwrap_or(script_file),
+        )
+    }
+}
+
+fn find_scripts(executable_dir: &Path) -> Result<Vec<Script>, ChadError> {
     Ok(executable_dir
         // Try to read the directory
         .read_dir()?
@@ -56,7 +83,11 @@ fn find_scripts(executable_dir: &Path) -> Result<Vec<String>, ChadError> {
                 .unwrap_or(false)
         })
         // Map DirEntry to String
-        .filter_map(|d| d.file_name().to_str().map(|s| s.into()))
+        .filter_map(|d| d.file_name().to_str().map(|s| s.to_string()))
+        .map(|script| Script {
+            name: script_name(&script),
+            script,
+        })
         // Collect into a Vec
         .collect())
 }
@@ -64,11 +95,7 @@ fn find_scripts(executable_dir: &Path) -> Result<Vec<String>, ChadError> {
 impl Game {
     pub fn new(config: &Config, id: usize, executable_dir: PathBuf) -> Self {
         let slug: String = executable_dir.file_name().unwrap().to_str().unwrap().into();
-        let mut name = slug.clone();
-        name = name.replace(".", " ");
-        name = name.replace("_", " ");
-        name = name.replace("-", " ");
-        name = titlecase(&name).trim().into();
+        let name = prettify_slug(&slug);
 
         let data_path = config.data_path().join("library").join(slug);
         let _ = std::fs::create_dir_all(&data_path);
