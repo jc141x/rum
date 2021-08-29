@@ -1,5 +1,4 @@
-use crate::config::Config;
-use crate::util::ChadError;
+use crate::{config::Config, util::ChadError};
 use chad_torrent::{DelugeBackend, QBittorrentBackend, TorrentClient};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;

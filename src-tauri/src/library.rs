@@ -1,9 +1,9 @@
 use crate::{config::Config, database::DatabaseFetcher, util::ChadError};
 use futures::future::join_all;
 use serde::Serialize;
-use std::os::unix::fs::PermissionsExt;
 use std::{
     io::Read,
+    os::unix::fs::PermissionsExt,
     path::{Path, PathBuf},
     process::{Command, Stdio},
 };
@@ -45,6 +45,14 @@ fn find_scripts(executable_dir: &Path) -> Result<Vec<String>, ChadError> {
         .filter(|e| {
             std::fs::metadata(e.path())
                 .map(|m| m.permissions().mode() & 0o111 != 0)
+                .unwrap_or(false)
+        })
+        // Find start scripts
+        .filter(|e| {
+            e.path()
+                .file_name()
+                .and_then(|name| name.to_str())
+                .map(|name_str| name_str.starts_with("start"))
                 .unwrap_or(false)
         })
         // Map DirEntry to String

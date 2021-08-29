@@ -1,8 +1,9 @@
-use crate::download::TorrentClientConfig;
-use crate::util::ChadError;
+use crate::{download::TorrentClientConfig, util::ChadError};
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
-use std::path::{Path, PathBuf};
+use std::{
+    collections::HashMap,
+    path::{Path, PathBuf},
+};
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct TorrentConfig {

@@ -1,7 +1,9 @@
 use super::TauriChadError;
-use chad_launcher::config::Config;
-use chad_launcher::database::DatabaseFetcher;
-use chad_launcher::library::{self, LibraryFetcher};
+use chad_launcher::{
+    config::Config,
+    database::DatabaseFetcher,
+    library::{self, LibraryFetcher},
+};
 use std::{
     io::{BufRead, BufReader, Read},
     process::{Command, Stdio},

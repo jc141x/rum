@@ -3,8 +3,10 @@ pub mod database;
 pub mod download;
 pub mod library;
 
-use chad_launcher::database::{get_magnet, Game};
-use chad_launcher::download::TorrentClientConfig;
+use chad_launcher::{
+    database::{get_magnet, Game},
+    download::TorrentClientConfig,
+};
 use serde::Serialize;
 use std::process::Command;
 
