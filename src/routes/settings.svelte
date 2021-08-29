@@ -2,25 +2,16 @@
   import { config } from '$lib/store';
   import command from '$lib/command';
   import { Row, Col, TextField, Button, Divider } from 'svelte-materialify/src';
-  import { onMount } from 'svelte';
   import AddTorrentClientModal from '$lib/AddTorrentClientModal.svelte';
 
-  let config_temp = {};
-
-  const loadConfig = async () => {
-    config_temp = await command.config('get');
-    $config = config_temp;
-  };
-  loadConfig().then(() => console.log(config_temp));
+  $: config_temp = $config;
 
   const addPath = () => (config_temp.library_paths = [...config_temp.library_paths, '']);
   const removePath = (path) =>
     (config_temp.library_paths = config_temp.library_paths.filter((p) => p != path));
 
   const save = async () => {
-    await command.config('set', { newConfig: config_temp });
-    await command.config('save');
-    await loadConfig();
+    config.set(config_temp);
   };
 
   $: config_clients = config_temp?.torrent?.clients;
@@ -31,12 +22,12 @@
 
   const removeClient = async (name) => {
     await command.download('remove_client', { name });
-    await loadConfig();
+    await config.load();
   };
 
   const handleModalClose = async () => {
     addClientModalActive = false;
-    await loadConfig();
+    await config.load();
   };
 
   /*
