@@ -1,6 +1,6 @@
 pkgname='chad_launcher-git'
 _pkgname='chad_launcher'
-pkgver=r83.2c4e917
+pkgver=r85.8017424
 pkgrel=1
 pkgdesc='GNU/LINUX GAMING UNLEASHED!'
 arch=('x86_64')
@@ -27,8 +27,8 @@ build() {
 package() {
     cd "$srcdir/$_pkgname"
     install -Dm0755 -t "$pkgdir/usr/bin/" "src-tauri/target/release/chad-launcher"
-    install -Dm644 ./src/chad_launcher/chad_launcher.desktop "$pkgdir/usr/share/applications/chad-launcher.desktop"
-    install -Dm644 ./src/chad_launcher/icon.svg "$pkgdir/usr/share/pixmaps/chad-launcher.svg"
+    install -Dm644 ./chad_launcher.desktop "$pkgdir/usr/share/applications/chad-launcher.desktop"
+    install -Dm644 ./icon.svg "$pkgdir/usr/share/pixmaps/chad-launcher.svg"
 
 }
 
