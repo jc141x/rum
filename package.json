@@ -33,6 +33,7 @@
     "@tauri-apps/api": "^1.0.0-beta.8",
     "axios": "^0.21.1",
     "cookie": "^0.4.1",
-    "roboto-fontface-woff": "^0.8.0"
+    "roboto-fontface-woff": "^0.8.0",
+    "svelte-asyncable": "^2.0.4"
   }
 }

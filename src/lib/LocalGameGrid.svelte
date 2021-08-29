@@ -1,18 +1,19 @@
 <script>
-  import command from '$lib/command';
-  import { localGames, config } from '$lib/store.js';
+  import { localGames } from '$lib/store.js';
   import LocalGameCard from './LocalGameCard.svelte';
-
-  config.subscribe(async () => {
-    await command.library('reload_games');
-    $localGames = await command.library('get_games');
-  });
+  import { ProgressCircular } from 'svelte-materialify/src';
 </script>
 
 <div class="grid">
-  {#each $localGames as game (game.id)}
-    <LocalGameCard {game} />
-  {/each}
+  {#await $localGames}
+    <ProgressCircular indeterminate color="primary" />
+  {:then games}
+    {#each games as game (game.id)}
+      <LocalGameCard {game} />
+    {/each}
+  {:catch error}
+    <p style="color: red">{error.message}</p>
+  {/await}
 </div>
 
 <style>

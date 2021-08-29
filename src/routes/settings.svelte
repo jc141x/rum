@@ -4,14 +4,17 @@
   import { Row, Col, TextField, Button, Divider } from 'svelte-materialify/src';
   import AddTorrentClientModal from '$lib/AddTorrentClientModal.svelte';
 
-  $: config_temp = $config;
+  let config_temp = {};
+  config.subscribe(async (config) => {
+    config_temp = JSON.parse(JSON.stringify(await config));
+  });
 
   const addPath = () => (config_temp.library_paths = [...config_temp.library_paths, '']);
   const removePath = (path) =>
     (config_temp.library_paths = config_temp.library_paths.filter((p) => p != path));
 
   const save = async () => {
-    config.set(config_temp);
+    await config.set(config_temp);
   };
 
   $: config_clients = config_temp?.torrent?.clients;

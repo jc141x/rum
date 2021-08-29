@@ -1,43 +1,42 @@
 import command from '$lib/command';
 import { writable, derived } from 'svelte/store';
+import { asyncable } from 'svelte-asyncable';
 
-function configStore() {
-  const store = writable({});
+export const config = asyncable(
+  async () => await command.config('get'),
+  async (config) => {
+    await command.config('set', { newConfig: config });
+    await command.config('save');
+    // TODO: Maybe the backend should take care of this automatically?
+    await command.library('reload_games');
+  }
+);
 
-  const load = async () => {
-    store.set(await command.config('get'));
-  };
+export const localGames = asyncable(async () => await command.library('get_games'), null);
 
-  const setup = async () => {
-    await load();
-    store.subscribe(async (config) => {
-      if (config != null && config != {}) {
-        await command.config('set', { newConfig: config });
-        await command.config('save');
-      }
-    });
-  };
-
-  return {
-    ...store,
-    load,
-    setup
-  };
-}
-
-export const config = configStore();
-export const games = writable([]);
-export const localGames = writable([]);
-export const genres = writable([]);
-export const selectedGame = writable(0);
 export const selectedGenre = writable('');
 export const page = writable(1);
-export const mode = writable('grid');
 export const query = writable('');
-export const sidebarActive = writable(false);
 
-// Called when the window has loaded
-// Tauri commands can only be invoked after the window has loaded
-export const load = async () => {
-  await config.setup();
-};
+export const databaseGames = asyncable(
+  async ($selectedGenre, $page, $query) => {
+    let opts = { page_number: $page - 1, page_size: 20 };
+
+    if ($query != '') {
+      opts.search = $query;
+    }
+
+    if ($selectedGenre != '') {
+      opts.filter_genre = $selectedGenre;
+    }
+
+    return await command.database('get_games', { opts });
+  },
+  null,
+  [selectedGenre, page, query]
+);
+
+export const mode = writable('grid');
+export const genres = writable([]);
+export const selectedGame = writable(0);
+export const sidebarActive = writable(false);
