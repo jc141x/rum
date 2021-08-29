@@ -56,6 +56,26 @@ fn script_name(script_file: &str) -> String {
     }
 }
 
+fn is_start_script(e: &std::fs::DirEntry) -> bool {
+    // Only check files
+    let is_file = e
+        .file_type()
+        .map(|f| f.is_file() || f.is_symlink())
+        .unwrap_or(false);
+    // Find executable files
+    let is_executable = std::fs::metadata(e.path())
+        .map(|m| m.permissions().mode() & 0o111 != 0)
+        .unwrap_or(false);
+    // Find start scripts
+    let is_start = e
+        .path()
+        .file_name()
+        .and_then(|name| name.to_str())
+        .map(|name_str| name_str.starts_with("start"))
+        .unwrap_or(false);
+    is_file && is_executable && is_start
+}
+
 fn find_scripts(executable_dir: &Path) -> Result<Vec<Script>, ChadError> {
     Ok(executable_dir
         // Try to read the directory
@@ -63,25 +83,7 @@ fn find_scripts(executable_dir: &Path) -> Result<Vec<Script>, ChadError> {
         // Filter out errors
         .filter_map(|e| e.ok())
         // Only check files
-        .filter(|e| {
-            e.file_type()
-                .map(|f| f.is_file() || f.is_symlink())
-                .unwrap_or(false)
-        })
-        // Find executable files
-        .filter(|e| {
-            std::fs::metadata(e.path())
-                .map(|m| m.permissions().mode() & 0o111 != 0)
-                .unwrap_or(false)
-        })
-        // Find start scripts
-        .filter(|e| {
-            e.path()
-                .file_name()
-                .and_then(|name| name.to_str())
-                .map(|name_str| name_str.starts_with("start"))
-                .unwrap_or(false)
-        })
+        .filter(|e| is_start_script(e))
         // Map DirEntry to String
         .filter_map(|d| d.file_name().to_str().map(|s| s.to_string()))
         .map(|script| Script {
@@ -180,7 +182,28 @@ impl LibraryFetcher {
                             // Filter out any errors
                             .filter_map(|e| e.ok())
                             // Find all directories
-                            .filter(|e| e.file_type().map(|t| t.is_dir()).unwrap_or(false)),
+                            .filter(|e| e.file_type().map(|t| t.is_dir()).unwrap_or(false))
+                            // Filter out ignored directories
+                            .filter(|e| {
+                                e.path()
+                                    .read_dir()
+                                    .map(|d| {
+                                        d.filter_map(|f| f.ok()).all(|f| {
+                                            f.path()
+                                                .file_name()
+                                                .map(|n| n != ".ignore" && n != ".chadignore")
+                                                .unwrap_or(true)
+                                        })
+                                    })
+                                    .unwrap_or(false)
+                            })
+                            // Find start scripts
+                            .filter(|e| {
+                                e.path()
+                                    .read_dir()
+                                    .map(|d| d.filter_map(|f| f.ok()).any(|f| is_start_script(&f)))
+                                    .unwrap_or(false)
+                            }),
                     ) as Box<dyn Iterator<Item = std::fs::DirEntry>>
                 } else {
                     Box::new(std::iter::empty())
