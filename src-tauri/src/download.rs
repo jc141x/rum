@@ -73,7 +73,6 @@ impl DownloadManager {
         config: &TorrentClientConfig,
     ) -> Result<(), ChadError> {
         if !self.clients.contains_key(name) {
-            println!("Connecting to {:#?}", &name);
             self.clients.insert(
                 name.into(),
                 match config {
