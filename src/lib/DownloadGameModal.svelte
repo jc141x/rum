@@ -46,10 +46,10 @@
       {:then clients}
         <CardTitle>Download {game.name}</CardTitle>
         <CardText class="ml-5">
-          <Row>
+          <Row class="mb-5">
             <Select items={clients} bind:value={selectedClient}>Torrent client</Select>
           </Row>
-          <Row>
+          <Row class="mb-5">
             <TextField style="max-width: 77%" bind:value={savePath}>Save path</TextField>
           </Row>
         </CardText>

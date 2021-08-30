@@ -36,6 +36,7 @@
     <form
       on:submit={(e) => {
         e.preventDefault();
+        $page = 1;
         $query = searchValue;
       }}
     >
