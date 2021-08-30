@@ -2,21 +2,21 @@
   import command from '$lib/command';
   import DownloadsList from '$lib/DownloadsList.svelte';
   import { onMount, onDestroy } from 'svelte';
-  import { Row, Col, Button, Icon } from 'svelte-materialify/src';
+  import { downloads } from '$lib/store';
+  import { ProgressCircular } from 'svelte-materialify/src';
   import { mdiRefresh } from '@mdi/js';
   import DownloadItem from '$lib/DownloadItem.svelte';
 
-  let downloads = [];
   let interval;
+  let list = [];
 
-  const updateDownloads = async () => {
-    downloads = await command.download('list_all_downloads');
-  };
+  downloads.subscribe(async ($downloads) => {
+    list = await $downloads;
+  });
 
   onMount(async () => {
     await command.download('init_clients');
-    await updateDownloads();
-    interval = window.setInterval(updateDownloads, 1000);
+    interval = window.setInterval(downloads.reload, 1000);
   });
 
   onDestroy(() => {
@@ -38,5 +38,5 @@
     </Col>
   </Row>
     -->
-  <DownloadsList {downloads} on:update={updateDownloads} />
+  <DownloadsList downloads={list} on:update={downloads.reload} />
 </div>

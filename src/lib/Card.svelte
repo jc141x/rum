@@ -4,9 +4,6 @@
     CardTitle,
     CardSubtitle,
     CardActions,
-    Button,
-    Row,
-    Col,
     CardText,
     Chip
   } from 'svelte-materialify/src';
@@ -17,7 +14,6 @@
   export let dangerBadges = [];
   export let description = '';
   export let banner = '';
-  export let height = 250;
 </script>
 
 <div>
@@ -83,22 +79,9 @@
 </style>
 -->
 <style>
-  .card {
-    flex-basis: 350px;
-    max-width: 350px;
-  }
-
   img {
     width: 100%;
     height: 100%;
-  }
-
-  .title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
   }
 
   .description {

@@ -14,7 +14,7 @@
   };
 </script>
 
-<Card title={game.name} banner={banner_src} height={150}>
+<Card title={game.name} banner={banner_src}>
   <div slot="buttons">
     {#if game.scripts.length > 1}
       <Menu>

@@ -36,7 +36,32 @@ export const databaseGames = asyncable(
   [selectedGenre, page, query]
 );
 
+export const genres = asyncable(async () => await command.database('get_genres'), null);
+
+export const downloads = (() => {
+  const get = async () => await command.download('list_all_downloads');
+
+  const reloadTrigger = writable(false);
+  const store = asyncable(get, null, [reloadTrigger]);
+
+  // Forgive me for this minor hack, it works
+  const reload = () => reloadTrigger.update((value) => !value);
+
+  return {
+    ...store,
+    reload
+  };
+})();
+
+export const torrentClients = asyncable(async () => {
+  await command.download('init_clients');
+  return await command.download('list_clients');
+}, null);
+
 export const mode = writable('grid');
-export const genres = writable([]);
 export const selectedGame = writable(0);
 export const sidebarActive = writable(false);
+
+export const load = async () => {
+  await Promise.all([command.library('reload_games'), command.download('init_clients')]);
+};

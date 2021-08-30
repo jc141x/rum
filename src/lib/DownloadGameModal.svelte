@@ -3,28 +3,24 @@
     Overlay,
     Card,
     CardTitle,
-    CardSubtitle,
     CardText,
     CardActions,
     Button,
     Select,
     TextField,
-    Row
+    Row,
+    ProgressCircular
   } from 'svelte-materialify/src';
   import command from '$lib/command';
+  import { torrentClients } from '$lib/store';
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
 
   export let game;
 
-  let clients = [];
   let selectedClient = null;
   let savePath = '';
   let doneMessage = null;
-
-  const load = async () => {
-    clients = await command.download('list_clients');
-  };
 
   const handleDownload = () => {
     command
@@ -40,28 +36,30 @@
       .then(() => (doneMessage = 'Success!'))
       .catch((e) => (doneMessage = `Failed to add download: ${e}`));
   };
-
-  $: {
-    load();
-  }
 </script>
 
 <Overlay active={true}>
   <Card>
     {#if doneMessage === null}
-      <CardTitle>Download {game.name}</CardTitle>
-      <CardText class="ml-5">
-        <Row>
-          <Select items={clients} bind:value={selectedClient}>Torrent client</Select>
-        </Row>
-        <Row>
-          <TextField style="max-width: 77%" bind:value={savePath}>Save path</TextField>
-        </Row>
-      </CardText>
-      <CardActions>
-        <Button class="mr-5" on:click={() => dispatch('close')}>Close</Button>
-        <Button on:click={handleDownload}>Download</Button>
-      </CardActions>
+      {#await $torrentClients}
+        <ProgressCircular indeterminate color="primary" />
+      {:then clients}
+        <CardTitle>Download {game.name}</CardTitle>
+        <CardText class="ml-5">
+          <Row>
+            <Select items={clients} bind:value={selectedClient}>Torrent client</Select>
+          </Row>
+          <Row>
+            <TextField style="max-width: 77%" bind:value={savePath}>Save path</TextField>
+          </Row>
+        </CardText>
+        <CardActions>
+          <Button class="mr-5" on:click={() => dispatch('close')}>Close</Button>
+          <Button on:click={handleDownload}>Download</Button>
+        </CardActions>
+      {:catch error}
+        <p style="color: red">{error.message}</p>
+      {/await}
     {:else}
       <CardTitle>Download {game.name}</CardTitle>
       <CardText class="ml-5">

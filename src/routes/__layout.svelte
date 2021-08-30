@@ -12,9 +12,12 @@
   import { MaterialApp, Button, Window, WindowItem } from 'svelte-materialify/src';
   import Settings from './settings.svelte';
   import command from '$lib/command';
+  import { load } from '$lib/store';
 
   let theme = 'dark';
   let value = 0;
+
+  load();
 </script>
 
 <MaterialApp {theme}>

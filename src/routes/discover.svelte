@@ -2,33 +2,20 @@
   import { genres, selectedGenre, query, page } from '$lib/store.js';
   import GameGrid from '$lib/GameGrid.svelte';
   import Pagination from '$lib/Pagination.svelte';
-  import command from '$lib/command';
   import { Container, Select, TextField, Row, Col } from 'svelte-materialify/src';
 
   let searchValue = '';
 
-  $: command
-    .database('get_genres')
-    .then((g) => ($genres = g))
-    .catch((err) => console.error(err));
-
-  let value = 'Any';
   let genreItems = [];
 
-  $: {
-    if ($genres) {
-      genreItems = ['Any'].concat($genres);
-    } else {
-      genreItems = [];
-    }
-  }
+  genres.subscribe(async ($genres) => {
+    genreItems = ['Any'].concat(await $genres);
+  });
+
+  let value = 'Any';
 
   $: {
-    if (value !== 'Any') {
-      $selectedGenre = value;
-    } else {
-      $selectedGenre = null;
-    }
+    $selectedGenre = value !== 'Any' ? value : null;
     page.set(1);
   }
 </script>
