@@ -25,12 +25,12 @@
 
   const removeClient = async (name) => {
     await command.download('remove_client', { name });
-    await config.load();
+    config.reload();
   };
 
   const handleModalClose = async () => {
     addClientModalActive = false;
-    await config.load();
+    config.reload();
   };
 
   /*

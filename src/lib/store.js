@@ -2,7 +2,21 @@ import command from '$lib/command';
 import { writable, derived } from 'svelte/store';
 import { asyncable } from 'svelte-asyncable';
 
-export const config = asyncable(
+// Creates an asyncable store with a "reload trigger".
+// This reload trigger makes sure the getter gets called and triggers subscriptions
+const asyncableReload = (getter, setter, stores = []) => {
+  const reloadTrigger = writable(false);
+  const store = asyncable(getter, setter, [...stores, reloadTrigger]);
+
+  const reload = () => reloadTrigger.update((value) => !value);
+
+  return {
+    ...store,
+    reload
+  };
+};
+
+export const config = asyncableReload(
   async () => await command.config('get'),
   async (config) => {
     await command.config('set', { newConfig: config });
@@ -37,21 +51,10 @@ export const databaseGames = asyncable(
 );
 
 export const genres = asyncable(async () => await command.database('get_genres'), null);
-
-export const downloads = (() => {
-  const get = async () => await command.download('list_all_downloads');
-
-  const reloadTrigger = writable(false);
-  const store = asyncable(get, null, [reloadTrigger]);
-
-  // Forgive me for this minor hack, it works
-  const reload = () => reloadTrigger.update((value) => !value);
-
-  return {
-    ...store,
-    reload
-  };
-})();
+export const downloads = asyncableReload(
+  async () => await command.download('list_all_downloads'),
+  null
+);
 
 export const torrentClients = asyncable(async () => {
   await command.download('init_clients');
