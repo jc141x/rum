@@ -1,21 +1,33 @@
 image: "rust:bullseye"
 
+cache:
+  - key: npm
+    policy: pull-push
+    paths:
+      - .npm/
+  - key: cargo
+    policy: pull-push
+    paths:
+      - src-tauri/target
+
 before_script:
     - apt update -yqq && apt install -yqq --no-install-recommends nodejs npm libwebkit2gtk-4.0-dev build-essential curl wget libssl-dev libgtk-3-dev patchelf librsvg2-dev
 
 build:
   script:
+    - npm ci
     - npm install
     - npm run build
     - npm run tauri build
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+  #rules:
+    #- if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     
 publish:
   script:
     - cp src-tauri/target/release/chad-launcher chad-launcher
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  #rules:
+    #- if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   artifacts:
     paths:
       - chad-launcher
