@@ -33,21 +33,14 @@ checksum = "28ae2b3dec75a406790005a200b1bd89785afc02517a00ca99ecfe093ee9e6cf"
 name = "app"
 version = "0.1.0"
 dependencies = [
- "anyhow",
- "base64",
  "chad-torrent",
- "dirs 3.0.2",
- "enum-kinds",
- "enum_dispatch",
+ "chad_rs",
  "futures",
- "postgrest",
  "reqwest",
  "serde",
  "serde_json",
  "tauri",
  "tauri-build",
- "thiserror",
- "titlecase",
 ]
 
 [[package]]
@@ -360,6 +353,26 @@ dependencies = [
  "serde",
  "serde_json",
  "tokio",
+]
+
+[[package]]
+name = "chad_rs"
+version = "0.1.0"
+source = "git+https://gitlab.com/Gnurur/chad-rs#d8e14d28a30d48e12037e882dd936bb6df4dbc28"
+dependencies = [
+ "anyhow",
+ "base64",
+ "chad-torrent",
+ "dirs 3.0.2",
+ "enum-kinds",
+ "enum_dispatch",
+ "futures",
+ "postgrest",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "titlecase",
 ]
 
 [[package]]

@@ -1,6 +1,5 @@
 use super::TauriChadError;
-use chad_launcher::database::{self, get_magnet, DatabaseFetcher, GetGamesOpts};
-use std::process::Command;
+use chad_rs::database::{self, DatabaseFetcher, GetGamesOpts};
 
 #[tauri::command]
 pub async fn database_get_games(

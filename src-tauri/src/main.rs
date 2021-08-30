@@ -6,7 +6,7 @@
 mod command;
 
 use crate::command::AppState;
-use chad_launcher::{
+use chad_rs::{
     config::Config, database::DatabaseFetcher, download::DownloadManager, library::LibraryFetcher,
 };
 use tauri::async_runtime::Mutex;

@@ -1,5 +1,5 @@
 use crate::command::{AppState, TauriChadError};
-use chad_launcher::{
+use chad_rs::{
     config::Config,
     database::get_magnet,
     download::{DownloadManager, Torrent, TorrentClientConfig},
@@ -103,7 +103,7 @@ pub async fn download_add_magnet(
 #[tauri::command]
 pub async fn download_add_game(
     client: String,
-    game: chad_launcher::database::Game,
+    game: chad_rs::database::Game,
     options: chad_torrent::Options,
     download: tauri::State<'_, Mutex<DownloadManager>>,
 ) -> Result<String, TauriChadError> {
@@ -175,7 +175,7 @@ pub async fn download_get_status(
 #[tauri::command]
 pub async fn download_add_qbittorrent_client(
     name: String,
-    options: chad_launcher::download::QBittorrentConfig,
+    options: chad_rs::download::QBittorrentConfig,
     config: tauri::State<'_, Mutex<Config>>,
     download: tauri::State<'_, Mutex<DownloadManager>>,
 ) -> Result<(), TauriChadError> {
@@ -235,7 +235,7 @@ pub async fn download_deluge_connect_daemon(
 
 #[tauri::command]
 pub async fn download_create_deluge_client(
-    options: chad_launcher::download::DelugeConfig,
+    options: chad_rs::download::DelugeConfig,
     download: tauri::State<'_, Mutex<DownloadManager>>,
     app_state: tauri::State<'_, Mutex<AppState>>,
 ) -> Result<(), TauriChadError> {

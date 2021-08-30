@@ -3,7 +3,7 @@ pub mod database;
 pub mod download;
 pub mod library;
 
-use chad_launcher::{
+use chad_rs::{
     database::{get_magnet, Game},
     download::TorrentClientConfig,
 };

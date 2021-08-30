@@ -1,5 +1,5 @@
 use super::TauriChadError;
-use chad_launcher::{
+use chad_rs::{
     config::Config,
     database::DatabaseFetcher,
     library::{self, LibraryFetcher},
