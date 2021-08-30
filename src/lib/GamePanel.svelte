@@ -36,15 +36,19 @@
 </script>
 
 <div class="full">
-  <Card class="pa-10" style="height: 100%; width: 100%;">
-    <Button on:click={() => selectedGame.set(null)} class="float-right" icon>
+  <Card class="pa-10" style="height: 100%; width: 100%; overflow-y: scroll">
+    <Button on:click={() => selectedGame.set(null)} icon class="mb-10">
       <Icon path={mdiClose} />
     </Button>
+    <img src={banner_src} alt="banner" />
     <CardTitle>{game.name}</CardTitle>
     <CardSubtitle>
       {subtitle}<br /><br />
+      {#if game.nsfw}
+        <Chip size="small" class="primary-color mr-2 mb-2">18+</Chip>
+      {/if}
       {#each game.genres as genre}
-        <Chip size="small" class="primary-color mr-2">{genre}</Chip>
+        <Chip size="small" class="primary-color mr-2 mb-2">{genre}</Chip>
       {/each}
       <br />
     </CardSubtitle>
@@ -64,6 +68,10 @@
 <style>
   .full {
     height: 100%;
+    width: 100%;
+  }
+
+  img {
     width: 100%;
   }
 </style>
