@@ -18,15 +18,10 @@ build:
     - pnpm install
     - pnpm run build
     - pnpm run tauri build
-
-  #rules:
-    #- if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    
-publish:
-  script:
     - cp src-tauri/target/release/chad-launcher chad-launcher
   #rules:
     #- if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   artifacts:
     paths:
       - chad-launcher
+
