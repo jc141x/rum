@@ -11,10 +11,12 @@ pub struct TorrentConfig {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(default)]
 pub struct Config {
     pub data_path: PathBuf,
     pub library_paths: Vec<PathBuf>,
     pub terminal: String,
+    pub script_blacklist: Vec<String>,
     pub torrent: TorrentConfig,
 }
 
@@ -24,6 +26,7 @@ impl Default for Config {
             data_path: dirs::data_dir().unwrap().join("chad_launcher"),
             library_paths: vec![],
             terminal: "alacritty".into(),
+            script_blacklist: vec!["winetricks".into(), "chad.sh".into()],
             torrent: TorrentConfig::default(),
         }
     }

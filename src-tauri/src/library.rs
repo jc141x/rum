@@ -47,16 +47,13 @@ fn script_name(script_file: &str) -> String {
     if script_file == "start" || script_file == "start.sh" {
         String::from("Start")
     } else {
-        prettify_slug(
-            script_file
-                .strip_prefix("start")
-                .map(|s| s.strip_suffix("sh").unwrap_or(s))
-                .unwrap_or(script_file),
-        )
+        let mut res = script_file.strip_prefix("start").unwrap_or(script_file);
+        res = res.strip_suffix("sh").unwrap_or(res);
+        prettify_slug(res)
     }
 }
 
-fn is_start_script(e: &std::fs::DirEntry) -> bool {
+fn is_start_script(e: &std::fs::DirEntry, blacklist: &[String]) -> bool {
     // Only check files
     let is_file = e
         .file_type()
@@ -66,24 +63,24 @@ fn is_start_script(e: &std::fs::DirEntry) -> bool {
     let is_executable = std::fs::metadata(e.path())
         .map(|m| m.permissions().mode() & 0o111 != 0)
         .unwrap_or(false);
-    // Find start scripts
-    let is_start = e
+    // Find valid scripts
+    let is_valid = e
         .path()
         .file_name()
         .and_then(|name| name.to_str())
-        .map(|name_str| name_str.starts_with("start"))
+        .map(|name_str| !blacklist.contains(&name_str.into()))
         .unwrap_or(false);
-    is_file && is_executable && is_start
+    is_file && is_executable && is_valid
 }
 
-fn find_scripts(executable_dir: &Path) -> Result<Vec<Script>, ChadError> {
+fn find_scripts(executable_dir: &Path, blacklist: &[String]) -> Result<Vec<Script>, ChadError> {
     Ok(executable_dir
         // Try to read the directory
         .read_dir()?
         // Filter out errors
         .filter_map(|e| e.ok())
         // Only check files
-        .filter(|e| is_start_script(e))
+        .filter(|e| is_start_script(e, &blacklist))
         // Map DirEntry to String
         .filter_map(|d| d.file_name().to_str().map(|s| s.to_string()))
         .map(|script| Script {
@@ -112,7 +109,7 @@ impl Game {
 
         let config_file = data_path.join("game.yaml");
         let log_file = executable_dir.join("chad.log");
-        let scripts = find_scripts(&executable_dir).unwrap_or(Vec::new());
+        let scripts = find_scripts(&executable_dir, &config.script_blacklist).unwrap_or(Vec::new());
 
         Self {
             id,
@@ -201,7 +198,10 @@ impl LibraryFetcher {
                             .filter(|e| {
                                 e.path()
                                     .read_dir()
-                                    .map(|d| d.filter_map(|f| f.ok()).any(|f| is_start_script(&f)))
+                                    .map(|d| {
+                                        d.filter_map(|f| f.ok())
+                                            .any(|f| is_start_script(&f, &config.script_blacklist))
+                                    })
                                     .unwrap_or(false)
                             }),
                     ) as Box<dyn Iterator<Item = std::fs::DirEntry>>
