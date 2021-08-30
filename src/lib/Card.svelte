@@ -16,10 +16,11 @@
   export let banner = '';
 </script>
 
-<div>
+<div on:click>
   <Card>
     <img src={banner} alt="banner" />
     <CardTitle>{title}</CardTitle>
+    <!--
     {#if subtitle != ''}
       <CardSubtitle>{subtitle}</CardSubtitle>
     {/if}
@@ -39,6 +40,7 @@
     <CardActions>
       <slot name="buttons" />
     </CardActions>
+    -->
   </Card>
 </div>
 

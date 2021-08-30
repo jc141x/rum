@@ -17,6 +17,7 @@
   const dispatch = createEventDispatcher();
 
   export let game;
+  export let active;
 
   let selectedClient = null;
   let savePath = '';
@@ -38,7 +39,7 @@
   };
 </script>
 
-<Overlay active={true}>
+<Overlay {active}>
   <Card>
     {#if doneMessage === null}
       {#await $torrentClients}

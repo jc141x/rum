@@ -62,7 +62,7 @@ export const torrentClients = asyncable(async () => {
 }, null);
 
 export const mode = writable('grid');
-export const selectedGame = writable(0);
+export const selectedGame = writable(null);
 export const sidebarActive = writable(false);
 
 export const load = async () => {
