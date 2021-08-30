@@ -22,15 +22,15 @@
 <div class="sidebar" class:active={$active}>
   <NavigationDrawer fixed active={$active} class="pt-16 elevation-4">
     <List nav dense>
-      <a href="/" style="text-decoration: none" on:click={() => ($active = false)}>
-        <ListItem>
-          <span slot="prepend">
-            <Icon path={mdiHome} />
-          </span>
-          Index
-        </ListItem>
-      </a>
       <ListItemGroup>
+        <a href="/" style="text-decoration: none" on:click={() => ($active = false)}>
+          <ListItem>
+            <span slot="prepend">
+              <Icon path={mdiHome} />
+            </span>
+            Index
+          </ListItem>
+        </a>
         <a href="/library" style="text-decoration: none" on:click={() => ($active = false)}>
           <ListItem>
             <span slot="prepend">
