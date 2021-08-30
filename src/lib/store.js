@@ -28,6 +28,7 @@ export const config = asyncableReload(
 
 export const localGames = asyncable(async () => await command.library('get_games'), null);
 
+export const selectedGame = writable(null);
 export const selectedGenre = writable('');
 export const page = writable(1);
 export const query = writable('');
@@ -43,6 +44,8 @@ export const databaseGames = asyncable(
     if ($selectedGenre != '') {
       opts.filter_genre = $selectedGenre;
     }
+
+    selectedGame.set(null);
 
     return await command.database('get_games', { opts });
   },
@@ -62,7 +65,6 @@ export const torrentClients = asyncable(async () => {
 }, null);
 
 export const mode = writable('grid');
-export const selectedGame = writable(null);
 export const sidebarActive = writable(false);
 
 export const load = async () => {

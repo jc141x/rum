@@ -4,7 +4,7 @@
   import Pagination from '$lib/Pagination.svelte';
   import { Container, Select, TextField, Row, Col, ProgressCircular } from 'svelte-materialify/src';
   import GamePanel from '$lib/GamePanel.svelte';
-  import { slide, fly } from 'svelte/transition';
+  import { slide, fly, fade } from 'svelte/transition';
 
   let searchValue = '';
 
@@ -59,8 +59,12 @@
         {#await $databaseGames}
           <ProgressCircular indeterminate color="primary" />
         {:then games}
-          {#key games}
-            <div transition:fly={{ x: 100, delay: 250, duration: 300 }} class="full-height">
+          {#key $selectedGame}
+            <div
+              in:fly={{ x: 100, duration: 300, delay: 300 }}
+              out:fly={{ x: 100, duration: 300 }}
+              class="full-height"
+            >
               <GamePanel game={games[$selectedGame]} />
             </div>
           {/key}
@@ -74,7 +78,8 @@
 
 <style>
   .content {
-    max-height: 100vh;
+    max-height: calc(100vh - 100px);
+    overflow: hidden;
   }
 
   .full-height {
