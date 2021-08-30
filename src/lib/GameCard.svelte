@@ -33,6 +33,7 @@
   description={game.description}
   badges={game.genres}
   dangerBadges={game.nsfw ? ['18+'] : []}
+  on:click
 >
   <Button icon slot="buttons" on:click={() => handleDownload()}>
     <Icon path={mdiDownload} />
