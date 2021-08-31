@@ -38,7 +38,7 @@ package:debian:
 
 package:arch:
   stage: package
-  image: ktcar214/makepkg
+  image: ktcar214/makepkg:v1.0.6
   script:
     - cp chad-launcher pkgbuild/ci
     - cp chad_launcher.desktop pkgbuild/ci
