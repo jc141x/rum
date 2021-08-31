@@ -41,7 +41,7 @@ package:arch:
   image: whynothugo/makepkg
   script:
     - cp chad-launcher pkgbuild/ci
-    - cp chad_launcher.desktop pkgbuid/ci
+    - cp chad_launcher.desktop pkgbuild/ci
     - cp icon.svg pkgbuild/ci
     - cd pkgbuild/ci
     - makepkg -s
