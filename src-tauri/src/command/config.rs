@@ -1,5 +1,5 @@
 use crate::command::TauriChadError;
-use chad_launcher::config::Config;
+use chad_rs::config::Config;
 use std::path::PathBuf;
 use tauri::async_runtime::Mutex;
 

@@ -18,21 +18,10 @@ tauri-build = { version = "1.0.0-beta.3" }
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.0.0-beta.5", features = ["api-all"] }
-postgrest = "1.0"
-reqwest = { version = "0.11", features = ["json"] }
-titlecase = "1.1"
-dirs = "3.0"
-thiserror = "1.0"
-anyhow = "1.0"
-base64 = "0.13"
+reqwest = "0.11"
 futures = "0.3"
 chad-torrent = { git = "https://gitlab.com/Gnurur/chad-torrent" }
-enum_dispatch = "0.3"
-enum-kinds = "=0.5.0" # Temporary
-
-[lib]
-name = "chad_launcher"
-path = "src/lib.rs"
+chad_rs = { git = "https://gitlab.com/Gnurur/chad-rs" }
 
 [features]
 default = [ "custom-protocol" ]
