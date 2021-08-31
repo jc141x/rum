@@ -40,12 +40,12 @@ package:arch:
   stage: package
   image: whynothugo/makepkg
   script:
-    cp chad-launcher pkgbuild/ci
-    cp chad_launcher.desktop pkgbuid/ci
-    cp icon.svg pkgbuild/ci
-    cd pkgbuild/ci
-    makepkg -s
-    cp chad_launcher-bin-*.pkg.tar.xz ../../chad-launcher.pkg.tar.xz
+    - cp chad-launcher pkgbuild/ci
+    - cp chad_launcher.desktop pkgbuid/ci
+    - cp icon.svg pkgbuild/ci
+    - cd pkgbuild/ci
+    - makepkg -s
+    - cp chad_launcher-bin-*.pkg.tar.xz ../../chad-launcher.pkg.tar.xz
   artifacts:
     paths:
       - chad-launcher.pkg.tar.xz
