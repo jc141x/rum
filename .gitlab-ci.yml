@@ -13,15 +13,28 @@ before_script:
     - curl -f https://get.pnpm.io/v6.14.js | node - add --global pnpm@6    
     - pnpm config set store-dir .pnpm-store
 
-build:
+stages:
+  - tauri:build
+  #- arch:package
+
+tauri:build:
+  stage: tauri:build
   script:
     - pnpm install
     - pnpm run build
     - pnpm run tauri build
     - cp src-tauri/target/release/chad-launcher chad-launcher
+    # Copy most recent deb file
+    - cp `ls -t src-tauri/target/release/bundle/deb/*.deb | head -1` chad-launcher.deb 
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   artifacts:
     paths:
       - chad-launcher
+      - chad-launcher.deb
 
+
+#arch:package:
+  #image: whynothugo/makepkg
+  #script:
+    
