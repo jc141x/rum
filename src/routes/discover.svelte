@@ -1,10 +1,10 @@
 <script>
   import { genres, selectedGenre, query, page, selectedGame, databaseGames } from '$lib/store.js';
-  import GameGrid from '$lib/GameGrid.svelte';
-  import Pagination from '$lib/Pagination.svelte';
-  import { Container, Select, TextField, Row, Col, ProgressCircular } from 'svelte-materialify/src';
-  import GamePanel from '$lib/GamePanel.svelte';
-  import { slide, fly, fade } from 'svelte/transition';
+  import { Select, TextField, Row, Col, ProgressCircular } from 'svelte-materialify/src';
+  import { fly } from 'svelte/transition';
+  import Pagination from '$lib/discover/Pagination.svelte';
+  import Panel from '$lib/discover/Panel.svelte';
+  import Grid from '$lib/discover/Grid.svelte';
 
   let searchValue = '';
 
@@ -58,7 +58,7 @@
         in:fly={{ x: -100, duration: 300, delay: 300 }}
         out:fly={{ x: -100, duration: 300 }}
       >
-        <GameGrid />
+        <Grid />
       </div>
     </Col>
     {#if $selectedGame !== null}
@@ -72,7 +72,7 @@
               out:fly={{ x: 100, duration: 300 }}
               class="full-height"
             >
-              <GamePanel game={games[$selectedGame]} />
+              <Panel game={games[$selectedGame]} on:close={() => ($selectedGame = null)} />
             </div>
           {/key}
         {:catch error}

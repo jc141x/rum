@@ -2,7 +2,7 @@
   import { config } from '$lib/store';
   import command from '$lib/command';
   import { Row, Col, TextField, Button, Divider } from 'svelte-materialify/src';
-  import AddTorrentClientModal from '$lib/AddTorrentClientModal.svelte';
+  import AddTorrentClientModal from '$lib/settings/AddTorrentClientModal.svelte';
 
   let config_temp = {};
   config.subscribe(async (config) => {

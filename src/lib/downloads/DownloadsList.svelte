@@ -1,7 +1,7 @@
 <script>
   import command from '$lib/command';
   import { Row } from 'svelte-materialify/src';
-  import DownloadItem from '$lib/DownloadItem.svelte';
+  import DownloadItem from './DownloadItem.svelte';
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
 

@@ -1,21 +1,14 @@
 <script>
   import {
     Card,
-    CardTitle,
-    CardSubtitle,
-    CardActions,
     Button,
     Icon,
     Row,
     Col,
-    CardText,
-    Chip,
     ProgressLinear
   } from 'svelte-materialify/src';
-  import GameCard from './GameCard.svelte';
   import { mdiPause, mdiPlay } from '@mdi/js';
-  import command from '$lib/command';
-  import { createEventDispatcher, onMount } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
 
   export let torrent;

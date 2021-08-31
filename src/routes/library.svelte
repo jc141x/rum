@@ -1,10 +1,9 @@
 <script>
-  import { mode, localGames, selectedLocalGame } from '$lib/store.js';
-  import { invoke } from '../../node_modules/@tauri-apps/api/tauri';
-  import LocalGameGrid from '$lib/LocalGameGrid.svelte';
+  import { localGames, selectedLocalGame } from '$lib/store.js';
   import { Row, Col, ProgressCircular } from 'svelte-materialify';
-  import LocalGamePanel from '$lib/LocalGamePanel.svelte';
   import { fly } from 'svelte/transition';
+  import Panel from '$lib/library/Panel.svelte';
+  import Grid from '$lib/library/Grid.svelte';
 </script>
 
 <svelte:head>
@@ -19,7 +18,7 @@
         in:fly={{ x: -100, duration: 300, delay: 300 }}
         out:fly={{ x: -100, duration: 300 }}
       >
-        <LocalGameGrid />
+        <Grid />
       </div>
     </Col>
     {#if $selectedLocalGame !== null}
@@ -33,7 +32,10 @@
               out:fly={{ x: 100, duration: 300 }}
               class="full-height"
             >
-              <LocalGamePanel game={games[$selectedLocalGame]} />
+              <Panel
+                game={games[$selectedLocalGame]}
+                on:close={() => ($selectedLocalGame = null)}
+              />
             </div>
           {/key}
         {:catch error}

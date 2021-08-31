@@ -4,14 +4,7 @@
 </script>
 
 <script>
-  import command from '$lib/command';
-  import LocalGameCard from '$lib/LocalGameCard.svelte';
-  import Card from '$lib/Card.svelte';
-  import banner from '$lib/default.png';
-
-  import { Container, SlideGroup, SlideItem, Icon } from 'svelte-materialify';
-  import { mdiChevronLeft, mdiChevronRight } from '@mdi/js';
-  const games = ['Cool Game', 'Other Game', 'Boring Game', 'Fun Game', 'Hard Game', 'Dumb Game'];
+  import { Container } from 'svelte-materialify';
 </script>
 
 <svelte:head>

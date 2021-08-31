@@ -1,6 +1,7 @@
 <script>
   import { localGames, selectedLocalGame } from '$lib/store.js';
-  import LocalGameCard from './LocalGameCard.svelte';
+  import Card from '$lib/library/Card.svelte';
+  import Grid from '$lib/Grid.svelte';
   import { ProgressCircular } from 'svelte-materialify/src';
 </script>
 
@@ -9,26 +10,16 @@
     <ProgressCircular indeterminate color="primary" />
   </div>
 {:then games}
-  <div class="grid full">
+  <Grid>
     {#each games as game, i (game.id)}
-      <LocalGameCard
-        {game}
-        selected={$selectedLocalGame == i}
-        on:click={() => selectedLocalGame.set(i)}
-      />
+      <Card {game} selected={$selectedLocalGame == i} on:click={() => selectedLocalGame.set(i)} />
     {/each}
-  </div>
+  </Grid>
 {:catch error}
   <p style="color: red">{error.message}</p>
 {/await}
 
 <style>
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
-    gap: 1rem;
-  }
-
   .full {
     width: 100%;
     height: 100%;
