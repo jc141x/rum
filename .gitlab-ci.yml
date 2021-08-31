@@ -8,11 +8,6 @@ cache:
     paths:
       - src-tauri/target
 
-before_script:
-    - apt update -yqq && apt install -yqq --no-install-recommends nodejs libwebkit2gtk-4.0-dev build-essential curl wget libssl-dev libgtk-3-dev patchelf librsvg2-dev
-    - curl -f https://get.pnpm.io/v6.14.js | node - add --global pnpm@6    
-    - pnpm config set store-dir .pnpm-store
-
 stages:
   - tauri:build
   - package
@@ -20,21 +15,28 @@ stages:
 tauri:build:
   stage: tauri:build
   script:
+    - apt update -yqq && apt install -yqq --no-install-recommends nodejs libwebkit2gtk-4.0-dev build-essential curl wget libssl-dev libgtk-3-dev patchelf librsvg2-dev
+    - curl -f https://get.pnpm.io/v6.14.js | node - add --global pnpm@6    
+    - pnpm config set store-dir .pnpm-store
     - pnpm install
     - pnpm run build
     - pnpm run tauri build
     - cp src-tauri/target/release/chad-launcher chad-launcher
-    # Copy most recent deb file
-    - cp `ls -t src-tauri/target/release/bundle/deb/*.deb | head -1` chad-launcher.deb 
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
   artifacts:
     paths:
       - chad-launcher
+
+package:debian:
+  stage: package
+  script:
+    # Copy most recent deb file
+    - cp `ls -t src-tauri/target/release/bundle/deb/*.deb | head -1` chad-launcher.deb 
+  artifacts:
+    paths:
       - chad-launcher.deb
 
-
-package:
+package:arch:
   stage: package
   image: whynothugo/makepkg
   script:
@@ -46,8 +48,6 @@ package:
     cp chad_launcher-bin-*.pkg.tar.xz ../../chad-launcher.pkg.tar.xz
   artifacts:
     paths:
-      - chad-launcher
-      - chad-launcher.deb
       - chad-launcher.pkg.tar.xz
 
     
