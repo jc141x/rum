@@ -8,11 +8,13 @@
   let downloadGame = null;
 </script>
 
-<div>
-  <div class="grid">
-    {#await $databaseGames}
+<div class="full">
+  {#await $databaseGames}
+    <div class="d-flex justify-center align-center full">
       <ProgressCircular indeterminate color="primary" />
-    {:then games}
+    </div>
+  {:then games}
+    <div class="grid full">
       {#each games as game, i (game.id)}
         <GameCard
           {game}
@@ -21,10 +23,10 @@
           on:click={() => selectedGame.set(i)}
         />
       {/each}
-    {:catch error}
-      <p style="color: red">{error.message}</p>
-    {/await}
-  </div>
+    </div>
+  {:catch error}
+    <p style="color: red">{error.message}</p>
+  {/await}
 
   {#if downloadGame !== null}
     <DownloadGameModal game={downloadGame} on:close={() => (downloadGame = null)} />
@@ -36,5 +38,10 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
     gap: 1rem;
+  }
+
+  .full {
+    width: 100%;
+    height: 100%;
   }
 </style>
