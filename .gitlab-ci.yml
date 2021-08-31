@@ -15,7 +15,7 @@ before_script:
 
 stages:
   - tauri:build
-  #- arch:package
+  - package
 
 tauri:build:
   stage: tauri:build
@@ -34,7 +34,20 @@ tauri:build:
       - chad-launcher.deb
 
 
-#arch:package:
-  #image: whynothugo/makepkg
-  #script:
+package:
+  stage: package
+  image: whynothugo/makepkg
+  script:
+    cp chad-launcher pkgbuild/ci
+    cp chad_launcher.desktop pkgbuid/ci
+    cp icon.svg pkgbuild/ci
+    cd pkgbuild/ci
+    makepkg -s
+    cp chad_launcher-bin-*.pkg.tar.xz ../../chad-launcher.pkg.tar.xz
+  artifacts:
+    paths:
+      - chad-launcher
+      - chad-launcher.deb
+      - chad-launcher.pkg.tar.xz
+
     
