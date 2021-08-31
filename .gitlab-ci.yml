@@ -38,7 +38,7 @@ package:debian:
 
 package:arch:
   stage: package
-  image: countstarlight/makepkg
+  image: ktcar214/makepkg
   script:
     - cp chad-launcher pkgbuild/ci
     - cp chad_launcher.desktop pkgbuild/ci
