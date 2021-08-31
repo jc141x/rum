@@ -6,6 +6,7 @@
   import GameCard from './GameCard.svelte';
 
   export let game;
+  export let selected;
 
   $: banner_src = game.banner === null ? banner : game.banner;
 
@@ -14,7 +15,7 @@
   };
 </script>
 
-<Card title={game.name} banner={banner_src}>
+<Card title={game.name} banner={banner_src} {selected} on:click>
   <div slot="buttons">
     {#if game.scripts.length > 1}
       <Menu>
