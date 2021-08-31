@@ -3,10 +3,12 @@
 
   export let title = '';
   export let banner = '';
+  export let selected = false;
+  $: color = selected ? 'primary-color' : '';
 </script>
 
 <div on:click>
-  <Card>
+  <Card class={color}>
     <img src={banner} alt="banner" />
     <CardTitle>{title}</CardTitle>
   </Card>

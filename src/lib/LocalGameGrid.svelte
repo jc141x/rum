@@ -1,5 +1,5 @@
 <script>
-  import { localGames } from '$lib/store.js';
+  import { localGames, selectedLocalGame } from '$lib/store.js';
   import LocalGameCard from './LocalGameCard.svelte';
   import { ProgressCircular } from 'svelte-materialify/src';
 </script>
@@ -8,8 +8,12 @@
   {#await $localGames}
     <ProgressCircular indeterminate color="primary" />
   {:then games}
-    {#each games as game (game.id)}
-      <LocalGameCard {game} />
+    {#each games as game, i (game.id)}
+      <LocalGameCard
+        {game}
+        selected={$selectedLocalGame == i}
+        on:click={() => selectedLocalGame.set(i)}
+      />
     {/each}
   {:catch error}
     <p style="color: red">{error.message}</p>

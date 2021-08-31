@@ -29,6 +29,7 @@ export const config = asyncableReload(
 export const localGames = asyncable(async () => await command.library('get_games'), null);
 
 export const selectedGame = writable(null);
+export const selectedLocalGame = writable(null);
 export const selectedGenre = writable('');
 export const page = writable(1);
 export const query = writable('');

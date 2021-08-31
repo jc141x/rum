@@ -18,7 +18,10 @@
 
   $: {
     $selectedGenre = value !== 'Any' ? value : null;
-    page.set(1);
+
+    if ($page !== 1 && $selectedGenre !== null) {
+      page.set(1);
+    }
   }
 </script>
 
@@ -50,7 +53,11 @@
 
   <Row>
     <Col>
-      <div class="grid full-height">
+      <div
+        class="grid full-height pr-3"
+        in:fly={{ x: -100, duration: 300, delay: 300 }}
+        out:fly={{ x: -100, duration: 300 }}
+      >
         <GameGrid />
       </div>
     </Col>

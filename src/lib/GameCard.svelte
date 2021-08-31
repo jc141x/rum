@@ -9,6 +9,7 @@
   const dispatch = createEventDispatcher();
 
   export let game;
+  export let selected = false;
 
   $: banner_src =
     game.banner_path === null
@@ -26,15 +27,7 @@
   };
 </script>
 
-<Card
-  title={game.name}
-  {subtitle}
-  banner={banner_src}
-  description={game.description}
-  badges={game.genres}
-  dangerBadges={game.nsfw ? ['18+'] : []}
-  on:click
->
+<Card title={game.name} banner={banner_src} {selected} on:click>
   <Button icon slot="buttons" on:click={() => handleDownload()}>
     <Icon path={mdiDownload} />
   </Button>

@@ -16,6 +16,7 @@
       {#each games as game, i (game.id)}
         <GameCard
           {game}
+          selected={$selectedGame == i}
           on:download={() => (downloadGame = game)}
           on:click={() => selectedGame.set(i)}
         />
