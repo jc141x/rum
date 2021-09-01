@@ -2,6 +2,7 @@
   import banner from '$lib/assets/default_banner.png';
   import { Button } from 'svelte-materialify/src';
   import Panel from '$lib/Panel.svelte';
+  import command from '$lib/command';
 
   export let game;
 
