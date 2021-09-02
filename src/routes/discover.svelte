@@ -6,7 +6,7 @@
   import Panel from '$lib/discover/Panel.svelte';
   import Grid from '$lib/discover/Grid.svelte';
 
-  let searchValue = '';
+  let searchValue = $query;
 
   let genreItems = [];
 
@@ -14,7 +14,7 @@
     genreItems = ['Any'].concat(await $genres);
   });
 
-  let value = 'Any';
+  let value = $selectedGenre !== null ? $selectedGenre : 'Any';
 
   $: {
     $selectedGenre = value !== 'Any' ? value : null;
