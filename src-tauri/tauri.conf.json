@@ -48,9 +48,7 @@
     "updater": {
       "active": false
     },
-    "allowlist": {
-      "all": true
-    },
+    "allowlist": {},
     "windows": [
       {
         "title": "Chad Launcher",
@@ -62,7 +60,7 @@
       }
     ],
     "security": {
-      "csp": "default-src * blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
+      "csp": "blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
     }
   }
 }
