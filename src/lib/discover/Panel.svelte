@@ -10,9 +10,9 @@
   let download = false;
 
   $: banner_src =
-    game.banner_path === null
+    game.banner_rel_path === null
       ? banner
-      : `https://gitlab.com/chad-productions/chad_launcher_banners/-/raw/master/${game.banner_path}`;
+      : `https://gitlab.com/chad-productions/chad_launcher_banners/-/raw/master/${game.banner_rel_path}`;
 
   $: subtitle = game.type.replace(
     /\w\S*/g,

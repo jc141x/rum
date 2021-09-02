@@ -36,14 +36,20 @@ export const query = writable('');
 
 export const databaseGames = asyncable(
   async ($selectedGenre, $page, $query) => {
-    let opts = { page_number: $page - 1, page_size: 20 };
+    let opts = {
+      page_number: $page - 1,
+      page_size: 20,
+      filter_genres: [],
+      filter_languages: [],
+      filter_tags: []
+    };
 
     if ($query != '') {
       opts.search = $query;
     }
 
-    if ($selectedGenre != '') {
-      opts.filter_genre = $selectedGenre;
+    if ($selectedGenre !== '' && $selectedGenre !== null) {
+      opts.filter_genres.push($selectedGenre);
     }
 
     selectedGame.set(null);

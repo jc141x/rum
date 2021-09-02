@@ -15,8 +15,12 @@ fn main() {
     // Should improve performance
     std::env::set_var("WEBKIT_FORCE_COMPOSITING_MODE", "1");
 
+    let supabase_key = std::env::var("SUPABASE_SECRET_KEY")
+        .unwrap_or(chad_rs::database::SUPABASE_PUBLIC_API_KEY.into());
+
     let config = Config::new();
-    let client = DatabaseFetcher::new();
+
+    let client = DatabaseFetcher::new(chad_rs::database::SUPABASE_ENDPOINT, &supabase_key);
     let library = LibraryFetcher::new();
     let download = DownloadManager::new();
     let state = AppState::default();
