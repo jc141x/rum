@@ -30,7 +30,7 @@ export const localGames = asyncable(async () => await command.library('get_games
 
 export const selectedGame = writable(null);
 export const selectedLocalGame = writable(null);
-export const selectedGenre = writable('');
+export const selectedGenre = writable(null);
 export const page = writable(1);
 export const query = writable('');
 

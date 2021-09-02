@@ -16,12 +16,14 @@
 
   let value = $selectedGenre !== null ? $selectedGenre : 'Any';
 
-  $: {
-    $selectedGenre = value !== 'Any' ? value : null;
-
-    if ($page !== 1 && $selectedGenre !== null) {
+  selectedGenre.subscribe((value) => {
+    if ($page !== 1 && value !== null) {
       page.set(1);
     }
+  });
+
+  $: {
+    $selectedGenre = value !== 'Any' ? value : null;
   }
 </script>
 
