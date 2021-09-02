@@ -45,6 +45,16 @@ pub async fn database_get_tags(
 }
 
 #[tauri::command]
+pub async fn database_is_admin(
+    fetcher: tauri::State<'_, DatabaseFetcher>,
+) -> Result<bool, TauriChadError> {
+    fetcher
+        .is_admin()
+        .await
+        .map_err(|e| TauriChadError::from(e))
+}
+
+#[tauri::command]
 pub async fn database_add_update_game(
     fetcher: tauri::State<'_, DatabaseFetcher>,
     game: database::Game,

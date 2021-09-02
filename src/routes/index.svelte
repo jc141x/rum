@@ -5,6 +5,7 @@
 
 <script>
   import { Container } from 'svelte-materialify';
+  import { isAdmin } from '$lib/store';
 </script>
 
 <svelte:head>
@@ -15,7 +16,12 @@
   Welcome to Chad Launcher! <br /><br />
 
   Start by going opening the menu and going to the settings page to configure library paths and
-  torrent clients.
+  torrent clients. <br /><br />
+
+  {#if $isAdmin}
+    Welcome johncena141 moderator!
+  {/if}
+
   <!--
   <div class="elevation-4 pa-4 rounded-lg">
     <h4 class="text-h4">Play</h4>

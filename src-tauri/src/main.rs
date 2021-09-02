@@ -46,6 +46,7 @@ fn main() {
             command::database::database_delete_genres,
             command::database::database_delete_languages,
             command::database::database_delete_tags,
+            command::database::database_is_admin,
             // Library
             command::library::library_get_games,
             command::library::library_reload_games,

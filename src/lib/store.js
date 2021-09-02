@@ -73,7 +73,9 @@ export const torrentClients = asyncable(async () => {
 
 export const mode = writable('grid');
 export const sidebarActive = writable(false);
+export const isAdmin = writable(false);
 
 export const load = async () => {
   await Promise.all([command.library('reload_games'), command.download('init_clients')]);
+  isAdmin.set(await command.database('is_admin'));
 };
