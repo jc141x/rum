@@ -1,0 +1,24 @@
+pkgname='chad_launcher-bin'
+_pkgname='chad_launcher'
+pkgver=0730ec12
+pkgrel=1
+pkgdesc='GNU/LINUX GAMING UNLEASHED!'
+arch=('x86_64')
+url='https://gitlab.com/Gnurur/chad_launcher'
+license=('GPL3')
+depends=(cargo webkit2gtk curl wget openssl appmenu-gtk-module gtk3 libappindicator-gtk3 libvips)
+makedepends=(npm git squashfs-tools patchelf)
+source=("$pkgname-$pkgver.zip::https://gitlab.com/Gnurur/chad_launcher/-/jobs/artifacts/master/download?job=tauri:build")
+md5sums=('SKIP')
+
+pkgver() {
+    # Please someone fix this, this is awful
+    curl -s https://gitlab.com/api/v4/projects/Gnurur%2Fchad_launcher/repository/commits | awk -F'"' '{ print $8 }'
+}
+
+package() {
+    install -Dm0755 -t "$pkgdir/usr/bin/" "chad-launcher"
+    install -Dm644 ../chad_launcher.desktop "$pkgdir/usr/share/applications/chad-launcher.desktop"
+    install -Dm644 ../icon.svg "$pkgdir/usr/share/pixmaps/chad-launcher.svg"
+}
+
