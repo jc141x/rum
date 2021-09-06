@@ -14,11 +14,6 @@
       ? banner
       : `https://gitlab.com/chad-productions/chad_launcher_banners/-/raw/master/${game.banner_rel_path}`;
 
-  $: subtitle = game.type.replace(
-    /\w\S*/g,
-    (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-  );
-
   const handleDownload = () => {
     download = true;
   };
@@ -26,12 +21,17 @@
 
 <Panel banner={banner_src} title={game.name} on:close>
   <div slot="subtitle">
-    {subtitle}<br /><br />
-    {#if game.nsfw}
-      <Chip size="small" class="primary-color mr-2 mb-2">18+</Chip>
-    {/if}
+    {game.hash}<br /><br />
     {#each game.genres as genre}
       <Chip size="small" class="primary-color mr-2 mb-2">{genre}</Chip>
+    {/each}
+    <br />
+    {#each game.tags as tag}
+      <Chip size="small" class="primary-color mr-2 mb-2">{tag}</Chip>
+    {/each}
+    <br />
+    {#each game.languages as language}
+      <Chip size="small" class="primary-color mr-2 mb-2">{language}</Chip>
     {/each}
     <br />
   </div>

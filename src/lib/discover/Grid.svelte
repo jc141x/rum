@@ -11,7 +11,7 @@
   </div>
 {:then games}
   <Grid>
-    {#each games as game, i (game.id)}
+    {#each games as game, i (game.hash)}
       <Card {game} selected={$selectedGame == i} on:click={() => selectedGame.set(i)} />
     {/each}
   </Grid>

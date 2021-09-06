@@ -68,21 +68,21 @@ pub async fn database_add_update_game(
 #[tauri::command]
 pub async fn database_remove_game(
     fetcher: tauri::State<'_, DatabaseFetcher>,
-    game_id: database::table::GameId,
+    hash: String,
 ) -> Result<(), TauriChadError> {
     fetcher
-        .remove_game(&game_id)
+        .remove_game(&hash)
         .await
         .map_err(|e| TauriChadError::from(e))
 }
 
 async fn add_items<T: table::Item + Serialize>(
     fetcher: &DatabaseFetcher,
-    game_id: &database::table::GameId,
+    hash: &String,
     items: &[String],
 ) -> Result<(), TauriChadError> {
     fetcher
-        .add_items::<T>(game_id, items)
+        .add_items::<T>(hash, items)
         .await
         .map_err(|e| TauriChadError::from(e))
 }
@@ -90,37 +90,37 @@ async fn add_items<T: table::Item + Serialize>(
 #[tauri::command]
 pub async fn database_add_genres(
     fetcher: tauri::State<'_, DatabaseFetcher>,
-    game_id: database::table::GameId,
+    hash: String,
     genres: Vec<String>,
 ) -> Result<(), TauriChadError> {
-    add_items::<table::Genre>(&fetcher, &game_id, &genres).await
+    add_items::<table::Genre>(&fetcher, &hash, &genres).await
 }
 
 #[tauri::command]
 pub async fn database_add_languages(
     fetcher: tauri::State<'_, DatabaseFetcher>,
-    game_id: database::table::GameId,
+    hash: String,
     languages: Vec<String>,
 ) -> Result<(), TauriChadError> {
-    add_items::<table::Language>(&fetcher, &game_id, &languages).await
+    add_items::<table::Language>(&fetcher, &hash, &languages).await
 }
 
 #[tauri::command]
 pub async fn database_add_tags(
     fetcher: tauri::State<'_, DatabaseFetcher>,
-    game_id: database::table::GameId,
+    hash: String,
     tags: Vec<String>,
 ) -> Result<(), TauriChadError> {
-    add_items::<table::Genre>(&fetcher, &game_id, &tags).await
+    add_items::<table::Genre>(&fetcher, &hash, &tags).await
 }
 
 async fn delete_items<T: table::Item + Serialize>(
     fetcher: &DatabaseFetcher,
-    game_id: &database::table::GameId,
+    hash: &String,
     items: &[String],
 ) -> Result<(), TauriChadError> {
     fetcher
-        .delete_items::<T>(game_id, items)
+        .delete_items::<T>(hash, items)
         .await
         .map_err(|e| TauriChadError::from(e))
 }
@@ -128,26 +128,26 @@ async fn delete_items<T: table::Item + Serialize>(
 #[tauri::command]
 pub async fn database_delete_genres(
     fetcher: tauri::State<'_, DatabaseFetcher>,
-    game_id: database::table::GameId,
+    hash: String,
     genres: Vec<String>,
 ) -> Result<(), TauriChadError> {
-    delete_items::<table::Genre>(&fetcher, &game_id, &genres).await
+    delete_items::<table::Genre>(&fetcher, &hash, &genres).await
 }
 
 #[tauri::command]
 pub async fn database_delete_languages(
     fetcher: tauri::State<'_, DatabaseFetcher>,
-    game_id: database::table::GameId,
+    hash: String,
     languages: Vec<String>,
 ) -> Result<(), TauriChadError> {
-    delete_items::<table::Language>(&fetcher, &game_id, &languages).await
+    delete_items::<table::Language>(&fetcher, &hash, &languages).await
 }
 
 #[tauri::command]
 pub async fn database_delete_tags(
     fetcher: tauri::State<'_, DatabaseFetcher>,
-    game_id: database::table::GameId,
+    hash: String,
     tags: Vec<String>,
 ) -> Result<(), TauriChadError> {
-    delete_items::<table::Genre>(&fetcher, &game_id, &tags).await
+    delete_items::<table::Genre>(&fetcher, &hash, &tags).await
 }
