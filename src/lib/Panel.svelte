@@ -10,6 +10,7 @@
   } from 'svelte-materialify/src';
   import { mdiClose } from '@mdi/js';
   import { createEventDispatcher } from 'svelte';
+  import Banner from './Banner.svelte';
   const dispatch = createEventDispatcher();
 
   export let title = '';
@@ -21,7 +22,7 @@
     <Button on:click={() => dispatch('close')} icon class="mb-10">
       <Icon path={mdiClose} />
     </Button>
-    <img src={banner} alt="banner" />
+    <Banner {banner} />
     <CardTitle>{title}</CardTitle>
     <CardSubtitle>
       <slot name="subtitle" />
@@ -42,10 +43,6 @@
 <style>
   .full {
     height: 100%;
-    width: 100%;
-  }
-
-  img {
     width: 100%;
   }
 </style>
