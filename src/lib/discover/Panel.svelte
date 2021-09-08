@@ -9,14 +9,11 @@
 
   let download = false;
 
-  $: banner_src =
-    game.banner_rel_path === null
-      ? banner
-      : `https://gitlab.com/chad-productions/chad_launcher_banners/-/raw/master/${game.banner_rel_path}`;
-
   const handleDownload = () => {
     download = true;
   };
+
+  $: banner_src = `https://bkftwbhopivmrgzcagus.supabase.in/storage/v1/object/public/banners/${game.hash}.png`;
 </script>
 
 <Panel banner={banner_src} title={game.name} on:close>
@@ -35,7 +32,7 @@
     {/each}
     <br />
   </div>
-  <div slot="text">
+  <div slot="text" class="show-white-space">
     {game.description}
   </div>
   <div slot="actions">
@@ -46,3 +43,9 @@
 
   <DownloadGameModal slot="extra" active={download} {game} on:close={() => (download = false)} />
 </Panel>
+
+<style>
+  .show-white-space {
+    white-space: pre-wrap;
+  }
+</style>

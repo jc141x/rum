@@ -5,10 +5,7 @@
   export let game;
   export let selected = false;
 
-  $: banner_src =
-    game.banner_rel_path === null
-      ? banner
-      : `https://gitlab.com/chad-productions/chad_launcher_banners/-/raw/master/${game.banner_rel_path}`;
+  $: banner_src = `https://bkftwbhopivmrgzcagus.supabase.in/storage/v1/object/public/banners/${game.hash}.png`;
 </script>
 
 <Card title={game.name} banner={banner_src} {selected} on:click />
