@@ -15,6 +15,22 @@ For the people that value these ideals as much as us, they are welcome to join o
 
 ## Installation
 
+### Install from AUR
+
+```sh
+sudo pacman -S --needed paru
+paru -S chad_launcher-bin
+# Alternative called chad_launcher-git is available which will compile every update from latest commit. Not recommended for regular use.
+```
+
+### Install from DUR (Debian)
+
+- Work in progress.
+
+### Install from Fedora Projects
+
+- Work in progress.
+
 ### Build from source
 
 We recommend using `pnpm` to build this project. ([AUR](https://aur.archlinux.org/packages/pnpm/))
@@ -26,15 +42,6 @@ pnpm tauri build
 ```
 
 This will create a `chad_launcher` executable, an AppImage and a debian package.
-
-## Development
-
-### Running development server
-
-```
-pnpm dev
-pnpm tauri dev
-```
 
 ## Current GUI
 <img src="https://i.postimg.cc/zG5gBndF/11111.png"/>
