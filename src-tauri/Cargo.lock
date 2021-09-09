@@ -395,7 +395,7 @@ dependencies = [
 [[package]]
 name = "chad_rs"
 version = "0.2.0"
-source = "git+https://gitlab.com/Gnurur/chad-rs?branch=v0.3#a61566e0bee36ab205685da9f62e25a719e043c2"
+source = "git+https://gitlab.com/Gnurur/chad-rs?branch=v0.3#19ff03aa93b349323015fa7d8b27e13aba00f09c"
 dependencies = [
  "anyhow",
  "async-stream",
