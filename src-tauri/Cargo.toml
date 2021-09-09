@@ -21,7 +21,7 @@ tauri = { version = "1.0.0-beta.5", features = [] }
 reqwest = "0.11"
 futures = "0.3"
 chad-torrent = { git = "https://gitlab.com/Gnurur/chad-torrent" }
-chad_rs = { git = "https://gitlab.com/Gnurur/chad-rs", branch = "v0.3", features = ["johncena141"] }
+chad_rs = { git = "https://gitlab.com/Gnurur/chad-rs", branch = "main", features = ["johncena141"] }
 
 [features]
 default = [ "custom-protocol" ]
