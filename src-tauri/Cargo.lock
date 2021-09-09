@@ -330,8 +330,8 @@ dependencies = [
 
 [[package]]
 name = "chad_rs"
-version = "0.2.0"
-source = "git+https://gitlab.com/Gnurur/chad-rs?branch=main#600f24d8fa7b02de2e32339dea464b7946e7f29d"
+version = "0.3.0"
+source = "git+https://gitlab.com/Gnurur/chad-rs?tag=0.3.0#51e8ef9dbf5d09a093221263c46e6eea0fc7b287"
 dependencies = [
  "anyhow",
  "async-trait",
