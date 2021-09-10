@@ -43,5 +43,14 @@ pnpm tauri build
 
 This will create a `chad_launcher` executable, an AppImage and a debian package.
 
+## Development
+
+### Running development server
+
+```
+pnpm dev
+pnpm tauri dev
+```
+
 ## Current GUI
 <img src="https://i.postimg.cc/zG5gBndF/11111.png"/>
