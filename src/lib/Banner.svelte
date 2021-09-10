@@ -4,6 +4,8 @@
 
   export let banner = '';
   export let absolute = false;
+  export let rounded = false;
+  export let fallbackText = '';
 
   let loaded = false;
   let image;
@@ -12,19 +14,22 @@
     image.onload = () => {
       loaded = true;
     };
-    image.onerror = () => {
-      banner = defaultBanner;
-    };
   });
 </script>
 
-<img src={banner} class:absolute alt="banner" class:loaded bind:this={image} />
+<img src={banner} class:absolute class:rounded alt="banner" class:loaded bind:this={image} />
+{#if !loaded && fallbackText != ''}
+  <div class="overlay d-flex justify-center align-center">
+    <h5>{fallbackText}</h5>
+  </div>
+{/if}
 
 <style>
   img {
     width: 100%;
     opacity: 0;
     transition: opacity 500ms ease-out;
+    max-height: 0;
   }
 
   img.absolute {
@@ -33,7 +38,19 @@
     top: 0;
   }
 
+  img.rounded {
+    border-radius: 5px;
+  }
+
   img.loaded {
     opacity: 1;
+    max-height: 100%;
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
   }
 </style>

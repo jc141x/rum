@@ -5,22 +5,31 @@
   export let title = '';
   export let banner = '';
   export let selected = false;
-  $: color = selected ? 'primary-color' : '';
 </script>
 
-<div on:click>
-  <Card class={color}>
+<div on:click class="card-wrapper" class:selected>
+  <Card>
     <div class="img-container">
-      <Banner absolute={true} {banner} />
+      <Banner absolute={true} rounded {banner} fallbackText={title} />
     </div>
-    <CardTitle>{title}</CardTitle>
   </Card>
 </div>
 
-<style>
+<style lang="scss">
+  @import 'svelte-materialify/src/styles/variables';
+
   .img-container {
     position: relative;
     width: 100%;
     padding-top: 46.74%;
+  }
+
+  .card-wrapper {
+    border: 5px solid rgba($color: #000000, $alpha: 0);
+    border-radius: 10px;
+  }
+
+  .card-wrapper.selected {
+    border-color: $primary-color;
   }
 </style>

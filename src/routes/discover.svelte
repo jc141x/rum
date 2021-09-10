@@ -92,9 +92,9 @@
   }
 
   .full-height {
-    max-height: calc(100vh - 170px);
-    min-height: calc(100vh - 170px);
-    height: calc(100vh - 170px);
+    max-height: calc(100vh - 180px);
+    min-height: calc(100vh - 180px);
+    height: calc(100vh - 180px);
   }
 
   .grid {

@@ -29,6 +29,10 @@
 <style lang="scss">
   @import 'svelte-materialify/src/styles/variables';
 
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+
   :global(body) {
     background-color: map-get($material-dark-theme, 'surface');
   }

@@ -12,7 +12,20 @@
 {:then games}
   <Grid>
     {#each games as game, i (game.hash)}
-      <Card {game} selected={$selectedGame == i} on:click={() => selectedGame.set(i)} />
+      <Card
+        {game}
+        selected={$selectedGame == i}
+        on:click={(e) => {
+          setTimeout(() => {
+            e.target.scrollIntoView({
+              behavior: 'smooth', // This might not work in webkit
+              block: 'nearest',
+              inline: 'nearest'
+            });
+          }, 10);
+          selectedGame.set(i);
+        }}
+      />
     {/each}
   </Grid>
 {:catch error}

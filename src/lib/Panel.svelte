@@ -19,7 +19,7 @@
 
 <div class="full">
   <Card class="pa-10" style="height: 100%; width: 100%; overflow-y: scroll">
-    <Button on:click={() => dispatch('close')} icon class="mb-10">
+    <Button on:click={() => dispatch('close')} icon class="mb-5">
       <Icon path={mdiClose} />
     </Button>
     <Banner {banner} />
