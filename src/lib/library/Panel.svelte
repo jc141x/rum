@@ -1,6 +1,5 @@
 <script>
   import banner from '$lib/assets/default_banner.png';
-  import { Button } from 'svelte-materialify/src';
   import Panel from '$lib/Panel.svelte';
   import command from '$lib/command';
 
@@ -20,7 +19,7 @@
   </div>
   <div slot="actions">
     {#each game.scripts as script}
-      <Button class="mr-5" on:click={() => handleLaunch(script.script)}>{script.name}</Button>
+      <button class="mr-5" on:click={() => handleLaunch(script.script)}>{script.name}</button>
     {/each}
   </div>
 </Panel>

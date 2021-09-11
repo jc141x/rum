@@ -1,13 +1,5 @@
 <script>
-  import {
-    Card,
-    Button,
-    Icon,
-    CardText,
-    CardSubtitle,
-    CardTitle,
-    CardActions
-  } from 'svelte-materialify/src';
+  import Icon from 'mdi-svelte';
   import { mdiClose } from '@mdi/js';
   import { createEventDispatcher } from 'svelte';
   import Banner from './Banner.svelte';
@@ -18,24 +10,20 @@
 </script>
 
 <div class="full">
-  <Card class="pa-10" style="height: 100%; width: 100%; overflow-y: scroll">
-    <Button on:click={() => dispatch('close')} icon class="mb-5">
+  <div style="height: 100%; width: 100%; overflow-y: scroll">
+    <button on:click={() => dispatch('close')} icon class="close-button">
       <Icon path={mdiClose} />
-    </Button>
-    <Banner {banner} />
-    <CardTitle>{title}</CardTitle>
-    <CardSubtitle>
-      <slot name="subtitle" />
-    </CardSubtitle>
+    </button>
+    <Banner {banner} rounded />
+    <h6>{title}</h6>
+    <slot name="subtitle" />
 
-    <CardText>
+    <div class="text">
       <slot name="text" />
-    </CardText>
+    </div>
 
-    <CardActions>
-      <slot name="actions" />
-    </CardActions>
-  </Card>
+    <slot name="actions" />
+  </div>
 
   <slot name="extra" />
 </div>
@@ -44,5 +32,14 @@
   .full {
     height: 100%;
     width: 100%;
+    padding: 20px;
+  }
+
+  .text {
+    font-size: 0.8em;
+  }
+
+  .close-button {
+    margin-bottom: 20px;
   }
 </style>

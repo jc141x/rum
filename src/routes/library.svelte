@@ -2,9 +2,8 @@
   import { localGames, selectedLocalGame } from '$lib/store.js';
   import { fly } from 'svelte/transition';
   $selectedLocalGame = 0;
-  /*
+
   import Panel from '$lib/library/Panel.svelte';
-*/
   import Grid from '$lib/library/Grid.svelte';
 </script>
 
@@ -12,10 +11,10 @@
   <title>Chad Launcher - Library</title>
 </svelte:head>
 
-<div class="content ma-5">
-  <div class="col-grid full-height">
+<div class="content">
+  <div class="row-grid full-height">
     <div
-      class="grid full-height pr-3"
+      class="grid full-height"
       in:fly={{ x: -100, duration: 300, delay: 300 }}
       out:fly={{ x: -100, duration: 300 }}
     >
@@ -23,7 +22,7 @@
     </div>
   </div>
   {#if $selectedLocalGame !== null}
-    <div class="col-panel full-height">
+    <div class="row-panel full-height">
       {#await $localGames}
         Loading...
       {:then games}
@@ -33,8 +32,7 @@
             out:fly={{ x: 100, duration: 300 }}
             class="full-height panel"
           >
-            here is le panel
-            <!--<Panel game={games[$selectedLocalGame]} on:close={() => ($selectedLocalGame = null)} />-->
+            <Panel game={games[$selectedLocalGame]} on:close={() => ($selectedLocalGame = null)} />
           </div>
         {/key}
       {:catch error}
@@ -49,24 +47,26 @@
     height: 100%;
     overflow: hidden;
     display: grid;
-    grid-template-columns: auto min-content;
+    grid-template-rows: auto max-content;
   }
 
   .full-height {
-    height: 100%;
   }
 
   .grid {
     overflow-y: scroll;
+    padding: 10px;
+    padding-right: 20px;
+    width: 100%;
   }
 
   .col-grid {
+    display: flex;
     padding: 10px;
   }
 
   .col-panel {
     width: 400px;
-    padding: 10px;
   }
 
   .panel {

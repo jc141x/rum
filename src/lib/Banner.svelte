@@ -26,6 +26,7 @@
 
 <style>
   img {
+    margin: 0;
     width: 100%;
     opacity: 0;
     transition: opacity 500ms ease-out;

@@ -22,15 +22,18 @@
   }
 
   .card-wrapper {
-    border: 5px solid rgba(#00000, 0);
+    border: 5px solid var(--secondary);
     border-radius: 10px;
+    background-color: var(--secondary);
+    transition: border-color 0.2s;
   }
 
   .card {
-    background-color: var(--secondary);
   }
 
-  .card-wrapper.selected {
+  .card-wrapper.selected,
+  .card-wrapper:hover {
     border-color: var(--primary);
+    box-shadow: 0px 0px 18px var(--primary);
   }
 </style>

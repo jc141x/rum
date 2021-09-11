@@ -4,7 +4,7 @@
 </script>
 
 <div class="header">
-  <h3>Chad Launcher</h3>
+  <h3 class="title">Chad Launcher</h3>
   <input bind:value={$query} style="max-width:300px" dense rounded filled placeholder="Search" />
   <div class="links">
     <a href="/library" class="link">Library</a>
@@ -26,8 +26,12 @@
     flex-direction: row;
     justify-content: left;
     align-items: center;
-    flex-wrap: wrap;
     color: var(--primary);
+    overflow-x: hidden;
+  }
+
+  .title {
+    min-width: 200px;
   }
 
   .links {

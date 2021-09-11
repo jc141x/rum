@@ -13,6 +13,7 @@ specifiers:
   axios: ^0.21.1
   cookie: ^0.4.1
   cssnano: ^5.0.6
+  mdi-svelte: ^1.1.2
   postcss: ^8.3.6
   postcss-easing-gradients: ^3.0.1
   postcss-load-config: ^3.1.0
@@ -45,6 +46,7 @@ devDependencies:
   '@tauri-apps/cli': 1.0.0-beta.10
   autoprefixer: 10.3.4_postcss@8.3.6
   cssnano: 5.0.8_postcss@8.3.6
+  mdi-svelte: 1.1.2
   postcss: 8.3.6
   postcss-load-config: 3.1.0
   prettier: 2.2.1
@@ -2273,6 +2275,10 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       escape-string-regexp: 4.0.0
+    dev: true
+
+  /mdi-svelte/1.1.2:
+    resolution: {integrity: sha512-jVn/CxVzOXTVWDJpUgkgbL/Dt3GTcxa51bOZHQtmrW+lPNypKXddNJIvcqSX+xW6KRIgjB4m715XjaqbDT/mFA==}
     dev: true
 
   /mdn-data/2.0.14:
