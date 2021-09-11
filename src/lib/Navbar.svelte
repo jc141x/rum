@@ -1,56 +1,19 @@
 <script>
-  import { onMount } from 'svelte';
-  import { TextField, AppBar, Button, Icon } from 'svelte-materialify';
   import { mdiMenu, mdiMagnify } from '@mdi/js';
-  import { query, sidebarActive } from './store.js';
-  import { fly } from 'svelte/transition';
-  let searchActive;
-  onMount(() => {
-    searchActive = false;
-  });
-
-  const search = (e) => {
-    if (e.key === 'Enter') {
-      searchActive = false;
-      console.log('hi');
-    }
-  };
+  import { query } from './store.js';
 </script>
 
 <div class="header">
-  <AppBar class="grey darken-4">
-    <div slot="icon">
-      <Button
-        fab
-        depressed
-        on:click={() => {
-          $sidebarActive = !$sidebarActive;
-        }}
-      >
-        <Icon path={mdiMenu} />
-      </Button>
-    </div>
-    <span slot="title">Chad Launcher</span>
-    <div class="flex-grow-1" />
-    {#if searchActive}
-      <div transition:fly={{ y: 50, duration: 200 }}>
-        <TextField
-          on:keyup={search}
-          bind:value={$query}
-          style="max-width:300px"
-          dense
-          rounded
-          filled>Search</TextField
-        >
-      </div>
-    {:else}
-      <div transition:fly={{ y: 50, duration: 200 }}>
-        <Button fab depressed on:click={() => (searchActive = true)}>
-          <Icon path={mdiMagnify} />
-        </Button>
-      </div>
-    {/if}
-  </AppBar>
+  <h3>Chad Launcher</h3>
+  <input bind:value={$query} style="max-width:300px" dense rounded filled placeholder="Search" />
+  <div class="links">
+    <a href="/library" class="link">Library</a>
+    <a href="/discover" class="link">Discover</a>
+    <a href="/downloads" class="link">Downloads</a>
+    <a href="/settings" class="link">Settings</a>
+    <a href="/dependencies" class="link">Dependencies</a>
+    <a href="/about" class="link">About</a>
+  </div>
 </div>
 
 <style>
@@ -59,5 +22,37 @@
     top: 0;
     width: 100%;
     z-index: 100;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    flex-wrap: wrap;
+    color: var(--primary);
+  }
+
+  .links {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  input {
+    background-color: var(--secondary);
+    border: 2px solid var(--primary);
+    flex-shrink: 1;
+  }
+
+  .link {
+    text-decoration: none;
+  }
+
+  .header > *,
+  .links > * {
+    margin: 10px;
+  }
+
+  .grow {
+    flex-grow: 1;
   }
 </style>

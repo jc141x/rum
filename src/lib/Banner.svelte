@@ -19,7 +19,7 @@
 
 <img src={banner} class:absolute class:rounded alt="banner" class:loaded bind:this={image} />
 {#if !loaded && fallbackText != ''}
-  <div class="overlay d-flex justify-center align-center">
+  <div class="overlay">
     <h5>{fallbackText}</h5>
   </div>
 {/if}
@@ -52,5 +52,8 @@
     top: 0;
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 </style>

@@ -1,5 +1,4 @@
 <script>
-  import { Card, CardTitle } from 'svelte-materialify/src';
   import Banner from './Banner.svelte';
 
   export let title = '';
@@ -8,16 +7,14 @@
 </script>
 
 <div on:click class="card-wrapper" class:selected>
-  <Card>
+  <div class="card">
     <div class="img-container">
       <Banner absolute={true} rounded {banner} fallbackText={title} />
     </div>
-  </Card>
+  </div>
 </div>
 
-<style lang="scss">
-  @import 'svelte-materialify/src/styles/variables';
-
+<style lang="postcss">
   .img-container {
     position: relative;
     width: 100%;
@@ -25,11 +22,15 @@
   }
 
   .card-wrapper {
-    border: 5px solid rgba($color: #000000, $alpha: 0);
+    border: 5px solid rgba(#00000, 0);
     border-radius: 10px;
   }
 
+  .card {
+    background-color: var(--secondary);
+  }
+
   .card-wrapper.selected {
-    border-color: $primary-color;
+    border-color: var(--primary);
   }
 </style>

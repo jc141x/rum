@@ -2,13 +2,10 @@
   import { localGames, selectedLocalGame } from '$lib/store.js';
   import Card from '$lib/library/Card.svelte';
   import Grid from '$lib/Grid.svelte';
-  import { ProgressCircular } from 'svelte-materialify/src';
 </script>
 
 {#await $localGames}
-  <div class="d-flex justify-center align-center full">
-    <ProgressCircular indeterminate color="primary" />
-  </div>
+  <div class="d-flex justify-center align-center full">Loading...</div>
 {:then games}
   <Grid>
     {#each games as game, i (game.id)}
