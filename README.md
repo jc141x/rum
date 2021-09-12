@@ -18,7 +18,7 @@ For the people that value these ideals as much as us, they are welcome to join o
 ### Install from AUR
 
 ```sh
-sudo pacman -S --needed paru
+git clone https://aur.archlinux.org/paru-bin.git && cd paru-bin && makepkg -si
 paru -S chad_launcher-bin
 # Alternative called chad_launcher-git is available which will compile every update from latest commit. Not recommended for regular use.
 ```
