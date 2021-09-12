@@ -1,8 +1,7 @@
 <script>
   import { genres, selectedGenre, query, page, selectedGame, databaseGames } from '$lib/store.js';
-  import { Select, TextField, Row, Col, ProgressCircular } from 'svelte-materialify/src';
   import { fly } from 'svelte/transition';
-  import Pagination from '$lib/discover/Pagination.svelte';
+  //import Pagination from '$lib/discover/Pagination.svelte';
   import Panel from '$lib/discover/Panel.svelte';
   import Grid from '$lib/discover/Grid.svelte';
 
@@ -31,16 +30,17 @@
   <title>Chad Launcher - Discover</title>
 </svelte:head>
 
-<div class="content ma-5">
-  <Row class="pl-5 pr-5">
-    <Col>
+<div class="content">
+  <!--
+  <div class="row-pagination">
+    <div>
       <Pagination />
-    </Col>
-    <Col>
+    </div>
+    <div>
       <Select items={genreItems} bind:value />
-    </Col>
+    </div>
 
-    <Col>
+    <div>
       <form
         on:submit={(e) => {
           e.preventDefault();
@@ -50,54 +50,61 @@
       >
         <TextField bind:value={searchValue} placeholder="Search" />
       </form>
-    </Col>
-  </Row>
+    </div>
+  </div>
+    -->
 
-  <Row>
-    <Col>
-      <div
-        class="grid full-height pr-3"
-        in:fly={{ x: -100, duration: 300, delay: 300 }}
-        out:fly={{ x: -100, duration: 300 }}
-      >
-        <Grid />
-      </div>
-    </Col>
-    {#if $selectedGame !== null}
-      <Col sm={6} md={4} lg={4}>
-        {#await $databaseGames}
-          <ProgressCircular indeterminate color="primary" />
-        {:then games}
-          {#key $selectedGame}
-            <div
-              in:fly={{ x: 100, duration: 300, delay: 300 }}
-              out:fly={{ x: 100, duration: 300 }}
-              class="full-height"
-            >
-              <Panel game={games[$selectedGame]} on:close={() => ($selectedGame = null)} />
-            </div>
-          {/key}
-        {:catch error}
-          <p style="color: red">{error.message}</p>
-        {/await}
-      </Col>
-    {/if}
-  </Row>
+  <div class="row-grid" class:small={$selectedGame !== null}>
+    <div class="grid full-height">
+      <Grid />
+    </div>
+  </div>
+  {#if $selectedGame !== null}
+    <div class="row-panel">
+      {#await $databaseGames}
+        Loading...
+      {:then games}
+        {#key $selectedGame}
+          <div
+            in:fly={{ y: 100, duration: 300, delay: 300 }}
+            out:fly={{ y: 100, duration: 300 }}
+            class="full-height"
+          >
+            <Panel game={games[$selectedGame]} on:close={() => ($selectedGame = null)} />
+          </div>
+        {/key}
+      {:catch error}
+        <p style="color: red">{error.message}</p>
+      {/await}
+    </div>
+  {/if}
 </div>
 
 <style>
   .content {
-    max-height: calc(100vh - 100px);
+    height: 100%;
     overflow: hidden;
-  }
-
-  .full-height {
-    max-height: calc(100vh - 180px);
-    min-height: calc(100vh - 180px);
-    height: calc(100vh - 180px);
   }
 
   .grid {
     overflow-y: scroll;
+    padding: 10px;
+    padding-right: 20px;
+    width: 100%;
+    max-height: 100%;
+  }
+
+  .row-grid {
+    padding: 10px;
+    height: 100%;
+    max-height: calc(100vh - 100px);
+  }
+
+  .row-grid.small {
+    max-height: calc(100vh - 340px);
+  }
+
+  .row-panel {
+    width: 100%;
   }
 </style>

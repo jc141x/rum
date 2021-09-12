@@ -1,45 +1,68 @@
 <script>
-  import Icon from 'mdi-svelte';
-  import { mdiClose } from '@mdi/js';
-  import { createEventDispatcher } from 'svelte';
-  import Banner from './Banner.svelte';
-  const dispatch = createEventDispatcher();
-
   export let title = '';
-  export let banner = '';
 </script>
 
-<div class="full">
-  <div style="height: 100%; width: 100%; overflow-y: scroll">
-    <button on:click={() => dispatch('close')} icon class="close-button">
-      <Icon path={mdiClose} />
-    </button>
+<div class="panel">
+  <!--
+  <button on:click={() => dispatch('close')} icon class="close-button">
+    <Icon path={mdiClose} />
+  </button>
+    -->
+  <!--
+  <div class="banner">
     <Banner {banner} rounded />
-    <h6>{title}</h6>
+  </div>
+    -->
+  <div class="title">
+    <h1>{title}</h1>
+  </div>
+  <div class="subtitle">
     <slot name="subtitle" />
-
-    <div class="text">
-      <slot name="text" />
-    </div>
-
-    <slot name="actions" />
   </div>
 
+  <div class="info">
+    <slot name="info" />
+  </div>
+
+  <div class="text">
+    <slot name="text" />
+  </div>
+
+  <div class="actions">
+    <slot name="actions" />
+  </div>
   <slot name="extra" />
 </div>
 
 <style>
-  .full {
-    height: 100%;
-    width: 100%;
+  .panel {
     padding: 20px;
+    display: grid;
+    grid-template-columns: 100px auto auto 50px;
+    grid-template-rows: 4rem auto 60px;
+  }
+
+  .title {
+    grid-column: 1 / 3;
+  }
+
+  .subtitle {
+    grid-column: 3;
+  }
+
+  .text {
+    grid-column: 1 / 5;
+    grid-row: 2;
+    overflow-y: scroll;
+    height: 100px;
+  }
+
+  .actions {
+    grid-column: 1 / 5;
+    grid-row: 3;
   }
 
   .text {
     font-size: 0.8em;
-  }
-
-  .close-button {
-    margin-bottom: 20px;
   }
 </style>

@@ -25,6 +25,7 @@ specifiers:
   svelte: ^3.42.3
   svelte-asyncable: ^2.0.4
   svelte-highlight: ^3.2.0
+  svelte-loading-spinners: ^0.1.7
   svelte-materialify: ^0.3.11
   svelte-preprocess: ^4.8.0
 
@@ -55,6 +56,7 @@ devDependencies:
   showdown: 1.9.1
   svelte: 3.42.3
   svelte-highlight: 3.2.0
+  svelte-loading-spinners: 0.1.7
   svelte-materialify: 0.3.11_svelte@3.42.3
   svelte-preprocess: 4.8.0_1b6e4133cf84800adf2c25715b00527b
 
@@ -3799,6 +3801,10 @@ packages:
       svelte: '>=3.19.0'
     dependencies:
       svelte: 3.42.3
+    dev: true
+
+  /svelte-loading-spinners/0.1.7:
+    resolution: {integrity: sha512-EKCId1DjVL2RSUVJJsvtNcqQHox03XIgh4xh/4p7r6ST7d8mut6INY9/LqK4A17PFU64+3quZmqiSfOlf480CA==}
     dev: true
 
   /svelte-materialify/0.3.11_svelte@3.42.3:

@@ -1,6 +1,5 @@
 <script>
   import Card from '$lib/Card.svelte';
-  import banner from '$lib/assets/default_banner.png';
 
   export let game;
   export let selected = false;

@@ -1,8 +1,8 @@
 <script>
   import banner from '$lib/assets/default_banner.png';
-  import { Button, Chip, Icon } from 'svelte-materialify/src';
+  import Icon from 'mdi-svelte';
   import Panel from '$lib/Panel.svelte';
-  import DownloadGameModal from '$lib/discover/DownloadGameModal.svelte';
+  //import DownloadGameModal from '$lib/discover/DownloadGameModal.svelte';
   import { mdiDownload } from '@mdi/js';
 
   export let game;
@@ -18,7 +18,10 @@
 
 <Panel banner={banner_src} title={game.name} on:close>
   <div slot="subtitle">
-    {game.hash}<br /><br />
+    {#if game.version}
+      {game.version}
+    {/if}
+    <!--
     {#each game.genres as genre}
       <Chip size="small" class="primary-color mr-2 mb-2">{genre}</Chip>
     {/each}
@@ -30,22 +33,27 @@
     {#each game.languages as language}
       <Chip size="small" class="primary-color mr-2 mb-2">{language}</Chip>
     {/each}
+-->
     <br />
   </div>
   <div slot="text" class="show-white-space">
     {game.description}
   </div>
   <div slot="actions">
-    <Button icon on:click={() => handleDownload()}>
+    <button icon on:click={() => handleDownload()}>
       <Icon path={mdiDownload} />
-    </Button>
+    </button>
   </div>
 
-  <DownloadGameModal slot="extra" active={download} {game} on:close={() => (download = false)} />
+  <!--<DownloadGameModal slot="extra" active={download} {game} on:close={() => (download = false)} />-->
 </Panel>
 
 <style>
   .show-white-space {
     white-space: pre-wrap;
+  }
+
+  button {
+    font-size: 20px;
   }
 </style>

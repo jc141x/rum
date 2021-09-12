@@ -1,7 +1,6 @@
 <script>
   import { localGames, selectedLocalGame } from '$lib/store.js';
   import { fly } from 'svelte/transition';
-  $selectedLocalGame = 0;
 
   import Panel from '$lib/library/Panel.svelte';
   import Grid from '$lib/library/Grid.svelte';
@@ -12,12 +11,8 @@
 </svelte:head>
 
 <div class="content">
-  <div class="row-grid full-height">
-    <div
-      class="grid full-height"
-      in:fly={{ x: -100, duration: 300, delay: 300 }}
-      out:fly={{ x: -100, duration: 300 }}
-    >
+  <div class="row-grid full-height" class:small={$selectedLocalGame !== null}>
+    <div class="grid full-height">
       <Grid />
     </div>
   </div>
@@ -28,8 +23,8 @@
       {:then games}
         {#key $selectedLocalGame}
           <div
-            in:fly={{ x: 100, duration: 300, delay: 300 }}
-            out:fly={{ x: 100, duration: 300 }}
+            in:fly={{ y: 100, duration: 300, delay: 300 }}
+            out:fly={{ y: 100, duration: 300 }}
             class="full-height panel"
           >
             <Panel game={games[$selectedLocalGame]} on:close={() => ($selectedLocalGame = null)} />
@@ -46,11 +41,6 @@
   .content {
     height: 100%;
     overflow: hidden;
-    display: grid;
-    grid-template-rows: auto max-content;
-  }
-
-  .full-height {
   }
 
   .grid {
@@ -58,18 +48,20 @@
     padding: 10px;
     padding-right: 20px;
     width: 100%;
+    max-height: 100%;
   }
 
-  .col-grid {
-    display: flex;
+  .row-grid {
     padding: 10px;
+    height: calc(100vh - 100px);
+    max-height: calc(100vh - 100px);
   }
 
-  .col-panel {
-    width: 400px;
+  .row-grid.small {
+    max-height: calc(100vh - 340px);
   }
 
-  .panel {
-    background-color: var(--secondary);
+  .row-panel {
+    width: 100%;
   }
 </style>

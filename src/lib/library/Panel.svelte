@@ -19,7 +19,13 @@
   </div>
   <div slot="actions">
     {#each game.scripts as script}
-      <button class="mr-5" on:click={() => handleLaunch(script.script)}>{script.name}</button>
+      <button on:click={() => handleLaunch(script.script)}>{script.name}</button>
     {/each}
   </div>
 </Panel>
+
+<style>
+  button {
+    font-size: 20px;
+  }
+</style>

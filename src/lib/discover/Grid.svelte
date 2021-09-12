@@ -2,12 +2,13 @@
   import { databaseGames, selectedGame } from '$lib/store.js';
   import Card from '$lib/discover/Card.svelte';
   import Grid from '$lib/Grid.svelte';
-  import { ProgressCircular } from 'svelte-materialify/src';
+  import { Moon } from 'svelte-loading-spinners';
+  import { styles } from '$lib/styles';
 </script>
 
 {#await $databaseGames}
-  <div class="d-flex justify-center align-center full">
-    <ProgressCircular indeterminate color="primary" />
+  <div class="center">
+    <Moon size="60" color={$styles.primary} unit="px" duration="1s" />
   </div>
 {:then games}
   <Grid>
@@ -15,14 +16,7 @@
       <Card
         {game}
         selected={$selectedGame == i}
-        on:click={(e) => {
-          setTimeout(() => {
-            e.target.scrollIntoView({
-              behavior: 'smooth', // This might not work in webkit
-              block: 'nearest',
-              inline: 'nearest'
-            });
-          }, 10);
+        on:click={() => {
           selectedGame.set(i);
         }}
       />
@@ -36,5 +30,12 @@
   .full {
     width: 100%;
     height: 100%;
+  }
+
+  .center {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-top: 200px;
   }
 </style>

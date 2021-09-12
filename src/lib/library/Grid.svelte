@@ -13,13 +13,6 @@
         {game}
         selected={$selectedLocalGame == i}
         on:click={(e) => {
-          setTimeout(() => {
-            e.target.scrollIntoView({
-              behavior: 'smooth', // This might not work in webkit
-              block: 'nearest',
-              inline: 'nearest'
-            });
-          }, 10);
           selectedLocalGame.set(i);
         }}
       />
