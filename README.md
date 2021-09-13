@@ -43,6 +43,16 @@ pnpm tauri build
 
 This will create a `chad_launcher` executable, an AppImage and a debian package.
 
+## Setting up a torrent client
+### qBittorrent
+To set up qBittorent you will need to enable the web ui.
+This can be done by going into options > webui ticking the checkbox. 
+You can set a custom password but the default password is 
+```
+adminadmin
+```
+Then you can go into the chad Launcher settings and add it, the defaults will work, you just need to add in the password.
+
 ## Development
 
 ### Running development server
