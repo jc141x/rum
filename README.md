@@ -15,6 +15,22 @@ For the people that value these ideals as much as us, they are welcome to join o
 
 ## Installation
 
+### Install from AUR
+
+```sh
+git clone https://aur.archlinux.org/paru-bin.git && cd paru-bin && makepkg -si
+paru -S chad_launcher-bin
+# Alternative called chad_launcher-git is available which will compile every update from latest commit. Not recommended for regular use.
+```
+
+### Install from DUR (Debian)
+
+- Work in progress.
+
+### Install from Fedora Projects
+
+- Work in progress.
+
 ### Build from source
 
 We recommend using `pnpm` to build this project. ([AUR](https://aur.archlinux.org/packages/pnpm/))
@@ -26,6 +42,16 @@ pnpm tauri build
 ```
 
 This will create a `chad_launcher` executable, an AppImage and a debian package.
+
+## Setting up a torrent client
+### qBittorrent
+To set up qBittorent you will need to enable the web ui.
+This can be done by going into options > webui ticking the checkbox. 
+You can set a custom password but the default password is 
+```
+adminadmin
+```
+Then you can go into the chad Launcher settings and add it, the defaults will work, you just need to add in the password.
 
 ## Development
 
