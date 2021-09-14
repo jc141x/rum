@@ -5,6 +5,7 @@
   import Icon from 'mdi-svelte';
   import { mdiDelete, mdiFolder, mdiReload, mdiUndo } from '@mdi/js';
   import { open } from '../../node_modules/@tauri-apps/api/dialog';
+  import { decorations } from '$lib/store';
   import ColorSetting from '$lib/ColorSetting.svelte';
   import AddTorrentClientModal from '$lib/settings/AddTorrentClientModal.svelte';
 
@@ -146,6 +147,14 @@
   </div>
   <div class="row">
     <div class="settings-grid">
+      <div>Window decorations</div>
+      <select bind:value={$decorations}>
+        <option value="system">System</option>
+        <option value="disabled">Disabled</option>
+        <option value="left">Left</option>
+        <option value="right">Right</option>
+      </select>
+      <div />
       {#each Object.entries($styles) as [key, value]}
         <div>{key}:</div>
         <div>

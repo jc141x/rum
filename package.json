@@ -1,6 +1,6 @@
 {
-	"name": "~TODO~",
-	"version": "0.0.1",
+	"name": "Chad Launcher",
+	"version": "0.3.0",
 	"scripts": {
 		"tauri": "tauri",
 		"dev": "svelte-kit dev",

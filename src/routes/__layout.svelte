@@ -22,7 +22,6 @@
 <ThemeProvider>
   <div class="wrapper">
     <Navbar />
-    <!--<Sidebar />-->
     <PageTransition refresh={key}>
       <slot />
     </PageTransition>

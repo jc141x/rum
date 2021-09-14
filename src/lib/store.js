@@ -1,6 +1,7 @@
 import command from '$lib/command';
 import { writable, derived } from 'svelte/store';
 import { asyncable } from 'svelte-asyncable';
+import { writable as storable } from 'svelte-local-storage-store';
 
 // Creates an asyncable store with a "reload trigger".
 // This reload trigger makes sure the getter gets called and triggers subscriptions
@@ -74,6 +75,8 @@ export const torrentClients = asyncable(async () => {
 export const mode = writable('grid');
 export const sidebarActive = writable(false);
 export const isAdmin = writable(false);
+
+export const decorations = storable('decorations', 'right');
 
 export const load = async () => {
   await Promise.all([command.library('reload_games'), command.download('init_clients')]);

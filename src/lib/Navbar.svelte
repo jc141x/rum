@@ -1,9 +1,27 @@
 <script>
   import { mdiMenu, mdiMagnify } from '@mdi/js';
-  import { query } from './store.js';
+  import { query, decorations } from '$lib/store.js';
+  import { onMount } from 'svelte';
+  import WindowControls from './WindowControls.svelte';
+  //import { appWindow } from '../../node_modules/@tauri-apps/api/window';
+
+  onMount(() => {
+    decorations.subscribe(async (value) => {
+      let { appWindow } = await import('../../node_modules/@tauri-apps/api/window');
+
+      if (value != 'system') {
+        await appWindow.setDecorations(false);
+      } else {
+        await appWindow.setDecorations(true);
+      }
+    });
+  });
 </script>
 
 <div class="header">
+  {#if $decorations == 'left'}
+    <WindowControls inverted />
+  {/if}
   <h3 class="title"><a href="/" class="link">Chad Launcher</a></h3>
   <input bind:value={$query} style="max-width:300px" dense rounded filled placeholder="Search" />
   <div class="links">
@@ -14,6 +32,11 @@
     <a href="/documentation" class="link">Dependencies</a>
     <a href="/about" class="link">About</a>
   </div>
+  {#if $decorations == 'right'}
+    <div class="right">
+      <WindowControls />
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -54,6 +77,10 @@
   .header > *,
   .links > * {
     margin: 10px;
+  }
+
+  .right {
+    margin-left: auto;
   }
 
   .grow {
