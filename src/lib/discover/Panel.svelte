@@ -35,7 +35,6 @@
       <Chip size="small" class="primary-color mr-2 mb-2">{language}</Chip>
     {/each}
 -->
-    <br />
   </div>
   <div slot="text" class="show-white-space">
     {game.description}

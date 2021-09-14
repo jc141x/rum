@@ -38,7 +38,7 @@
   .panel {
     padding: 20px;
     display: grid;
-    grid-template-columns: 100px auto auto 100px;
+    grid-template-columns: 100px auto auto min-content;
     grid-template-rows: 4rem auto 60px;
   }
 
