@@ -2,7 +2,7 @@
   import banner from '$lib/assets/default_banner.png';
   import Icon from 'mdi-svelte';
   import Panel from '$lib/Panel.svelte';
-  //import DownloadGameModal from '$lib/discover/DownloadGameModal.svelte';
+  import DownloadGameModal from '$lib/discover/DownloadGameModal.svelte';
   import { mdiDownload } from '@mdi/js';
 
   export let game;
@@ -11,6 +11,7 @@
 
   const handleDownload = () => {
     download = true;
+    console.log('here');
   };
 
   $: banner_src = `https://bkftwbhopivmrgzcagus.supabase.in/storage/v1/object/public/banners/${game.hash}.png`;
@@ -45,7 +46,7 @@
     </button>
   </div>
 
-  <!--<DownloadGameModal slot="extra" active={download} {game} on:close={() => (download = false)} />-->
+  <DownloadGameModal slot="extra" active={download} {game} on:close={() => (download = false)} />
 </Panel>
 
 <style>

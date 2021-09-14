@@ -1,7 +1,7 @@
 <script>
   import { genres, selectedGenre, query, page, selectedGame, databaseGames } from '$lib/store.js';
   import { fly } from 'svelte/transition';
-  //import Pagination from '$lib/discover/Pagination.svelte';
+  import Pagination from '$lib/discover/Pagination.svelte';
   import Panel from '$lib/discover/Panel.svelte';
   import Grid from '$lib/discover/Grid.svelte';
 
@@ -54,6 +54,10 @@
   </div>
     -->
 
+  <div class="row-pagination" class:small={$selectedGame !== null}>
+    <Pagination />
+  </div>
+
   <div class="row-grid" class:small={$selectedGame !== null}>
     <div class="grid full-height">
       <Grid />
@@ -97,11 +101,11 @@
   .row-grid {
     padding: 10px;
     height: 100%;
-    max-height: calc(100vh - 100px);
+    max-height: calc(100vh - 130px);
   }
 
   .row-grid.small {
-    max-height: calc(100vh - 300px);
+    max-height: calc(100vh - 330px);
   }
 
   .row-panel {

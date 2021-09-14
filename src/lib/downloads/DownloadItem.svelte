@@ -49,7 +49,6 @@
     {formatBytes(torrent.size)}
   </div>
   <div class="col progress">
-    <!--<BarLoader size="60" color={$styles.primary} unit="px" duration="1s" />-->
     <ProgressBar
       style={'thin'}
       series={[{ perc: torrent.progress * 100, color: $styles.primary }]}

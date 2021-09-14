@@ -6,9 +6,10 @@
   import { mdiDelete, mdiFolder, mdiReload, mdiUndo } from '@mdi/js';
   import { open } from '../../node_modules/@tauri-apps/api/dialog';
   import ColorSetting from '$lib/ColorSetting.svelte';
-  //import AddTorrentClientModal from '$lib/settings/AddTorrentClientModal.svelte';
+  import AddTorrentClientModal from '$lib/settings/AddTorrentClientModal.svelte';
 
   let config_temp = {};
+
   config.subscribe(async (config) => {
     config_temp = JSON.parse(JSON.stringify(await config));
   });
@@ -118,18 +119,20 @@
   <div class="row">
     <h6>Torrent Clients</h6>
   </div>
-  {#if config_clients}
-    {#each Object.entries(config_clients) as [name, config]}
-      <div class="row">
-        <div>
-          <h8>{name}</h8>
-        </div>
-        <div sm={2}>
-          <button on:click={() => removeClient(name)}>Remove</button>
-        </div>
-      </div>
-    {/each}
-  {/if}
+  <div class="row">
+    <div class="clients-grid">
+      {#if config_clients}
+        {#each Object.entries(config_clients) as [name, config]}
+          <div>
+            <h8>{name}</h8>
+          </div>
+          <div>
+            <button on:click={() => removeClient(name)}><Icon path={mdiDelete} /></button>
+          </div>
+        {/each}
+      {/if}
+    </div>
+  </div>
   <div class="row">
     <div>
       <button on:click={addClient}>Add client</button>
@@ -160,17 +163,17 @@
       <button on:click={save}>Save</button>
     </div>
   </div>
-  <!--
   {#if addClientModalActive}
-    <AddTorrentClientModal on:close={handleModalClose} />
+    <AddTorrentClientModal on:close={handleModalClose} active={addClientModalActive} />
   {/if}
--->
 </div>
 
 <style>
   .top {
     margin: 10px;
     margin-top: 20px;
+    overflow-y: auto;
+    height: calc(100vh - 110px);
   }
 
   .row {
@@ -187,6 +190,13 @@
   .settings-grid {
     display: grid;
     grid-template-columns: max-content auto 50px;
+    grid-gap: 20px;
+    align-items: center;
+  }
+
+  .clients-grid {
+    display: grid;
+    grid-template-columns: max-content 50px;
     grid-gap: 20px;
     align-items: center;
   }

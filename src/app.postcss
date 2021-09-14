@@ -92,10 +92,6 @@ header h1 {
     border-bottom: 1px solid;
 }
 
-p {
-    margin: 2rem 0;
-}
-
 a,
 a:visited {
     color: var(--link-color);
@@ -251,11 +247,21 @@ button {
     border-radius: 5px;
     border: 2px solid transparent;
     transition: border-color 0.2s;
+    font-size: 0.8em;
 }
 
 button:hover {
     border: 2px solid var(--primary-color);
     cursor: pointer;
+}
+
+select {
+    appearance: none;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    font-size: 1em;
+    border: 1px solid var(--primary-color);
+    border-radius: 0px;
 }
 
 /* Mobile Styling */

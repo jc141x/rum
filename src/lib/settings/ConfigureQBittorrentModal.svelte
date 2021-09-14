@@ -1,13 +1,4 @@
 <script>
-  import {
-    Card,
-    CardTitle,
-    CardText,
-    CardActions,
-    Button,
-    TextField,
-    Row
-  } from 'svelte-materialify/src';
   import command from '$lib/command';
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
@@ -36,32 +27,41 @@
   };
 </script>
 
-<Card>
-  <CardTitle>Configure qBittorrent</CardTitle>
-  <CardText class="ml-5">
-    <Row class="mb-5">
-      <TextField style="max-width: 77%" bind:value={clientName}>Name</TextField>
-    </Row>
-    <Row class="mb-5">
-      <TextField style="max-width: 77%" bind:value={options.host}>Host</TextField>
-    </Row>
-    <Row class="mb-5">
-      <TextField style="max-width: 77%" bind:value={options.username}>Username</TextField>
-    </Row>
-    <Row class="mb-5">
-      <TextField type="password" style="max-width: 77%" bind:value={options.password}>
-        Password
-      </TextField>
-    </Row>
-    {#if errorMessage !== null}
-      <Row class="mb-5">
-        {errorMessage}
-      </Row>
-    {/if}
-  </CardText>
-  <CardActions>
-    <Button class="mr-5" on:click={() => dispatch('close')}>Cancel</Button>
-    <Button class="mr-5" on:click={() => dispatch('back')}>Back</Button>
-    <Button on:click={handleQBittorrentConnect}>Connect</Button>
-  </CardActions>
-</Card>
+<div>
+  <h3>Configure qBittorrent</h3>
+  <div class="options">
+    <p>Name:</p>
+    <input bind:value={clientName} />
+    <p>Host:</p>
+    <input bind:value={options.host} />
+    <p>Username:</p>
+    <input bind:value={options.username} />
+    <p>Password:</p>
+    <input type="password" bind:value={options.password} />
+  </div>
+  {#if errorMessage !== null}
+    <div>
+      {errorMessage}
+    </div>
+  {/if}
+  <div class="bottom">
+    <button on:click={() => dispatch('close')}>Cancel</button>
+    <button on:click={() => dispatch('back')}>Back</button>
+    <button on:click={handleQBittorrentConnect}>Connect</button>
+  </div>
+</div>
+
+<style>
+  .bottom {
+    position: absolute;
+    bottom: 20px;
+  }
+
+  .options {
+    display: grid;
+    grid-template-columns: max-content auto;
+    grid-gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+</style>

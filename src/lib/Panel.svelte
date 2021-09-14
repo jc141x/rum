@@ -38,16 +38,16 @@
   .panel {
     padding: 20px;
     display: grid;
-    grid-template-columns: 100px auto auto 50px;
+    grid-template-columns: 100px auto auto 100px;
     grid-template-rows: 4rem auto 60px;
   }
 
   .title {
-    grid-column: 1 / 3;
+    grid-column: 1 / 4;
   }
 
   .subtitle {
-    grid-column: 3;
+    grid-column: 4;
   }
 
   .text {
@@ -58,6 +58,7 @@
   }
 
   .actions {
+    margin-top: 10px;
     grid-column: 1 / 5;
     grid-row: 3;
   }

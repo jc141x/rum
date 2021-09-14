@@ -38,7 +38,7 @@ export const databaseGames = asyncable(
   async ($selectedGenre, $page, $query) => {
     let opts = {
       page_number: $page - 1,
-      page_size: 20,
+      page_size: 40,
       filter_genres: [],
       filter_languages: [],
       filter_tags: []

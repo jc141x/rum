@@ -1,16 +1,6 @@
 <script>
-  import {
-    Card,
-    CardTitle,
-    CardSubtitle,
-    CardText,
-    CardActions,
-    Button,
-    Select,
-    TextField,
-    Row
-  } from 'svelte-materialify/src';
   import command from '$lib/command';
+  import { fly } from 'svelte/transition';
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
 
@@ -58,49 +48,68 @@
   };
 </script>
 
-<Card>
-  <CardTitle>Configure Deluge</CardTitle>
+<div>
+  <h3>Configure Deluge</h3>
   {#if state == 'connect_web'}
-    <CardSubtitle>Connect to Web API</CardSubtitle>
-    <CardText class="ml-5">
-      <Row class="mb-5">
-        <TextField style="max-width: 77%" bind:value={clientName}>Name</TextField>
-      </Row>
-      <Row class="mb-5">
-        <TextField style="max-width: 77%" bind:value={options.web_address}>Web address</TextField>
-      </Row>
-      <Row class="mb-5">
-        <TextField type="password" style="max-width: 77%" bind:value={options.web_password}>
-          Web password
-        </TextField>
-      </Row>
+    <div in:fly={{ x: 100, duration: 200, delay: 200 }} out:fly={{ x: -100, duration: 200 }}>
+      <h4>Connect to Web API</h4>
+      <div class="options">
+        <p>Name:</p>
+        <input bind:value={clientName} />
+        <p>Web address:</p>
+        <input bind:value={options.web_address} />
+        <p>Web password:</p>
+        <input type="password" bind:value={options.web_address} />
+      </div>
       {#if errorMessage !== null}
-        <Row class="mb-5">
+        <div>
           {errorMessage}
-        </Row>
+        </div>
       {/if}
-    </CardText>
-    <CardActions>
-      <Button class="mr-5" on:click={() => dispatch('close')}>Cancel</Button>
-      <Button class="mr-5" on:click={() => dispatch('back')}>Back</Button>
-      <Button on:click={handleDelugeConnectWeb}>Connect</Button>
-    </CardActions>
+      <div class="bottom">
+        <button on:click={() => dispatch('close')}>Cancel</button>
+        <button on:click={() => dispatch('back')}>Back</button>
+        <button on:click={handleDelugeConnectWeb}>Connect</button>
+      </div>
+    </div>
   {:else if state == 'connect_daemon'}
-    <CardSubtitle>Connect to daemon</CardSubtitle>
-    <CardText class="ml-5">
-      <Row>
-        <Select items={hosts} bind:value={daemon}>Host</Select>
-      </Row>
-      {#if errorMessage !== null}
-        <Row class="mb-5">
-          {errorMessage}
-        </Row>
-      {/if}
-    </CardText>
-    <CardActions>
-      <Button class="mr-5" on:click={() => dispatch('close')}>Cancel</Button>
-      <Button class="mr-5" on:click={() => (state = 'connect_web')}>Back</Button>
-      <Button on:click={handleDelugeConnectDaemon}>Connect</Button>
-    </CardActions>
+    <div in:fly={{ x: 100, duration: 200, delay: 200 }} out:fly={{ x: -100, duration: 200 }}>
+      <h4>Connect to daemon</h4>
+      <div>
+        <div class="options">
+          <p>Daemon host:</p>
+          <select bind:value={daemon}>
+            {#each hosts as host}
+              <option value={host.value}>{host.name}</option>
+            {/each}
+          </select>
+        </div>
+        {#if errorMessage !== null}
+          <div>
+            {errorMessage}
+          </div>
+        {/if}
+      </div>
+      <div class="bottom">
+        <button on:click={() => dispatch('close')}>Cancel</button>
+        <button on:click={() => (state = 'connect_web')}>Back</button>
+        <button on:click={handleDelugeConnectDaemon}>Connect</button>
+      </div>
+    </div>
   {/if}
-</Card>
+</div>
+
+<style>
+  .bottom {
+    position: absolute;
+    bottom: 20px;
+  }
+
+  .options {
+    display: grid;
+    grid-template-columns: max-content auto;
+    grid-gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+</style>

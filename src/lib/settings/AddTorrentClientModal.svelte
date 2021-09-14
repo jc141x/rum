@@ -1,19 +1,12 @@
 <script>
-  import {
-    Overlay,
-    Card,
-    CardTitle,
-    CardSubtitle,
-    CardText,
-    CardActions,
-    Button,
-    Select,
-    TextField,
-    Row
-  } from 'svelte-materialify/src';
   import { createEventDispatcher } from 'svelte';
   import ConfigureDelugeModal from './ConfigureDelugeModal.svelte';
   import ConfigureQBittorrentModal from './ConfigureQBittorrentModal.svelte';
+  import Modal from '$lib/Modal.svelte';
+  import { fly } from 'svelte/transition';
+
+  export let active;
+
   const dispatch = createEventDispatcher();
 
   const backends = ['Deluge', 'qBittorrent'];
@@ -30,45 +23,61 @@
   };
 </script>
 
-<Overlay active={true}>
-  {#if state == 'select_backend'}
-    <Card>
-      <CardTitle>Choose a torrent client</CardTitle>
-      <CardText class="ml-5">
-        {#each backends as backend}
-          <Row>
-            <Button class="mb-5" on:click={() => handleSelectBackend(backend)}>{backend}</Button>
-          </Row>
-        {/each}
-      </CardText>
-      <CardActions>
-        <Button class="mr-5" on:click={() => dispatch('close')}>Cancel</Button>
-      </CardActions>
-    </Card>
-  {:else if state == 'configure_backend'}
-    {#if selectedBackend == 'qBittorrent'}
-      <ConfigureQBittorrentModal
-        bind:clientName
-        on:close
-        on:done={() => (state = 'done')}
-        on:back={() => (state = 'select_backend')}
-      />
-    {:else if selectedBackend == 'Deluge'}
-      <ConfigureDelugeModal
-        bind:clientName
-        on:close
-        on:done={() => (state = 'done')}
-        on:back={() => (state = 'select_backend')}
-      />
-    {:else}
-      Not implemented
+{#if active}
+  <Modal on:close>
+    {#if state == 'select_backend'}
+      <div in:fly={{ x: 100, duration: 200, delay: 200 }} out:fly={{ x: -100, duration: 200 }}>
+        <h3>Choose a torrent client</h3>
+        <div>
+          {#each backends as backend}
+            <div>
+              <button on:click={() => handleSelectBackend(backend)}>{backend}</button>
+            </div>
+          {/each}
+        </div>
+        <div class="bottom">
+          <button on:click={() => dispatch('close')}>Cancel</button>
+        </div>
+      </div>
+    {:else if state == 'configure_backend'}
+      <div in:fly={{ x: 100, duration: 200, delay: 200 }} out:fly={{ x: -100, duration: 200 }}>
+        {#if selectedBackend == 'qBittorrent'}
+          <ConfigureQBittorrentModal
+            bind:clientName
+            on:close
+            on:done={() => (state = 'done')}
+            on:back={() => (state = 'select_backend')}
+          />
+        {:else if selectedBackend == 'Deluge'}
+          <ConfigureDelugeModal
+            bind:clientName
+            on:close
+            on:done={() => (state = 'done')}
+            on:back={() => (state = 'select_backend')}
+          />
+        {:else}
+          Not implemented
+        {/if}
+      </div>
+    {:else if state == 'done'}
+      <div in:fly={{ x: 100, duration: 200, delay: 200 }} out:fly={{ x: -100, duration: 200 }}>
+        <h3>Client "{clientName}" added successfully.</h3>
+      </div>
+      <div class="bottom">
+        <button
+          on:click={() => {
+            state = 'select_backend';
+            dispatch('close');
+          }}>Close</button
+        >
+      </div>
     {/if}
-  {:else if state == 'done'}
-    <Card>
-      <CardTitle>Client "{clientName}" added successfully.</CardTitle>
-      <CardActions>
-        <Button class="mr-5" on:click={() => dispatch('close')}>Close</Button>
-      </CardActions>
-    </Card>
-  {/if}
-</Overlay>
+  </Modal>
+{/if}
+
+<style>
+  .bottom {
+    position: absolute;
+    bottom: 20px;
+  }
+</style>
