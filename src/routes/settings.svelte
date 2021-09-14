@@ -1,8 +1,12 @@
 <script>
   import { config } from '$lib/store';
   import command from '$lib/command';
-  import { Row, Col, TextField, Button, Divider } from 'svelte-materialify/src';
-  import AddTorrentClientModal from '$lib/settings/AddTorrentClientModal.svelte';
+  import { styles, defaultStyles } from '$lib/styles';
+  import Icon from 'mdi-svelte';
+  import { mdiDelete, mdiFolder, mdiReload, mdiUndo } from '@mdi/js';
+  import { open } from '../../node_modules/@tauri-apps/api/dialog';
+  import ColorSetting from '$lib/ColorSetting.svelte';
+  //import AddTorrentClientModal from '$lib/settings/AddTorrentClientModal.svelte';
 
   let config_temp = {};
   config.subscribe(async (config) => {
@@ -12,6 +16,19 @@
   const addPath = () => (config_temp.library_paths = [...config_temp.library_paths, '']);
   const removePath = (path) =>
     (config_temp.library_paths = config_temp.library_paths.filter((p) => p != path));
+  const selectPath = async (i) => {
+    config_temp.library_paths[i] = await open({
+      defaultPath: config_temp.library_paths[i],
+      directory: true
+    });
+  };
+
+  const selectDataPath = async () => {
+    config_temp.data_path = await open({
+      defaultPath: config_temp.data_path,
+      directory: true
+    });
+  };
 
   const save = async () => {
     await config.set(config_temp);
@@ -33,6 +50,10 @@
     config.reload();
   };
 
+  const undoColor = (key) => {
+    $styles[key] = defaultStyles[key];
+  };
+
   /*
   let active_clients = [];
 
@@ -46,77 +67,139 @@
   <title>Chad Launcher - Settings</title>
 </svelte:head>
 
-<div class="ma-10">
-  <Row noGutters class="mb-2">
+<div class="top">
+  <div class="row">
     <h6>General options</h6>
-  </Row>
-  <Row>
-    <Col sm={2}>Data path:</Col>
-    <Col sm={10}>
-      <TextField bind:value={config_temp.data_path} />
-    </Col>
-  </Row>
-  <Row>
-    <Col sm={2}>Terminal:</Col>
-    <Col sm={10}>
-      <TextField bind:value={config_temp.terminal} />
-    </Col>
-  </Row>
-  <Row>
-    <Divider class="mt-4 mb-4" />
-  </Row>
-  <Row noGutters class="mb-2">
+  </div>
+  <div class="row">
+    <div class="settings-grid">
+      <div>Data path:</div>
+      <div>
+        <input bind:value={config_temp.data_path} />
+      </div>
+      <div>
+        <button on:click={selectDataPath}><Icon path={mdiFolder} /></button>
+      </div>
+      <div>Terminal:</div>
+      <div>
+        <input bind:value={config_temp.terminal} />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <hr class="divider" />
+  </div>
+  <div class="row">
     <h6>Library paths</h6>
-  </Row>
+  </div>
   {#if config_temp.library_paths}
-    {#each config_temp.library_paths as path}
-      <Row noGutters>
-        <Col>
-          <TextField bind:value={path} />
-        </Col>
-        <Col sm={2} class="ml-5">
-          <Button on:click={() => removePath(path)}>Remove</Button>
-        </Col>
-      </Row>
+    {#each config_temp.library_paths as path, i}
+      <div class="row">
+        <div>
+          <input bind:value={path} />
+        </div>
+        <div>
+          <button on:click={() => selectPath(i)}><Icon path={mdiFolder} /></button>
+        </div>
+        <div>
+          <button on:click={() => removePath(path)}><Icon path={mdiDelete} /></button>
+        </div>
+      </div>
     {/each}
-    <Row class="mt-2">
-      <Col>
-        <Button on:click={addPath}>Add path</Button>
-      </Col>
-    </Row>
+    <div class="row">
+      <div>
+        <button on:click={addPath}>Add path</button>
+      </div>
+    </div>
   {/if}
-  <Row>
-    <Divider class="mt-4 mb-4" />
-  </Row>
-  <Row noGutters class="mb-2">
+  <div class="row">
+    <hr class="divider" />
+  </div>
+  <div class="row">
     <h6>Torrent Clients</h6>
-  </Row>
+  </div>
   {#if config_clients}
     {#each Object.entries(config_clients) as [name, config]}
-      <Row noGutters class="mb-2">
-        <Col>
+      <div class="row">
+        <div>
           <h8>{name}</h8>
-        </Col>
-        <Col sm={2}>
-          <Button on:click={() => removeClient(name)}>Remove</Button>
-        </Col>
-      </Row>
+        </div>
+        <div sm={2}>
+          <button on:click={() => removeClient(name)}>Remove</button>
+        </div>
+      </div>
     {/each}
   {/if}
-  <Row noGutters>
-    <Col>
-      <Button on:click={addClient}>Add client</Button>
-    </Col>
-  </Row>
-  <Row>
-    <Divider class="mt-4" />
-  </Row>
-  <Row>
-    <Col>
-      <Button on:click={save}>Save</Button>
-    </Col>
-  </Row>
+  <div class="row">
+    <div>
+      <button on:click={addClient}>Add client</button>
+    </div>
+  </div>
+  <div class="row">
+    <hr class="divider" />
+  </div>
+  <div class="row">
+    <h6>Theme</h6>
+  </div>
+  <div class="row">
+    <div class="settings-grid">
+      {#each Object.entries($styles) as [key, value]}
+        <div>{key}:</div>
+        <div>
+          <ColorSetting {key} />
+        </div>
+        <button on:click={() => undoColor(key)}><Icon path={mdiUndo} /></button>
+      {/each}
+    </div>
+  </div>
+  <div class="row">
+    <hr class="divider" />
+  </div>
+  <div class="row">
+    <div>
+      <button on:click={save}>Save</button>
+    </div>
+  </div>
+  <!--
   {#if addClientModalActive}
     <AddTorrentClientModal on:close={handleModalClose} />
   {/if}
+-->
 </div>
+
+<style>
+  .top {
+    margin: 10px;
+    margin-top: 20px;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 10px;
+  }
+
+  .row > * {
+    margin-right: 10px;
+  }
+
+  hr.divider {
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 5px;
+    background-color: var(--secondary);
+  }
+
+  .settings-grid {
+    display: grid;
+    grid-template-columns: max-content auto 50px;
+    grid-gap: 20px;
+    align-items: center;
+  }
+
+  input {
+    width: 500px;
+  }
+</style>

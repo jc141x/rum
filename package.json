@@ -40,6 +40,7 @@
 		"cookie": "^0.4.1",
 		"postcss-easing-gradients": "^3.0.1",
 		"roboto-fontface-woff": "^0.8.0",
-		"svelte-asyncable": "^2.0.4"
+		"svelte-asyncable": "^2.0.4",
+		"svelte-local-storage-store": "^0.2.4"
 	}
 }

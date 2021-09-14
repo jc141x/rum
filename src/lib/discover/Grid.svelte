@@ -2,13 +2,13 @@
   import { databaseGames, selectedGame } from '$lib/store.js';
   import Card from '$lib/discover/Card.svelte';
   import Grid from '$lib/Grid.svelte';
-  import { Moon } from 'svelte-loading-spinners';
   import { styles } from '$lib/styles';
+  import { Pulse } from 'svelte-loading-spinners';
 </script>
 
 {#await $databaseGames}
   <div class="center">
-    <Moon size="60" color={$styles.primary} unit="px" duration="1s" />
+    <Pulse size="60" color={$styles.primary} unit="px" duration="1s" />
   </div>
 {:then games}
   <Grid>

@@ -1,8 +1,7 @@
 <script>
   import { cssStyles } from '$lib/styles';
-  import { onMount } from 'svelte';
 
-  onMount(() => (document.documentElement.style.cssText = $cssStyles));
+  $: document.documentElement.style.cssText = $cssStyles;
 </script>
 
 <div id="top">

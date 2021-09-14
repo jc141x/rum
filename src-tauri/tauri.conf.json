@@ -48,7 +48,13 @@
     "updater": {
       "active": false
     },
-    "allowlist": {},
+    "allowlist": {
+      "dialog": {
+        "all": true,
+        "open": true,
+        "save": true
+      }
+    },
     "windows": [
       {
         "title": "Chad Launcher",

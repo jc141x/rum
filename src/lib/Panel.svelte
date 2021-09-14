@@ -54,7 +54,7 @@
     grid-column: 1 / 5;
     grid-row: 2;
     overflow-y: scroll;
-    height: 100px;
+    height: 60px;
   }
 
   .actions {

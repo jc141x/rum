@@ -101,7 +101,7 @@
   }
 
   .row-grid.small {
-    max-height: calc(100vh - 340px);
+    max-height: calc(100vh - 300px);
   }
 
   .row-panel {
