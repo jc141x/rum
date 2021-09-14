@@ -63,4 +63,4 @@ pnpm tauri dev
 ```
 
 ## Current GUI
-<img src="https://i.postimg.cc/zG5gBndF/11111.png"/>
+<img src="https://i.postimg.cc/ydFTCCsQ/24342.png"/>
