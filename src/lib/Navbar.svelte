@@ -60,8 +60,11 @@
   .links {
     display: flex;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
+    overflow-x: auto;
+  }
+  .links::-webkit-scrollbar {
+    height: 4px;
   }
 
   input {
