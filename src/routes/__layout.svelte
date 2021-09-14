@@ -8,8 +8,6 @@
 
 <script>
   import '../app.postcss';
-  //import 'roboto-fontface-woff/css/roboto/sass/roboto-fontface.scss';
-  import '../global.scss';
 
   import Navbar from '$lib/Navbar.svelte';
   import { load as loadStore } from '$lib/store';
