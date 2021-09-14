@@ -184,14 +184,6 @@
     margin-right: 10px;
   }
 
-  hr.divider {
-    width: 100%;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    height: 5px;
-    background-color: var(--secondary);
-  }
-
   .settings-grid {
     display: grid;
     grid-template-columns: max-content auto 50px;

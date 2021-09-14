@@ -11,7 +11,7 @@
     <a href="/discover" class="link">Discover</a>
     <a href="/downloads" class="link">Downloads</a>
     <a href="/settings" class="link">Settings</a>
-    <a href="/dependencies" class="link">Dependencies</a>
+    <a href="/documentation" class="link">Dependencies</a>
     <a href="/about" class="link">About</a>
   </div>
 </div>

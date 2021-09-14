@@ -1,6 +1,5 @@
 <script>
   import command from '$lib/command';
-  import { Row } from 'svelte-materialify/src';
   import DownloadItem from './DownloadItem.svelte';
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
@@ -23,8 +22,8 @@
 
 <div>
   {#each downloads as torrent}
-    <Row class="mb-5">
+    <div class="row">
       <DownloadItem {torrent} on:toggle-pause={() => handleButtonClick(torrent)} />
-    </Row>
+    </div>
   {/each}
 </div>

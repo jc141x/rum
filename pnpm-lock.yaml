@@ -4,6 +4,7 @@ specifiers:
   '@fontsource/fira-mono': ^4.5.0
   '@lukeed/uuid': ^2.0.0
   '@mdi/js': ^5.9.55
+  '@okrad/svelte-progressbar': ^1.11.2
   '@sveltejs/adapter-netlify': ^1.0.0-next.29
   '@sveltejs/adapter-static': ^1.0.0-next.17
   '@sveltejs/kit': next
@@ -34,6 +35,7 @@ dependencies:
   '@fontsource/fira-mono': 4.5.0
   '@lukeed/uuid': 2.0.0
   '@mdi/js': 5.9.55
+  '@okrad/svelte-progressbar': 1.11.2
   '@tauri-apps/api': 1.0.0-beta.8
   axios: 0.21.1
   cookie: 0.4.1
@@ -108,6 +110,10 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.12.0
     dev: true
+
+  /@okrad/svelte-progressbar/1.11.2:
+    resolution: {integrity: sha512-gL6EFher4l1FwJ+7N7U7bRemKiIa9vtNMOfez4/S5IBpcb8i7t94B+GyTdrXVfvF1hf2KesjxsyjPGNJ0VFW8Q==}
+    dev: false
 
   /@rollup/pluginutils/4.1.1:
     resolution: {integrity: sha512-clDjivHqWGXi7u+0d2r2sBi4Ie6VLEAzWMIkvJLnDmxoOhBYOTfzGbOQBA32THHm11/LiJbd01tJUpJsbshSWQ==}

@@ -25,15 +25,6 @@
     const html = converter.makeHtml(text);
     const div = document.querySelector('#md');
     div.innerHTML = html;
-    div.querySelectorAll('h1').forEach((h) => {
-      h.style.fontSize = '34px';
-      h.style.fontWeight = 'bold';
-    });
-    div.querySelectorAll('h2').forEach((h) => (h.style.fontSize = '30px'));
-    div.querySelectorAll('h3').forEach((h) => (h.style.fontSize = '22px'));
-    div.querySelectorAll('h4').forEach((h) => (h.style.fontSize = '18px'));
-    div.querySelectorAll('h5').forEach((h) => (h.style.fontSize = '16px'));
-    div.querySelectorAll('h6').forEach((h) => (h.style.fontSize = '14px'));
   });
 </script>
 
@@ -41,4 +32,14 @@
   <title>Chad Launcher - Documentation</title>
 </svelte:head>
 
-<div id="md" class="content ma-5" />
+<div id="md" />
+
+<style>
+  #md {
+    padding: 10px;
+    margin-right: 10px;
+    overflow-y: scroll;
+    height: calc(100vh - 100px);
+    width: calc(100vw - 10px);
+  }
+</style>

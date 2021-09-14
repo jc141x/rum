@@ -1,14 +1,9 @@
 <script>
-  import {
-    Card,
-    Button,
-    Icon,
-    Row,
-    Col,
-    ProgressLinear
-  } from 'svelte-materialify/src';
+  import Icon from 'mdi-svelte';
   import { mdiPause, mdiPlay } from '@mdi/js';
   import { createEventDispatcher } from 'svelte';
+  import ProgressBar from '@okrad/svelte-progressbar';
+  import { styles } from '$lib/styles';
   const dispatch = createEventDispatcher();
 
   export let torrent;
@@ -46,41 +41,57 @@
   };
 </script>
 
-<Card style="width: 100%">
-  <Row class="pl-5 pr-5">
-    <Col class="d-flex align-center" sm={3} md={4} lg={4}>
-      {torrent.name}
-    </Col>
-    <Col class="d-flex align-center" sm={2} md={2} lg={1}>
-      {formatBytes(torrent.size)}
-    </Col>
-    <Col class="d-flex align-center">
-      <ProgressLinear value={torrent.progress * 100} />
-    </Col>
-    <Col class="d-flex align-center" sm={2} md={2} lg={1}>
-      {(torrent.progress * 100).toFixed(2)}%
-    </Col>
-    <Col class="d-flex align-center" sm={2} md={2} lg={1}>
-      {formatBytes(torrent.download_speed)}/s
-    </Col>
-    <Col class="d-flex align-center" sm={2} md={2} lg={1}>
-      {formatBytes(torrent.upload_speed)}/s
-    </Col>
-  </Row>
-  <Row class="pl-5 pr-5">
-    <Col class="d-flex align-center" sm={3} md={4} lg={4}>
-      {torrent.client}
-    </Col>
-    <Col>
-      {torrent.state}
-    </Col>
-    <Col />
-    <Col class="d-flex align-center" sm={1} md={1} lg={1}>
-      {#if buttonIcon !== null}
-        <Button icon on:click={handleButtonClick}>
-          <Icon path={buttonIcon} />
-        </Button>
-      {/if}
-    </Col>
-  </Row>
-</Card>
+<div class="top">
+  <div class="col">
+    {torrent.name}
+  </div>
+  <div class="col">
+    {formatBytes(torrent.size)}
+  </div>
+  <div class="col progress">
+    <!--<BarLoader size="60" color={$styles.primary} unit="px" duration="1s" />-->
+    <ProgressBar
+      style={'thin'}
+      series={[{ perc: torrent.progress * 100, color: $styles.primary }]}
+      width={'300'}
+    />
+  </div>
+  <div class="col">
+    {(torrent.progress * 100).toFixed(2)}%
+  </div>
+  <div class="col">
+    {formatBytes(torrent.download_speed)}/s
+  </div>
+  <div class="col">
+    {formatBytes(torrent.upload_speed)}/s
+  </div>
+  <div class="col">
+    {torrent.client}
+  </div>
+  <div class="col">
+    {torrent.state}
+  </div>
+  <div />
+  <div class="col">
+    {#if buttonIcon !== null}
+      <button on:click={handleButtonClick}>
+        <Icon path={buttonIcon} />
+      </button>
+    {/if}
+  </div>
+</div>
+
+<style>
+  .top {
+    display: grid;
+    background-color: var(--secondary);
+    grid-template-columns: 3fr 1fr 4fr 1fr 1fr 1fr;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .progress {
+    width: 100%;
+  }
+</style>
