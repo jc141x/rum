@@ -44,7 +44,7 @@ package:debian:
 
 package:arch:
   stage: package
-  image: justin8/makepkg
+  image: archlinux
   script:
     - cp chad-launcher pkgbuild/ci
     - cp chad_launcher.desktop pkgbuild/ci
