@@ -44,6 +44,17 @@ pub async fn misc_get_reqs_markdown() -> Result<String, TauriChadError> {
 }
 
 #[tauri::command]
+pub async fn misc_get_wiki_page(page: String) -> Result<String, TauriChadError> {
+    Ok(reqwest::get(format!(
+        "https://gitlab.com/Gnurur/chad_launcher/-/wikis/{}.md",
+        page
+    ))
+    .await?
+    .text()
+    .await?)
+}
+
+#[tauri::command]
 pub async fn misc_open_magnet(game: Game) -> Result<(), TauriChadError> {
     let magnet = get_magnet(&game);
     Command::new("xdg-open").arg(magnet).spawn()?;

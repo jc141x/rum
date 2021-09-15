@@ -63,7 +63,8 @@
       </div>
       {#if errorMessage !== null}
         <div>
-          {errorMessage}
+          {errorMessage}<br />
+          <a href="/wiki#Chad-Launcher/User-Guide/Torrent-Clients">Need help?</a>
         </div>
       {/if}
       <div class="bottom">
@@ -86,7 +87,8 @@
         </div>
         {#if errorMessage !== null}
           <div>
-            {errorMessage}
+            {errorMessage}<br />
+            <a href="/wiki#Chad-Launcher/User-Guide/Torrent-Clients">Need help?</a>
           </div>
         {/if}
       </div>

@@ -29,7 +29,7 @@
     <a href="/discover" class="link">Discover</a>
     <a href="/downloads" class="link">Downloads</a>
     <a href="/settings" class="link">Settings</a>
-    <a href="/documentation" class="link">Dependencies</a>
+    <a href="/wiki" class="link">Wiki</a>
     <a href="/about" class="link">About</a>
   </div>
   {#if $decorations == 'right'}

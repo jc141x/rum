@@ -94,6 +94,9 @@
   <div class="row">
     <h6>Library paths</h6>
   </div>
+  <div class="row">
+    <a href="/wiki#Chad-Launcher/User-Guide/Game-Library">What is this?</a>
+  </div>
   {#if config_temp.library_paths}
     {#each config_temp.library_paths as path, i}
       <div class="row">
@@ -119,6 +122,9 @@
   </div>
   <div class="row">
     <h6>Torrent Clients</h6>
+  </div>
+  <div class="row">
+    <a href="/wiki#Chad-Launcher/User-Guide/Torrent-Clients">Setup guide</a>
   </div>
   <div class="row">
     <div class="clients-grid">
