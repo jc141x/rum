@@ -1,5 +1,10 @@
 image: "rust:bullseye"
 
+cache:
+  - key: bundle
+    paths:
+      - src-tauri/target/release/bundle
+
 stages:
   - tauri:build
   - package
@@ -37,7 +42,7 @@ package:debian:
 
 package:arch:
   stage: package
-  image: countstarlight/makepkg
+  image: justin8/makepkg
   script:
     - cp chad-launcher pkgbuild/ci
     - cp chad_launcher.desktop pkgbuild/ci
