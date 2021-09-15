@@ -1,19 +1,18 @@
 image: "rust:bullseye"
 
-cache:
-  - key: pnpm
-    paths:
-      - .pnpm-store
-  - key: cargo
-    paths:
-      - src-tauri/target
-
 stages:
   - tauri:build
   - package
 
 tauri:build:
   stage: tauri:build
+  cache:
+  - key: pnpm
+    paths:
+      - .pnpm-store
+  - key: cargo
+    paths:
+      - src-tauri/target
   script:
     - apt update -yqq && apt install -yqq --no-install-recommends nodejs libwebkit2gtk-4.0-dev build-essential curl wget libssl-dev libgtk-3-dev patchelf librsvg2-dev
     - curl -f https://get.pnpm.io/v6.14.js | node - add --global pnpm@6    
@@ -36,19 +35,18 @@ package:debian:
     paths:
       - chad-launcher.deb
 
-#package:arch:
-#  stage: package
-#  image: tiborpilz/makepkg
-#  script:
-#    - cp chad-launcher pkgbuild/ci
-#    - cp chad_launcher.desktop pkgbuild/ci
-#    - cp icon.svg pkgbuild/ci
-#    - cd pkgbuild/ci
-#    - pacman -Syu --noconfirm
-#    - makepkg --force --syncdeps --noconfirm
-#    - cp chad_launcher-bin-*.pkg.tar.xz ../../chad-launcher.pkg.tar.xz
-#  artifacts:
-#    paths:
-#      - chad-launcher.pkg.tar.xz
+package:arch:
+  stage: package
+  image: countstarlight/makepkg
+  script:
+    - cp chad-launcher pkgbuild/ci
+    - cp chad_launcher.desktop pkgbuild/ci
+    - cp icon.svg pkgbuild/ci
+    - cd pkgbuild/ci
+    - makepkg --force --noconfirm
+    - cp chad_launcher-bin-*.pkg.tar.xz ../../chad_launcher-bin.pkg.tar.xz
+  artifacts:
+    paths:
+      - chad_launcher-bin.pkg.tar.xz
 
     
