@@ -1,10 +1,11 @@
 <script>
   import Card from '$lib/Card.svelte';
+  import { getBanner } from '$lib/util';
 
   export let game;
   export let selected = false;
 
-  $: banner_src = `https://bkftwbhopivmrgzcagus.supabase.in/storage/v1/object/public/banners/${game.hash}.png`;
+  $: banner_src = getBanner(game);
 </script>
 
 <Card title={game.name} banner={banner_src} {selected} on:click />

@@ -12,7 +12,7 @@
   </div>
 {:then games}
   <Grid>
-    {#each games as game, i (game.hash)}
+    {#each games as game, i}
       <Card
         {game}
         selected={$selectedGame == i}
