@@ -42,19 +42,19 @@ package:debian:
     paths:
       - chad-launcher.deb
 
-package:arch:
-  stage: package
-  image: tiborpilz/makepkg
-  script:
-    - cp chad-launcher pkgbuild/ci
-    - cp chad_launcher.desktop pkgbuild/ci
-    - cp icon.svg pkgbuild/ci
-    - cd pkgbuild/ci
-    - pacman -Syyu --noconfirm --asdeps --needed base-devel
-    - makepkg -s --force --noconfirm
-    - cp chad_launcher-bin-*.pkg.tar.xz ../../chad_launcher-bin.pkg.tar.xz
-  artifacts:
-    paths:
-      - chad_launcher-bin.pkg.tar.xz
+#package:arch:
+#  stage: package
+#  image: tiborpilz/makepkg
+#  script:
+#    - cp chad-launcher pkgbuild/ci
+#    - cp chad_launcher.desktop pkgbuild/ci
+#    - cp icon.svg pkgbuild/ci
+#    - cd pkgbuild/ci
+#    - pacman -Syyu --noconfirm --asdeps --needed base-devel
+#    - makepkg -s --force --noconfirm
+#    - cp chad_launcher-bin-*.pkg.tar.xz ../../chad_launcher-bin.pkg.tar.xz
+#  artifacts:
+#    paths:
+#      - chad_launcher-bin.pkg.tar.xz
 
     
