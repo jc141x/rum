@@ -44,7 +44,7 @@ package:debian:
 
 package:arch:
   stage: package
-  image: archlinux
+  image: tiborpilz/makepkg
   script:
     - cp chad-launcher pkgbuild/ci
     - cp chad_launcher.desktop pkgbuild/ci
