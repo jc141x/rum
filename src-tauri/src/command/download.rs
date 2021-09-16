@@ -42,11 +42,13 @@ fn get_backend(
 pub async fn download_list_downloads(
     client: String,
     download: tauri::State<'_, Mutex<DownloadManager>>,
+    config: tauri::State<'_, Mutex<Config>>,
 ) -> Result<Vec<Torrent>, TauriChadError> {
     let download = download.lock().await;
+    let config = config.lock().await;
     let backend = get_backend(client.clone(), &*download)?;
     let mut list = backend
-        .list(Some("chad"))
+        .list(Some(&config.torrent_category))
         .await
         .map_err(|e| TauriChadError::from(&*e))?
         .into_iter()
@@ -62,14 +64,16 @@ pub async fn download_list_downloads(
 #[tauri::command]
 pub async fn download_list_all_downloads(
     download: tauri::State<'_, Mutex<DownloadManager>>,
+    config: tauri::State<'_, Mutex<Config>>,
 ) -> Result<Vec<Torrent>, TauriChadError> {
     let download = download.lock().await;
+    let config = config.lock().await;
     let mut result = Vec::new();
 
     for client in download.clients() {
         let backend = get_backend(client.clone(), &*download)?;
         let mut list = backend
-            .list(Some("chad"))
+            .list(Some(&config.torrent_category))
             .await
             .map_err(|e| TauriChadError::from(&*e))?
             .into_iter()
@@ -89,11 +93,14 @@ pub async fn download_list_all_downloads(
 pub async fn download_add_magnet(
     client: String,
     magnet: String,
-    options: chad_torrent::Options,
+    mut options: chad_torrent::Options,
     download: tauri::State<'_, Mutex<DownloadManager>>,
+    config: tauri::State<'_, Mutex<Config>>,
 ) -> Result<String, TauriChadError> {
     let download = download.lock().await;
+    let config = config.lock().await;
     let backend = get_backend(client, &*download)?;
+    options.label = Some(config.torrent_category.clone());
     backend
         .add_magnet(&magnet, options)
         .await
@@ -104,11 +111,14 @@ pub async fn download_add_magnet(
 pub async fn download_add_game(
     client: String,
     game: chad_rs::database::Game,
-    options: chad_torrent::Options,
+    mut options: chad_torrent::Options,
     download: tauri::State<'_, Mutex<DownloadManager>>,
+    config: tauri::State<'_, Mutex<Config>>,
 ) -> Result<String, TauriChadError> {
     let download = download.lock().await;
+    let config = config.lock().await;
     let backend = get_backend(client, &*download)?;
+    options.label = Some(config.torrent_category.clone());
     backend
         .add_magnet(&get_magnet(&game), options)
         .await

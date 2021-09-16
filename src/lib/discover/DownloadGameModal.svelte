@@ -25,8 +25,7 @@
         game,
         options: {
           name: game.name,
-          label: 'chad', // TODO Backend should only allow this label
-          savePath
+          save_path: savePath
         }
       })
       .then(() => (doneMessage = 'Success!'))
@@ -75,7 +74,7 @@
         <div>
           {doneMessage}
         </div>
-        <div>
+        <div class="bottom">
           <button
             on:click={() => {
               doneMessage = null;

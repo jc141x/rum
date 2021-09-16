@@ -86,6 +86,12 @@
       <div>
         <input bind:value={config_temp.terminal} />
       </div>
+      <div />
+      <div>Torrent category:</div>
+      <div>
+        <input bind:value={config_temp.torrent_category} />
+      </div>
+      <div />
     </div>
   </div>
   <div class="row">
