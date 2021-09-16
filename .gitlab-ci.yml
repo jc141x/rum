@@ -50,7 +50,8 @@ package:arch:
     - cp chad_launcher.desktop pkgbuild/ci
     - cp icon.svg pkgbuild/ci
     - cd pkgbuild/ci
-    - makepkg --force --noconfirm
+    - pacman -Syyu --noconfirm --asdeps --needed base-devel
+    - makepkg -s --force --noconfirm
     - cp chad_launcher-bin-*.pkg.tar.xz ../../chad_launcher-bin.pkg.tar.xz
   artifacts:
     paths:
