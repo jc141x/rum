@@ -1,16 +1,15 @@
-# Chad Launcher
+# chad launcher
+Libre/Free game launcher/pirate game store for users who dislike DRM or other restrictions of freedom.
 
-The new version of Chad Launcher powered by [Tauri](https://tauri.studio).
+Developed by the [GNU/Linux P2P Pirates](https://matrix.to/#/!SlYhhmreXjJylcsjfn:tedomum.net?via=matrix.org&via=tedomum.net) matrix community and johncena141 release group from 1337x.
 
-Developed by the [GNU/Linux P2P Pirates](https://matrix.to/#/!SlYhhmreXjJylcsjfn:tedomum.net?via=matrix.org&via=tedomum.net) community and johncena141 release group from 1337x.
+Powered by [Tauri](https://tauri.studio)
 
-We are followers of the GNU project philosophy. Even if the games we upload are proprietary, we believe that our actions are necessary in order to enable people to use less proprietary software such as Steam, Epic Games, Origin, Uplay, Discord, Stadia or GOG Galaxy. Some of them also use DRM or APIs that make games tied to their store. They spy and abuse people for their own gain, they are rich and want to get richer by taking advantage of their users.
+## Installation or portable use
 
-Buying yourself out of the guilt of spying on people will only work for those that didn't mind it in the first place. We do not change our minds through such moronic thinking.
+### Portable use
 
-For the people that value these ideals as much as us, they are welcome to join us.
-
-## Installation
+Download the compiled binary from releases. Required dependency is webkit2gtk.
 
 ### Install from AUR
 
@@ -61,3 +60,6 @@ pnpm tauri dev
 
 ## Current GUI
 <img src="https://i.postimg.cc/fRtHc5cM/test.png"/>
+
+# Donations
+Monero: 4ABGQLAeAgiauvay11VRrWXRRtraRCU6oaC6uG9RUnNCHN4eepzWjEB6sHF92sUrSED5b8GyY7Ayh57R1jUdcKZg7is2DW3
