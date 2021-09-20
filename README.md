@@ -1,25 +1,34 @@
 # chad launcher
+
 Libre/Free game launcher/pirate game store for users who dislike DRM or other restrictions of freedom.
+
+<img src="https://i.postimg.cc/fRtHc5cM/test.png"/>
 
 Developed by the [GNU/Linux P2P Pirates](https://matrix.to/#/!SlYhhmreXjJylcsjfn:tedomum.net?via=matrix.org&via=tedomum.net) matrix community and johncena141 release group from 1337x.
 
 Powered by [Tauri](https://tauri.studio)
 
+## Important: looking for new developers/maintainers.
+
+I will not have a lot of time to work on chad launcher until maybe next summer, so we are looking for new people
+to continue development.
+
 ## Installation or portable use
 
 ### Portable use
 
-Download the compiled binary from releases. Required dependency is webkit2gtk.
+Download the compiled binary from [releases](https://gitlab.com/Gnurur/chad_launcher/-/releases). Required dependency is webkit2gtk.
+
+Alternatively, compiled CI artifacts for each commit can be downloaded [here](https://gitlab.com/Gnurur/chad_launcher/-/pipelines).
 
 ### Install from AUR
 
-```sh
-git clone https://aur.archlinux.org/paru-bin.git && cd paru-bin && makepkg -si
-paru -S chad_launcher-bin
-# Alternative called chad_launcher-git is available which will compile every update from latest commit. Not recommended for regular use.
-```
+Two AUR packages are available:
 
-### Install from DUR (Debian)
+- [chad_launcher-bin](https://aur.archlinux.org/packages/chad_launcher-bin/): Downloads GitLab CI artifact of latest release.
+- [chad_launcher-git](https://aur.archlinux.org/packages/chad_launcher-git/): Builds the master branch from source.
+
+### Install from MPR (Debian)
 
 - Work in progress.
 
@@ -29,7 +38,8 @@ paru -S chad_launcher-bin
 
 ### Build from source
 
-We recommend using `pnpm` to build this project. ([AUR](https://aur.archlinux.org/packages/pnpm/))
+We recommend using `pnpm` to build this project ([AUR](https://aur.archlinux.org/packages/pnpm/)), but any other 
+package manager like `npm` or `yarn` should work too.
 
 ```
 pnpm install
@@ -37,19 +47,11 @@ pnpm build
 pnpm tauri build
 ```
 
-This will create a `chad_launcher` executable, an AppImage and a debian package.
-
-## Setting up a torrent client
-### qBittorrent
-To set up qBittorent you will need to enable the web ui.
-This can be done by going into options > webui ticking the checkbox. 
-You can set a custom password but the default password is 
-```
-adminadmin
-```
-Then you can go into the chad Launcher settings and add it, the defaults will work, you just need to add in the password.
+This will create a `chad_launcher` executable and a debian package.
 
 ## Development
+
+See Developer Guide in the [wiki](https://gitlab.com/Gnurur/chad_launcher/-/wikis/home).
 
 ### Running development server
 
@@ -58,8 +60,9 @@ pnpm dev
 pnpm tauri dev
 ```
 
-## Current GUI
-<img src="https://i.postimg.cc/fRtHc5cM/test.png"/>
+## Wiki
+
+Read the [wiki](https://gitlab.com/Gnurur/chad_launcher/-/wikis/home).
 
 # Donations
 Monero: 4ABGQLAeAgiauvay11VRrWXRRtraRCU6oaC6uG9RUnNCHN4eepzWjEB6sHF92sUrSED5b8GyY7Ayh57R1jUdcKZg7is2DW3
