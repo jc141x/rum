@@ -29,7 +29,7 @@
         }
       })
       .then(() => (doneMessage = 'Success!'))
-      .catch((e) => (doneMessage = `Failed to add download: ${e}`));
+      .catch((e) => (doneMessage = `Failed to add download: ${e.message}`));
   };
 
   const selectSavePath = async () => {
