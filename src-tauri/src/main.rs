@@ -43,6 +43,7 @@ fn main() {
             command::library::library_reload_games,
             command::library::library_run_game,
             command::library::library_open_terminal,
+            command::library::library_open_folder,
             // Config
             command::config::config_save,
             command::config::config_set,

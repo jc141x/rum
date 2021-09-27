@@ -94,3 +94,26 @@ pub async fn library_open_terminal(
         .unwrap_or(Err(TauriChadError::new("Game not found".into())))?;
     Ok(())
 }
+
+#[tauri::command]
+pub async fn library_open_folder(
+    index: usize,
+    fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
+    app_handle: tauri::AppHandle
+) -> Result<(), TauriChadError> {
+    fetcher
+        .lock()
+        .await
+        .get_game(index)
+        .map(|game| {
+            let cmd = Command::new("xdg-open")
+                .arg(game.executable_dir())
+                .stdout(Stdio::piped())
+                .spawn()
+                .expect("Failed to open");
+            let stdout = Box::new(cmd.stdout.unwrap());
+            handle_stdout(app_handle, stdout)?;
+            Ok(())
+        })
+        .unwrap_or(Err(TauriChadError::new("Game not found".into())))
+}
