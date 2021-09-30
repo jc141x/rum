@@ -29,52 +29,11 @@ export const config = asyncableReload(
 
 export const localGames = asyncable(async () => await command.library('get_games'), null);
 
-export const selectedGame = writable(null);
 export const selectedLocalGame = writable(null);
 export const selectedGenre = writable(null);
-export const page = writable(1);
-export const query = writable('');
-
-export const databaseGames = asyncable(
-  async ($selectedGenre, $page, $query) => {
-    let opts = {
-      page_number: $page - 1,
-      page_size: 40,
-      filter_genres: [],
-      filter_languages: [],
-      filter_tags: []
-    };
-
-    if ($query != '') {
-      opts.search = $query;
-    }
-
-    if ($selectedGenre !== '' && $selectedGenre !== null) {
-      opts.filter_genres.push($selectedGenre);
-    }
-
-    selectedGame.set(null);
-
-    return await command.database('get_games', { opts });
-  },
-  null,
-  [selectedGenre, page, query]
-);
-
-export const genres = asyncable(async () => await command.database('get_genres'), null);
-export const downloads = asyncableReload(
-  async () => await command.download('list_all_downloads'),
-  null
-);
-
-export const torrentClients = asyncable(async () => {
-  await command.download('init_clients');
-  return await command.download('list_clients');
-}, null);
 
 export const mode = writable('grid');
 export const sidebarActive = writable(false);
-export const isAdmin = writable(false);
 
 export const decorations = storable('decorations', 'right');
 

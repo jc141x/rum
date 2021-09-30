@@ -14,14 +14,6 @@ class Command {
     return await this.run('config', command, ...args);
   }
 
-  async database(command, ...args) {
-    return await this.run('database', command, ...args);
-  }
-
-  async download(command, ...args) {
-    return await this.run('download', command, ...args);
-  }
-
   async misc(command, ...args) {
     return await this.run('misc', command, ...args);
   }

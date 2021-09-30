@@ -7,7 +7,6 @@
   import { open } from '../../node_modules/@tauri-apps/api/dialog';
   import { decorations } from '$lib/store';
   import ColorSetting from '$lib/ColorSetting.svelte';
-  import AddTorrentClientModal from '$lib/settings/AddTorrentClientModal.svelte';
 
   let config_temp = {};
 
@@ -36,16 +35,6 @@
     await config.set(config_temp);
   };
 
-  $: config_clients = config_temp?.torrent?.clients;
-  let addClientModalActive = false;
-  const addClient = () => {
-    addClientModalActive = true;
-  };
-
-  const removeClient = async (name) => {
-    await command.download('remove_client', { name });
-    config.reload();
-  };
 
   const handleModalClose = async () => {
     addClientModalActive = false;
@@ -56,13 +45,6 @@
     $styles[key] = defaultStyles[key];
   };
 
-  /*
-  let active_clients = [];
-
-  onMount(async () => {
-    active_clients = await command.download('list_clients');
-  });
-*/
 </script>
 
 <svelte:head>
@@ -87,10 +69,6 @@
         <input bind:value={config_temp.terminal} />
       </div>
       <div />
-      <div>Torrent category:</div>
-      <div>
-        <input bind:value={config_temp.torrent_category} />
-      </div>
       <div />
     </div>
   </div>
@@ -127,34 +105,6 @@
     <hr class="divider" />
   </div>
   <div class="row">
-    <h6>Torrent Clients</h6>
-  </div>
-  <div class="row">
-    <a href="/wiki#Chad-Launcher/User-Guide/Torrent-Clients">Setup guide</a>
-  </div>
-  <div class="row">
-    <div class="clients-grid">
-      {#if config_clients}
-        {#each Object.entries(config_clients) as [name, config]}
-          <div>
-            <h8>{name}</h8>
-          </div>
-          <div>
-            <button on:click={() => removeClient(name)}><Icon path={mdiDelete} /></button>
-          </div>
-        {/each}
-      {/if}
-    </div>
-  </div>
-  <div class="row">
-    <div>
-      <button on:click={addClient}>Add client</button>
-    </div>
-  </div>
-  <div class="row">
-    <hr class="divider" />
-  </div>
-  <div class="row">
     <h6>Theme</h6>
   </div>
   <div class="row">
@@ -184,9 +134,6 @@
       <button on:click={save}>Save</button>
     </div>
   </div>
-  {#if addClientModalActive}
-    <AddTorrentClientModal on:close={handleModalClose} active={addClientModalActive} />
-  {/if}
 </div>
 
 <style>
@@ -215,12 +162,6 @@
     align-items: center;
   }
 
-  .clients-grid {
-    display: grid;
-    grid-template-columns: max-content 50px;
-    grid-gap: 20px;
-    align-items: center;
-  }
 
   input {
     width: 500px;

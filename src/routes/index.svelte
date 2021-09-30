@@ -1,25 +1,7 @@
-<script context="module">
-  export const prerender = true;
-  export const ssr = false;
-</script>
-
 <script>
-  import { isAdmin } from '$lib/store';
+import { goto } from '$app/navigation';
+import { config } from '$lib/store';
+  config.get().then(conf => {
+      conf.library_paths.length ? goto('/library') : goto('/settings');
+  });
 </script>
-
-<svelte:head>
-  <title>Chad Launcher</title>
-</svelte:head>
-
-<div>
-  Welcome to Chad Launcher! <br /><br />
-
-  Start by going opening the menu and going to the settings page to configure library paths and
-  torrent clients. <br /><br />
-</div>
-
-<style>
-  div {
-    margin: 10px;
-  }
-</style>
