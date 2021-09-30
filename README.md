@@ -1,8 +1,6 @@
 # chad launcher
 
-Libre/Free game launcher/pirate game store for users who dislike DRM or other restrictions of freedom.
-
-<img src="https://i.postimg.cc/fRtHc5cM/test.png"/>
+Libre/Free game launcher.
 
 Developed by the [GNU/Linux P2P Pirates](https://matrix.to/#/!SlYhhmreXjJylcsjfn:tedomum.net?via=matrix.org&via=tedomum.net) matrix community and johncena141 release group from 1337x.
 
