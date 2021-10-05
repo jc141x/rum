@@ -22,7 +22,7 @@
   }
 
   .card-wrapper {
-    border: 5px solid var(--secondary);
+    border: 2px solid var(--secondary);
     border-radius: 10px;
     background-color: var(--secondary);
     transition: border-color 0.2s;
@@ -34,6 +34,6 @@
   .card-wrapper.selected,
   .card-wrapper:hover {
     border-color: var(--primary);
-    box-shadow: 0px 0px 18px var(--primary);
+    box-shadow: 0px 0px 10px var(--primary);
   }
 </style>
