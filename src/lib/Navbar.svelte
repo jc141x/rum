@@ -25,7 +25,6 @@
     <a href="/library" class="link">Library</a>
     <a href="/settings" class="link">Settings</a>
     <a href="/wiki" class="link">Wiki</a>
-    <a href="/about" class="link">About</a>
   </div>
   {#if $decorations == 'right'}
     <div class="right">
