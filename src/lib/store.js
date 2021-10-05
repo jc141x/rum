@@ -38,6 +38,5 @@ export const sidebarActive = writable(false);
 export const decorations = storable('decorations', 'right');
 
 export const load = async () => {
-  await Promise.all([command.library('reload_games'), command.download('init_clients')]);
-  isAdmin.set(await command.database('is_admin'));
+  await command.library('reload_games');
 };

@@ -1,5 +1,4 @@
 <script>
-  import banner from '$lib/assets/default_banner.png';
   import Panel from '$lib/Panel.svelte';
   import command from '$lib/command';
   import Icon from 'mdi-svelte';
@@ -7,8 +6,6 @@
 
   export let game;
   let loading = false;
-
-  $: banner_src = game.banner === null ? banner : game.banner;
 
   const handleLaunch = async (script) => {
     loading = script;
@@ -20,7 +17,7 @@
   };
 </script>
 
-<Panel banner={banner_src} title={game.name} on:close>
+<Panel title={game.name} on:close>
   <div slot="text">
     <b>Directory:</b>
     {game.executable_dir}

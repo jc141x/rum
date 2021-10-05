@@ -1,5 +1,4 @@
 <script>
-  import defaultBanner from '$lib/assets/default_banner.png';
   import { onMount } from 'svelte';
 
   export let banner = '';

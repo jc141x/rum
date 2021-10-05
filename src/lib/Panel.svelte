@@ -3,16 +3,6 @@
 </script>
 
 <div class="panel">
-  <!--
-  <button on:click={() => dispatch('close')} icon class="close-button">
-    <Icon path={mdiClose} />
-  </button>
-    -->
-  <!--
-  <div class="banner">
-    <Banner {banner} rounded />
-  </div>
-    -->
   <div class="title">
     <h1>{title}</h1>
   </div>

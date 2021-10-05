@@ -8,6 +8,9 @@
 
 <style>
   input {
-    background-color: white;
+    appearance: menulist-button;
+    border: none;
+    height: 1.5rem;
+    padding:0;
   }
 </style>

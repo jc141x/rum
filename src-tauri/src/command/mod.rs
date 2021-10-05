@@ -1,14 +1,7 @@
 pub mod config;
-pub mod database;
-pub mod download;
 pub mod library;
 
-use chad_rs::{
-    database::{get_magnet, Game},
-    download::TorrentClientConfig,
-};
 use serde::Serialize;
-use std::process::Command;
 
 #[derive(Debug, Serialize)]
 pub struct TauriChadError {
@@ -27,12 +20,6 @@ impl<T: std::error::Error> From<T> for TauriChadError {
             message: format!("{}", error),
         }
     }
-}
-
-#[derive(Default)]
-pub struct AppState {
-    pub current_client: Option<chad_torrent::TorrentClient>,
-    pub current_config: Option<TorrentClientConfig>,
 }
 
 #[tauri::command]
@@ -54,9 +41,3 @@ pub async fn misc_get_wiki_page(page: String) -> Result<String, TauriChadError> 
     .await?)
 }
 
-#[tauri::command]
-pub async fn misc_open_magnet(game: Game) -> Result<(), TauriChadError> {
-    let magnet = get_magnet(&game);
-    Command::new("xdg-open").arg(magnet).spawn()?;
-    Ok(())
-}

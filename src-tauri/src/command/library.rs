@@ -1,7 +1,6 @@
 use super::TauriChadError;
 use chad_rs::{
     config::Config,
-    database::DatabaseFetcher,
     library::{self, LibraryFetcher},
 };
 use std::{
@@ -62,12 +61,10 @@ pub async fn library_get_games(
 pub async fn library_reload_games(
     config: tauri::State<'_, Mutex<Config>>,
     fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
-    _database_fetcher: tauri::State<'_, DatabaseFetcher>,
 ) -> Result<(), TauriChadError> {
     let mut fetcher = fetcher.lock().await;
     let config = config.lock().await;
     fetcher.load_games(&*config);
-    //fetcher.download_banners(&*database_fetcher).await;
     // TODO: GUI would need a wait to manually
     // load banners, because we don't want to block the GUI while loading banners
     Ok(())
