@@ -3,8 +3,7 @@
   import Panel from '$lib/Panel.svelte';
   import command from '$lib/command';
   import Icon from 'mdi-svelte';
-  import { mdiFolder, mdiPlay } from '@mdi/js';
-  import { Circle } from 'svelte-loading-spinners';
+  import { mdiLoading, mdiFolder, mdiPlay } from '@mdi/js';
 
   export let game;
   let loading = false;
@@ -32,7 +31,7 @@
       <button on:click={() => handleLaunch(script.script)}>
         <span class="script--button">
           {#if loading == script.script}
-            <Circle size="24" color="#FF3E00" unit="px" duration="1s" />
+            <Icon path={mdiLoading} spin />
           {:else}
             <Icon path={mdiPlay} />
           {/if}
