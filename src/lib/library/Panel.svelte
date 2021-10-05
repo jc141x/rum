@@ -26,17 +26,17 @@
     <b>Directory:</b>
     {game.executable_dir}
   </div>
-  <div slot="actions">
+  <div class="actions" slot="actions">
     <button on:click={handlePath}><Icon path={mdiFolder} /></button>
     {#each game.scripts as script}
       <button on:click={() => handleLaunch(script.script)}>
-        <span>
+        <span class="script--button">
           {#if loading == script.script}
             <Circle size="24" color="#FF3E00" unit="px" duration="1s" />
           {:else}
             <Icon path={mdiPlay} />
-            {script.name}
           {/if}
+          {script.name}
         </span>
       </button>
     {/each}
@@ -49,5 +49,14 @@
   }
   button span {
     vertical-align: bottom;
+  }
+  .actions {
+    display: flex;
+    flex: row;
+  }
+  .script--button {
+    display: flex;
+    gap: 5px;
+    flex: row;
   }
 </style>
