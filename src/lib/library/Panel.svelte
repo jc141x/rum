@@ -4,17 +4,21 @@
   import command from '$lib/command';
   import Icon from 'mdi-svelte';
   import { mdiFolder, mdiPlay } from '@mdi/js';
+  import { Circle } from 'svelte-loading-spinners';
 
   export let game;
+  let loading = false;
 
   $: banner_src = game.banner === null ? banner : game.banner;
 
-  const handleLaunch = (script) => {
-    command.library('run_game', { index: game.id, script });
+  const handleLaunch = async (script) => {
+    loading = script;
+    await command.library('run_game', { index: game.id, script });
+    loading = false;
   };
   const handlePath = () => {
-    command.library('open_folder', {index: game.id});
-  }
+    command.library('open_folder', { index: game.id });
+  };
 </script>
 
 <Panel banner={banner_src} title={game.name} on:close>
@@ -25,7 +29,16 @@
   <div slot="actions">
     <button on:click={handlePath}><Icon path={mdiFolder} /></button>
     {#each game.scripts as script}
-      <button on:click={() => handleLaunch(script.script)}><span><Icon path={mdiPlay}/>{script.name}</span></button>
+      <button on:click={() => handleLaunch(script.script)}>
+        <span>
+          {#if loading == script.script}
+            <Circle size="24" color="#FF3E00" unit="px" duration="1s" />
+          {:else}
+            <Icon path={mdiPlay} />
+            {script.name}
+          {/if}
+        </span>
+      </button>
     {/each}
   </div>
 </Panel>
