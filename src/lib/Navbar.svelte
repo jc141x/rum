@@ -1,6 +1,9 @@
 <script>
   import { decorations } from '$lib/store.js';
   import { onMount } from 'svelte';
+  import  Logo from '$lib/assets/Logo.svelte';
+  import Icon from 'mdi-svelte';
+  import {mdiBookshelf, mdiCog, mdiBookOpenVariant } from '@mdi/js';
   import WindowControls from './WindowControls.svelte';
 
   onMount(() => {
@@ -20,11 +23,11 @@
   {#if $decorations == 'left'}
     <WindowControls inverted />
   {/if}
-  <h3 class="title"><a href="/" class="link">Chad Launcher</a></h3>
+  <a href="/" class="link"><Logo width="32pt" /></a>
   <div class="links">
-    <a href="/library" class="link">Library</a>
-    <a href="/settings" class="link">Settings</a>
-    <a href="/wiki" class="link">Wiki</a>
+    <a href="/library" class="link"><Icon path={mdiBookshelf}/></a>
+    <a href="/settings" class="link"><Icon path={mdiCog}/></a>
+    <a href="/wiki" class="link"><Icon path={mdiBookOpenVariant}/></a>
   </div>
   {#if $decorations == 'right'}
     <div class="right">
@@ -45,10 +48,6 @@
     align-items: center;
     color: var(--primary);
     overflow-x: hidden;
-  }
-
-  .title {
-    min-width: 200px;
   }
 
   .links {
