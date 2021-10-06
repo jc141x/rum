@@ -2,15 +2,17 @@
   import { styles } from '$lib/styles';
 
   export let key;
+  export let id = '';
 </script>
 
-<input type="color" bind:value={$styles[key]} />
+<input id="{id}" type="color" bind:value={$styles[key]} />
 
 <style>
   input {
-    appearance: menulist-button;
-    border: none;
-    height: 1.5rem;
+    border: 2px dotted grey;
+    height: calc(100% - 2px);
+    width: calc(100% - 2px);
     padding:0;
+    margin:0;
   }
 </style>

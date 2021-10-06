@@ -44,7 +44,7 @@
   }
 
   .grid {
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: 10px;
     padding-right: 20px;
     width: 100%;

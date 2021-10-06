@@ -43,7 +43,7 @@
   .text {
     grid-column: 1 / 5;
     grid-row: 2;
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 60px;
   }
 

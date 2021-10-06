@@ -38,7 +38,7 @@
   #md {
     padding: 10px;
     margin-right: 10px;
-    overflow-y: scroll;
+    overflow-y: auto;
     height: calc(100vh - 100px);
     width: calc(100vw - 10px);
   }

@@ -31,9 +31,9 @@
 <style>
   .wrapper {
     display: grid;
-    grid-template-rows: min-content auto;
+    grid-template-rows: minmax(0, min-content) auto;
     height: 100vh;
     padding: 10px;
-    overflow: hidden;
+    overflow: auto;
   }
 </style>

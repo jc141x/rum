@@ -51,119 +51,102 @@
   <title>Chad Launcher - Settings</title>
 </svelte:head>
 
-<div class="top">
-  <div class="row">
-    <h6>General options</h6>
-  </div>
-  <div class="row">
-    <div class="settings-grid">
-      <div>Data path:</div>
-      <div>
-        <input bind:value={config_temp.data_path} />
-      </div>
-      <div>
-        <button on:click={selectDataPath}><Icon path={mdiFolder} /></button>
-      </div>
-      <div>Terminal:</div>
-      <div>
-        <input bind:value={config_temp.terminal} />
-      </div>
-      <div />
-      <div />
-    </div>
-  </div>
-  <div class="row">
-    <hr class="divider" />
-  </div>
-  <div class="row">
-    <h6>Library paths</h6>
-  </div>
-  <div class="row">
-    <a href="/wiki#Chad-Launcher/User-Guide/Game-Library">What is this?</a>
-  </div>
-  {#if config_temp.library_paths}
-    {#each config_temp.library_paths as path, i}
-      <div class="row">
-        <div>
-          <input bind:value={path} />
-        </div>
-        <div>
-          <button on:click={() => selectPath(i)}><Icon path={mdiFolder} /></button>
-        </div>
-        <div>
-          <button on:click={() => removePath(path)}><Icon path={mdiDelete} /></button>
+<section class="settings-group">
+      <h6>General options</h6>
+      <div class="input-wrapper">
+        <label for="data-path">Data path:</label>
+        <div class="input-row">
+          <input id="data-path" bind:value={config_temp.data_path} />
+          <button on:click={selectDataPath}><Icon path={mdiFolder} /></button>
         </div>
       </div>
-    {/each}
-    <div class="row">
-      <div>
-        <button on:click={addPath}>Add path</button>
+      <div class="input-wrapper">
+        <label for="terminal">Terminal:</label>
+        <div class="input-row">
+          <input id="terminal" bind:value={config_temp.terminal} />
+        </div>
       </div>
-    </div>
-  {/if}
-  <div class="row">
-    <hr class="divider" />
-  </div>
-  <div class="row">
-    <h6>Theme</h6>
-  </div>
-  <div class="row">
-    <div class="settings-grid">
-      <div>Window decorations</div>
-      <select bind:value={$decorations}>
-        <option value="system">System</option>
-        <option value="disabled">Disabled</option>
-        <option value="left">Left</option>
-        <option value="right">Right</option>
-      </select>
+    </section>
+    <secion class="settings-group">
+      <h6>Library paths</h6>
+      <a href="/wiki#Chad-Launcher/User-Guide/Game-Library">What is this?</a>
+      {#if config_temp.library_paths}
+      {#each config_temp.library_paths as path, i}
+              <div class="input-wrapper">
+                <div class="input-row">
+                  <input bind:value={path} />
+                  <button on:click={() => selectPath(i)}><Icon path={mdiFolder} /></button>
+                  <button on:click={() => removePath(path)}><Icon path={mdiDelete} /></button>
+                </div>
+              </div>
+          {/each}
+          <div class="input-wrapper">
+            <div class="input-row">
+              <button on:click={addPath}>Add path</button>
+            </div>
+          </div>
+        {/if}
+    </secion>
+    <section class="settings-group">
+      <h6>Theme</h6>
+      <div class="input-wrapper">
+        <label for="window-decorations">Window decorations</label>
+        <div class="input-row">
+          <select id="window-decorations" bind:value={$decorations}>
+            <option value="system">System</option>
+            <option value="disabled">Disabled</option>
+            <option value="left">Left</option>
+            <option value="right">Right</option>
+          </select>
+        </div>
+      </div>
       <div />
       {#each Object.entries($styles) as [key, value]}
-        <div>{key}:</div>
-        <div>
-          <ColorSetting {key} />
+      <div class="input-wrapper">
+        <label for="color-{key}">{key}:</label>
+        <div class="input-row">
+          <div>
+            <ColorSetting id="color-{key}" {key} />
+          </div>
+          <button on:click={() => undoColor(key)}><Icon path={mdiUndo} /></button>
         </div>
-        <button on:click={() => undoColor(key)}><Icon path={mdiUndo} /></button>
+      </div>
       {/each}
-    </div>
-  </div>
-  <div class="row">
-    <hr class="divider" />
-  </div>
-  <div class="row">
-    <div>
+    </section>
       <button on:click={save}>Save</button>
-    </div>
-  </div>
-</div>
 
 <style>
-  .top {
-    margin: 10px;
-    margin-top: 20px;
-    overflow-y: auto;
-    height: calc(100vh - 110px);
+  .settings-group {
+    display: flex;
+    width: 600px;
+    padding: 1rem;
+    flex-direction: column;
+    margin-top:2rem;
+    margin-bottom: 1rem;
+    border: 2px solid var(--primary);
+    border-radius: 10px;
   }
-
-  .row {
+  .settings-group h6 {
+    margin-top: -2rem;    
+  }
+  .input-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  .input-row {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    margin: 10px;
+    align-content: stretch;
+    margin-bottom:1rem;
   }
-
-  .row > * {
-    margin-right: 10px;
+  .input-row input,div,select{
+    flex-grow: 2;
   }
-
-  .settings-grid {
-    display: grid;
-    grid-template-columns: max-content auto 50px;
-    grid-gap: 20px;
-    align-items: center;
+  .input-row button {
+    flex-grow: 1;
   }
-
-
-  input {
-    width: 500px;
+  select {
+    appearance: menulist;
+    background-color: var(--secondary);
   }
 </style>
