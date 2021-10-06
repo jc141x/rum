@@ -54,6 +54,9 @@
         "open": true,
         "save": true
       },
+      "shell": {
+        "open": true
+      },
       "window": {
         "all": true,
         "create": false

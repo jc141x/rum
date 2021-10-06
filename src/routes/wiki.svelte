@@ -5,6 +5,7 @@
   import { afterUpdate, onMount } from 'svelte';
   import command from '$lib/command';
   import showdown from 'showdown';
+  import { open } from '../../node_modules/@tauri-apps/api/shell';
   showdown.setFlavor('github');
   const converter = new showdown.Converter();
 
@@ -32,11 +33,14 @@
     target.querySelectorAll('a').forEach((el) => {
       el.onclick = function (event) {
         event.preventDefault();
-
-        // Imagine using "this" in 2021
-        const href = this.getAttribute('href');
-        window.location.href = '#' + href;
-        mainPage = href;
+        if (target.classList.contains('main') && event.target.href.startsWith('http')) {
+            open(event.target.href);
+        } else {
+          // Imagine using "this" in 2021
+          const href = this.getAttribute('href');
+          window.location.href = '#' + href;
+          mainPage = href;
+        }
       };
     });
   };
