@@ -1,6 +1,8 @@
 # chad launcher
 Libre/Free game launcher/GUI for running bash scripts.
 
+<img src="https://i.postimg.cc/cHMfLtLy/3423423.png">
+
 This project was previously about developing a pirate game store. But due to issues with maintaining the database and relying on online services, we decided to move our focus on creating an offline GUI where you build your library of games manually, as well as still developing some features that we still want such as automated backups of game saves.
 
 We are making this as an alternative to Lutris that doesn't do more than it needs to. We believe that patching games needs to be done in bash instead of an ambiguous collection of settings trough a GUI. So the GUI should only serve as a frontend and not as a debugger or compatiblity tool.
