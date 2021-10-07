@@ -67,9 +67,11 @@
         </div>
       </div>
     </section>
-    <secion class="settings-group">
-      <h6>Library paths</h6>
-      <a href="/wiki#Chad-Launcher/User-Guide/Game-Library">What is this?</a>
+    <secion class="settings-group"> 
+      <div>
+        <h6 class="inline-block">Library paths</h6>
+        <a class="what" href="/wiki#Chad-Launcher/User-Guide/Game-Library">What is this?</a>
+      </div>
       {#if config_temp.library_paths}
       {#each config_temp.library_paths as path, i}
               <div class="input-wrapper">
@@ -116,28 +118,33 @@
       <button on:click={save}>Save</button>
 
 <style>
+  label {
+    font-size: 85%;
+    line-height: 85%;
+  }
   .settings-group {
     display: flex;
-    width: 600px;
+    min-width: 600px;
+    max-width: 50%;;
     padding: 1rem;
     flex-direction: column;
-    margin-top:2rem;
-    margin-bottom: 1rem;
+    margin: 4rem 0;
     border: 2px solid var(--primary);
     border-radius: 10px;
   }
   .settings-group h6 {
-    margin-top: -2rem;    
+    margin-bottom: 1.5rem;
+    display: inline-block;
   }
   .input-wrapper {
     display: flex;
     flex-direction: column;
+    margin: 1rem 0;
   }
   .input-row {
     display: flex;
     flex-direction: row;
     align-content: stretch;
-    margin-bottom:1rem;
   }
   .input-row input,div,select{
     flex-grow: 2;
@@ -148,5 +155,9 @@
   select {
     appearance: menulist;
     background-color: var(--secondary);
+  }
+  .what {
+    float: right;
+    font-size: smaller;
   }
 </style>
