@@ -16,18 +16,17 @@
     });
     if (banner) {
       await command.library('set_banner', { index: game.id, path: banner });
-      window.location.reload(true); // there might be a better way to achieve this, needed for displaying the banner
     }
   };
   const unsetBanner = async () => {
     await command.library('remove_banner', { index: game.id });
-    window.location.reload(true);
   }
 
 </script>
 
 <Modal on:close title={game.name}>
   <div class="controls">
+    <p>Changes will be visible next time you start the app</p>
     <button on:click={setBanner}>Set Banner</button>
     <button on:click={unsetBanner}>Delete banner</button>
   </div>
