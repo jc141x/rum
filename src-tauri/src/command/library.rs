@@ -6,6 +6,7 @@ use chad_rs::{
 use std::{
     io::{BufRead, BufReader, Read},
     process::{Command, Stdio},
+    fs::{copy, remove_file},
 };
 use tauri::{async_runtime::Mutex, Manager};
 
@@ -110,6 +111,39 @@ pub async fn library_open_folder(
                 .expect("Failed to open");
             let stdout = Box::new(cmd.stdout.unwrap());
             handle_stdout(app_handle, stdout)?;
+            Ok(())
+        })
+        .unwrap_or(Err(TauriChadError::new("Game not found".into())))
+}
+
+#[tauri::command]
+pub async fn library_set_banner(
+    index: usize,
+    path: String,
+    fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
+) -> Result<(), TauriChadError> {
+    fetcher
+        .lock()
+        .await
+        .get_game(index)
+        .map(|game| {
+            copy(path, game.data_path.join("banner.png"))?;
+            Ok(())
+        })
+        .unwrap_or(Err(TauriChadError::new("Game not found".into())))
+}
+
+#[tauri::command]
+pub async fn library_remove_banner(
+    index: usize,
+    fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
+) -> Result<(), TauriChadError> {
+    fetcher
+        .lock()
+        .await
+        .get_game(index)
+        .map(|game| {
+            remove_file(game.data_path.join("banner.png"))?;
             Ok(())
         })
         .unwrap_or(Err(TauriChadError::new("Game not found".into())))

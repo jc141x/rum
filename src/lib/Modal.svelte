@@ -32,7 +32,7 @@
   }
 
   .modal-content {
-    background-color: var(--secondary);
+    background-image: linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
     position: absolute;
     left: 50%;
     top: 50%;
