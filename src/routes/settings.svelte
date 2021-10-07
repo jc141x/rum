@@ -19,7 +19,7 @@
     (config_temp.library_paths = config_temp.library_paths.filter((p) => p != path));
   const selectPath = async (i) => {
     config_temp.library_paths[i] = await open({
-      defaultPath: config_temp.library_paths[i],
+      defaultPath: config_temp.library_paths[i] ? config_temp.library_paths[i] : '/',
       directory: true
     });
   };
