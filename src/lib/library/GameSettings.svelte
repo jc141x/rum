@@ -1,6 +1,4 @@
 <script>
-import { goto } from '$app/navigation';
-
   import command from '$lib/command';
   import Modal from '$lib/Modal.svelte';
   import { open } from '../../../node_modules/@tauri-apps/api/dialog';
