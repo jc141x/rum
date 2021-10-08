@@ -15,9 +15,7 @@ Developed by the [GNU/Linux P2P Pirates](https://matrix.to/#/!SlYhhmreXjJylcsjfn
 
 ### Portable use
 
-Download the compiled binary from [releases](https://gitlab.com/Gnurur/chad_launcher/-/releases). Required dependency is webkit2gtk.
-
-Alternatively, compiled CI artifacts for each commit can be downloaded [here](https://gitlab.com/Gnurur/chad_launcher/-/pipelines).
+Download the compiled binary from [releases](https://notabug.org/johncena141/chad_launcher/releases). Required dependency is webkit2gtk.
 
 ### Install from AUR
 
@@ -49,7 +47,7 @@ This will create a `chad_launcher` executable and a debian package.
 
 ## Development
 
-See Developer Guide in the [wiki](https://gitlab.com/Gnurur/chad_launcher/-/wikis/home).
+See Developer Guide in the [wiki](https://notabug.org/johncena141/chad_launcher/wiki).
 
 ### Running development server
 
@@ -60,7 +58,7 @@ pnpm tauri dev
 
 ## Wiki
 
-Read the [wiki](https://gitlab.com/Gnurur/chad_launcher/-/wikis/home).
+Read the [wiki](https://notabug.org/johncena141/chad_launcher/wiki).
 
 # Donations
 Monero: 4ABGQLAeAgiauvay11VRrWXRRtraRCU6oaC6uG9RUnNCHN4eepzWjEB6sHF92sUrSED5b8GyY7Ayh57R1jUdcKZg7is2DW3
