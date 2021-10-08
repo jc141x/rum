@@ -25,8 +25,39 @@ Two AUR packages are available:
 - [chad_launcher-git](https://aur.archlinux.org/packages/chad_launcher-git/): Builds the master branch from source.
 
 ### Install from MPR (Debian)
+Enable MPR on your system:
+```
+wget -qO - 'https://proget.hunterwittenborn.com/debian-feeds/makedeb.pub' | \
+gpg --dearmor | \
+sudo tee /usr/share/keyrings/makedeb-archive-keyring.gpg &> /dev/null
+```
+```
+echo 'deb [signed-by=/usr/share/keyrings/makedeb-archive-keyring.gpg arch=all] https://proget.hunterwittenborn.com/ makedeb main' | \
+sudo tee /etc/apt/sources.list.d/makedeb.list
+```
+```
+sudo apt update && sudo apt install makedeb
+```
+```
+git clone "https://mpr.hunterwittenborn.com/makedeb.git"
+git clone "https://mpr.hunterwittenborn.com/makedeb-makepkg.git"
 
-- Work in progress.
+cd makedeb-makepkg/
+makedeb -si
+
+cd ../makedeb/
+makedeb -si
+```
+
+Install tap (MPR helper)
+```
+git clone https://mpr.hunterwittenborn.com/tap.git && cd tap && makedeb -si
+```
+Install chad launcher
+```
+tap install chad-launcher-bin
+```
+
 
 ### Install from Fedora Projects
 
