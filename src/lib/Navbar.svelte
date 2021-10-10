@@ -1,10 +1,12 @@
 <script>
-  import { decorations } from '$lib/store.js';
+  import { decorations, query } from '$lib/store.js';
+  import { page } from '$app/stores';
   import { onMount } from 'svelte';
   import  Logo from '$lib/assets/Logo.svelte';
   import Icon from 'mdi-svelte';
   import {mdiBookshelf, mdiCog, mdiBookOpenVariant } from '@mdi/js';
   import WindowControls from './WindowControls.svelte';
+  import Search from '$lib/library/Search.svelte';
 
   onMount(() => {
     decorations.subscribe(async (value) => {
@@ -28,6 +30,9 @@
     <a href="/library" class="link"><Icon path={mdiBookshelf}/></a>
     <a href="/settings" class="link"><Icon path={mdiCog}/></a>
     <a href="/wiki" class="link"><Icon path={mdiBookOpenVariant}/></a>
+    {#if $page.path == '/library'}
+      <span class="link"><Search bind:query={$query}/></span>
+    {/if}
   </div>
   {#if $decorations == 'right'}
     <div class="right">
