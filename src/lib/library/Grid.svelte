@@ -1,5 +1,5 @@
 <script>
-  import { localGames, selectedLocalGame } from '$lib/store.js';
+  import { localGames, selectedLocalGame, query } from '$lib/store.js';
   import { styles } from '$lib/styles';
   import { Pulse } from 'svelte-loading-spinners';
   import Card from '$lib/library/Card.svelte';
@@ -11,8 +11,9 @@
     <Pulse size="60" color={$styles.primary} unit="px" duration="1s" />
   </div>
 {:then games}
+{#key $query}
   <Grid>
-    {#each games as game, i (game.id)}
+    {#each games.filter(game => game.name.toLowerCase().includes($query.toLowerCase())) as game, i (game.id)}
       <Card
         {game}
         selected={$selectedLocalGame == i}
@@ -22,6 +23,7 @@
       />
     {/each}
   </Grid>
+{/key}
 {:catch error}
   <p style="color: red">{error.message}</p>
 {/await}
