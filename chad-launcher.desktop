@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Exec=chad_launcher
+Exec=chad-launcher
 Icon=chad-launcher
 Terminal=false
 Categories=Game;Application;

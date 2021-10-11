@@ -15,14 +15,14 @@ Developed by the [GNU/Linux P2P Pirates](https://matrix.to/#/!SlYhhmreXjJylcsjfn
 
 ### Portable use
 
-Download the compiled binary from [releases](https://notabug.org/johncena141/chad_launcher/releases). Required dependency is webkit2gtk.
+Download the compiled binary from [releases](https://notabug.org/johncena141/chad-launcher/releases). Required dependency is webkit2gtk.
 
 ### Install from AUR
 
 Two AUR packages are available:
 
-- [chad_launcher-bin](https://aur.archlinux.org/packages/chad_launcher-bin/): Downloads GitLab CI artifact of latest release.
-- [chad_launcher-git](https://aur.archlinux.org/packages/chad_launcher-git/): Builds the master branch from source.
+- [chad-launcher-bin](https://aur.archlinux.org/packages/chad-launcher-bin/): Downloads GitLab CI artifact of latest release.
+- [chad-launcher-git](https://aur.archlinux.org/packages/chad-launcher-git/): Builds the master branch from source.
 
 ### Install from MPR (Debian)
 Enable MPR on your system:
@@ -74,11 +74,11 @@ pnpm build
 pnpm tauri build
 ```
 
-This will create a `chad_launcher` executable and a debian package.
+This will create a `chad-launcher` executable and a debian package.
 
 ## Development
 
-See Developer Guide in the [wiki](https://notabug.org/johncena141/chad_launcher/wiki).
+See Developer Guide in the [wiki](https://notabug.org/johncena141/chad-launcher/wiki).
 
 ### Running development server
 
@@ -89,7 +89,7 @@ pnpm tauri dev
 
 ## Wiki
 
-Read the [wiki](https://notabug.org/johncena141/chad_launcher/wiki).
+Read the [wiki](https://notabug.org/johncena141/chad-launcher/wiki).
 
 # Donations
 Monero: 4ABGQLAeAgiauvay11VRrWXRRtraRCU6oaC6uG9RUnNCHN4eepzWjEB6sHF92sUrSED5b8GyY7Ayh57R1jUdcKZg7is2DW3
