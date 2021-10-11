@@ -24,6 +24,21 @@ Two AUR packages are available:
 - [chad-launcher-bin](https://aur.archlinux.org/packages/chad-launcher-bin/): Downloads GitLab CI artifact of latest release.
 - [chad-launcher-git](https://aur.archlinux.org/packages/chad-launcher-git/): Builds the master branch from source.
 
+### Install on Gentoo with eselect-repository
+Make sure eselect-repository is installed
+```
+yes | emerge --update app-eselect/eselect-repository
+```
+After that is completed you should be good to go and add the [chad-repo](https://notabug.org/agdfrhjlbzvf/chad-repo) repository to your system
+```
+eselect repository add chad-repo git https://notabug.org/agdfrhjlbzvf/chad-repo.git
+emaint sync -r chad-repo
+```
+And finally install chad-launcher
+```
+emerge -av chad-launcher
+```
+
 ### Install from MPR (Debian)
 Enable MPR on your system:
 ```
