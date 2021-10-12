@@ -70,7 +70,7 @@
     <secion class="settings-group"> 
       <div>
         <h6 class="inline-block">Library paths</h6>
-        <a class="what" href="/wiki#Chad-Launcher/User-Guide/Game-Library">What is this?</a>
+        <a class="what" href="/wiki#user-guide/game-library.md">What is this?</a>
       </div>
       {#if config_temp.library_paths}
       {#each config_temp.library_paths as path, i}

@@ -19,7 +19,8 @@
     loading = true;
     let text = '';
     try {
-      text = await command.misc('get_wiki_page', { page });
+      if (page != null)
+        text = await command.misc('get_wiki_page', { page });
     } catch (error) {
       text = error.message;
     }
@@ -59,7 +60,7 @@
     let anchor = window?.location?.hash?.substr(1);
 
     if (anchor == null || anchor == '') {
-      anchor = 'About';
+      anchor = 'README.md';
     }
 
     mainPage = anchor;
@@ -72,7 +73,7 @@
 
 <div class="grid">
   <div>
-    {#await loadPage('Index')}
+    {#await loadPage('index.md')}
       <div class="center">
         <Pulse size="60" color={$styles.primary} unit="px" duration="1s" />
       </div>

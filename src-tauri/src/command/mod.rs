@@ -33,7 +33,7 @@ pub async fn misc_get_reqs_markdown() -> Result<String, TauriChadError> {
 #[tauri::command]
 pub async fn misc_get_wiki_page(page: String) -> Result<String, TauriChadError> {
     Ok(reqwest::get(format!(
-        "https://gitlab.com/Gnurur/chad_launcher/-/wikis/{}.md",
+        "https://notabug.org/johncena141/chad-launcher-wiki/raw/master/{}",
         page
     ))
     .await?
