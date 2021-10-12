@@ -60,7 +60,7 @@
     let anchor = window?.location?.hash?.substr(1);
 
     if (anchor == null || anchor == '') {
-      anchor = 'README.md';
+      anchor = 'about.md';
     }
 
     mainPage = anchor;
