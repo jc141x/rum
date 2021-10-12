@@ -8,6 +8,9 @@ import { goto } from "$app/navigation";
     if (event.ctrlKey && event.key === ",") {
       goto("/settings");
     }
+    if (event.key === "F1" ) {
+      goto("/wiki")
+    } 
   }
 
   document.addEventListener('keydown', (e) => handleKeyPress(e));
