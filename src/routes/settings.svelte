@@ -5,7 +5,7 @@
   import Icon from 'mdi-svelte';
   import { mdiDelete, mdiFolder, mdiReload, mdiUndo } from '@mdi/js';
   import { open } from '../../node_modules/@tauri-apps/api/dialog';
-  import { decorations } from '$lib/store';
+  import { decorations, allfiles } from '$lib/store';
   import ColorSetting from '$lib/ColorSetting.svelte';
 
   let config_temp = {};
@@ -115,7 +115,15 @@
       </div>
       {/each}
     </section>
-      <button on:click={save}>Save</button>
+    <section class="settings-group">
+      <h6>Other</h6>
+      <p>show all files in banner picker</p>
+      <label class="switch">
+        <input bind:checked={$allfiles} type="checkbox" name="allfiles">
+        <span class="slider"></span>
+      </label>
+    </section>
+    <button on:click={save}>Save</button>
 
 <style>
   label {
@@ -160,4 +168,55 @@
     float: right;
     font-size: smaller;
   }
+
+  .switch {
+  position: relative;
+  display: inline-block;
+  width: 2.25rem;
+  height: 1.5rem;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #777;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 1rem;
+}
+
+.slider:before {
+  box-sizing: border-box;
+  position: absolute;
+  content: "";
+  height: 1.5rem;
+  width: 1.5rem;
+  border: 2px solid transparent;
+  left: 0;
+  bottom: 0;
+  background-color: var(--secondary);
+  background-clip: content-box;
+  border-radius: 1rem;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--primary); 
+}
+
+input:checked + .slider:before {
+  transform: translateX(.75rem);
+}
+
 </style>
