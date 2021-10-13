@@ -39,6 +39,8 @@ export const sidebarActive = writable(false);
 
 export const decorations = storable('decorations', 'right');
 
+export const allfiles = storable('allfiles', false);
+
 export const load = async () => {
   await command.library('reload_games');
 };

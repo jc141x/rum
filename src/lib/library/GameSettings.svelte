@@ -2,15 +2,16 @@
   import command from '$lib/command';
   import Modal from '$lib/Modal.svelte';
   import { open } from '../../../node_modules/@tauri-apps/api/dialog';
+  import { allfiles } from '$lib/store'
 
   export let game;
 
   const setBanner = async () => {
     let banner = await open({
-      filters: [
+      filters: $allfiles ? []: [
         {
           name: 'Picture',
-          extensions: ['png', 'jpg', 'jpeg'],
+          extensions: ['png', 'jpg', 'jpeg', 'gif', 'webp'],
         },
       ]
     });
