@@ -21,7 +21,7 @@
   });
 </script>
 
-<div class="header">
+<div class="header" data-tauri-drag-region>
   {#if $decorations == 'left'}
     <WindowControls inverted />
   {/if}

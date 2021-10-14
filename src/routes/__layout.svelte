@@ -34,7 +34,7 @@
     display: grid;
     grid-template-rows: minmax(0, min-content) auto;
     height: 100vh;
-    padding: 10px;
+    padding-inline: 10px;
     overflow: auto;
   }
 </style>
