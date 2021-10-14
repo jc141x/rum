@@ -9,6 +9,7 @@
 <script>
   import '../app.postcss';
 
+  import GlobalKeyBinds from '$lib/GlobalKeyBinds.svelte';
   import Navbar from '$lib/Navbar.svelte';
   import { load as loadStore } from '$lib/store';
   import ThemeProvider from '$lib/ThemeProvider.svelte';
@@ -18,7 +19,7 @@
 
   loadStore();
 </script>
-
+<GlobalKeyBinds />
 <ThemeProvider>
   <div class="wrapper">
     <Navbar />
