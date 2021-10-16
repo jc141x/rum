@@ -293,8 +293,8 @@ checksum = "fd16c4719339c4530435d38e511904438d07cce7950afa3718a84ac36c10e89e"
 
 [[package]]
 name = "chad_rs"
-version = "0.4.2"
-source = "git+https://notabug.org/johncena141/chad-rs?tag=0.4.2#eb3efe81f723e43399ec6c0cc975931df1dc6fc7"
+version = "0.4.3"
+source = "git+https://notabug.org/johncena141/chad-rs?tag=0.4.3#d9ca99148ca1991bc2a322b6bddbc540c6d43a74"
 dependencies = [
  "anyhow",
  "base64",
