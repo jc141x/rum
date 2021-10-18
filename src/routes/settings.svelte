@@ -1,11 +1,10 @@
 <script>
-  import { config } from '$lib/store';
   import command from '$lib/command';
   import { styles, defaultStyles } from '$lib/styles';
   import Icon from 'mdi-svelte';
   import { mdiDelete, mdiFolder, mdiReload, mdiUndo } from '@mdi/js';
   import { open } from '../../node_modules/@tauri-apps/api/dialog';
-  import { decorations, allfiles } from '$lib/store';
+  import { cardTextSize, config, decorations, cardWidth, cardHeight, allfiles } from '$lib/store';
   import ColorSetting from '$lib/ColorSetting.svelte';
 
   let config_temp = {};
@@ -114,6 +113,32 @@
         </div>
       </div>
       {/each}
+      <div class="input-wrapper">
+        <label for="card-width">Card width:</label>
+        <div class="input-row">
+          <input type="range" min=100 max=400 id="card-width" bind:value={$cardWidth} />
+        </div>
+        <small>{$cardWidth}px</small>
+      </div>
+      <div class="input-wrapper">
+        <label for="window-decorations">Card aspect ratio:</label>
+        <div class="input-row">
+          <select id="window-decorations" bind:value={$cardHeight}>
+            <option value="100%">1:1</option>
+            <option value="150%">2:3</option>
+            <option value="140.909090909%">22:31</option>
+            <option value="46.7391304348%">92:43</option>
+          </select>
+        </div>
+      </div>
+      <div />
+      <div class="input-wrapper">
+        <label for="card-width">Card text size:</label>
+        <div class="input-row">
+          <input type="range" min=50 max=150 id="card-width" bind:value={$cardTextSize} />
+        </div>
+        <small>{$cardTextSize}%</small>
+      </div>
     </section>
     <section class="settings-group">
       <h6>Other</h6>
@@ -126,6 +151,9 @@
     <button on:click={save}>Save</button>
 
 <style>
+  [type="range"] {
+    appearance: slider-horizontal;
+  }
   label {
     font-size: 85%;
     line-height: 85%;
