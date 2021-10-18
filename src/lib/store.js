@@ -38,6 +38,9 @@ export const mode = writable('grid');
 export const sidebarActive = writable(false);
 
 export const decorations = storable('decorations', 'right');
+export const cardWidth = storable('cardWidth', 300);
+export const cardHeight = storable('cardHeight', "140.909090909%");
+export const cardTextSize = storable('cardTextSize', 100);
 
 export const allfiles = storable('allfiles', false);
 

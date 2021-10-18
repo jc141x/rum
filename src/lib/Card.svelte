@@ -1,5 +1,6 @@
 <script>
   import Banner from './Banner.svelte';
+  import { cardHeight } from '$lib/store';
 
   export let title = '';
   export let banner = '';
@@ -8,7 +9,7 @@
 
 <div on:click class="card-wrapper" class:selected>
   <div class="card">
-    <div class="img-container">
+    <div class="img-container" style="padding-top: {$cardHeight}">
       <Banner absolute={true} rounded {banner} fallbackText={title} />
     </div>
   </div>
@@ -18,7 +19,6 @@
   .img-container {
     position: relative;
     width: 100%;
-    padding-top: 46.74%;
   }
 
   .card-wrapper {

@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import { cardTextSize } from '$lib/store';
 
   export let banner = '';
   export let absolute = false;
@@ -19,7 +20,7 @@
 <img src={banner} class:absolute class:rounded alt="banner" class:loaded bind:this={image} />
 {#if !loaded && fallbackText != ''}
   <div class="overlay">
-    <h5>{fallbackText}</h5>
+    <h5 style="font-size: {$cardTextSize}%">{fallbackText}</h5>
   </div>
 {/if}
 
