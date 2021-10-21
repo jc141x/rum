@@ -1,9 +1,14 @@
 <script>
-import { goto } from "$app/navigation";
-import { selectedLocalGame } from "$lib/store";
+  import { goto } from "$app/navigation";
+  import { selectedLocalGame } from "$lib/store";
+  var selectedAction = null;
+  var buttons = [];
 
   const handleKeyPress = async (event) => {
-    if (event.ctrlKey && event.key === "Home") {
+    if (event.key === "Enter" && document.activeElement) {
+      document.activeElement.click();
+    }
+    else if (event.ctrlKey && event.key === "Home") {
       goto("/");
     }
     else if (event.ctrlKey && event.key === ",") {
@@ -20,6 +25,55 @@ import { selectedLocalGame } from "$lib/store";
         document.activeElement.blur();
       }
       $selectedLocalGame =  null;
+      selectedAction = null;
+    }
+    else if (window.location.pathname === "/library" && $selectedLocalGame === null) {
+      if (event.key === "Tab") {
+        event.preventDefault();
+        $selectedLocalGame = 0;
+      }
+    }
+    else if (window.location.pathname === "/library" && $selectedLocalGame !== null) {
+      if (event.key === "ArrowLeft" && $selectedLocalGame > 0) {
+        $selectedLocalGame--
+        selectedAction = null;
+      }
+      else if (event.key === "ArrowRight" && $selectedLocalGame < document.querySelectorAll(".card").length -1) {
+        $selectedLocalGame++
+        selectedAction = null;
+      }
+      else if (event.shiftKey && event.code === "Tab") {
+        event.preventDefault();
+        if (document.querySelector(".modal")) {
+          buttons = document.querySelectorAll(".modal button");
+        }
+        else {
+          buttons = document.querySelectorAll(".actions button");
+        }  
+        if (selectedAction === null || selectedAction === 0) {
+          selectedAction = buttons.length - 1;
+        }
+        else {
+          selectedAction--;
+        }
+        buttons[selectedAction].focus();
+      }
+      else if (event.key === "Tab") {
+        event.preventDefault();
+        if (document.querySelector(".modal")) {
+          buttons = document.querySelectorAll(".modal button");
+        }
+        else {
+          buttons = document.querySelectorAll(".actions button");
+        }  
+        if  (selectedAction === null || selectedAction === buttons.length - 1) {
+          selectedAction = 0;
+        }
+        else {
+          selectedAction++;
+        }
+        buttons[selectedAction].focus();
+      }
     }
   }
 
