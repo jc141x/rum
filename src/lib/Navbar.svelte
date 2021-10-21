@@ -32,13 +32,6 @@
     <a href="/wiki" class="link"><Icon path={mdiBookOpenVariant}/></a>
     {#if $page.path == '/library'}
       <span class="link search"><Search bind:query={$query}/></span>
-      <script>
-        document.addEventListener('keydown', (e) => {
-          if (e.ctrlKey && e.key == 'f') {
-            document.querySelector('.search input').focus();
-          }
-        });
-      </script>
     {/if}
   </div>
   {#if $decorations == 'right'}
