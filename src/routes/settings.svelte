@@ -50,7 +50,7 @@
   <title>Chad Launcher - Settings</title>
 </svelte:head>
 
-<section class="settings-group">
+<section class="settings-group" tabindex="0">
       <h6>General options</h6>
       <div class="input-wrapper">
         <label for="data-path">Data path:</label>
