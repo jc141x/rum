@@ -28,7 +28,7 @@
       selectedAction = null;
     }
     else if (window.location.pathname === "/library" && $selectedLocalGame === null) {
-      if (event.key === "Tab") {
+      if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
         event.preventDefault();
         $selectedLocalGame = 0;
       }
