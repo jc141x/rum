@@ -1,9 +1,13 @@
 <script>
-  import { localGames, selectedLocalGame } from '$lib/store.js';
+  import { localGames, selectedLocalGame, query } from '$lib/store.js';
   import { fly } from 'svelte/transition';
 
   import Panel from '$lib/library/Panel.svelte';
   import Grid from '$lib/library/Grid.svelte';
+
+  query.subscribe(() => {
+    $selectedLocalGame = null;
+  });
 </script>
 
 <svelte:head>
@@ -27,7 +31,7 @@
             out:fly={{ y: 100, duration: 300 }}
             class="full-height panel"
           >
-            <Panel game={games[$selectedLocalGame]} on:close={() => ($selectedLocalGame = null)} />
+            <Panel game={games.filter(game => game.name.toLowerCase().includes($query.toLowerCase()))[$selectedLocalGame]} on:close={() => ($selectedLocalGame = null)} />
           </div>
         {/key}
       {:catch error}
