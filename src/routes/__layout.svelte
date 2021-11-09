@@ -14,10 +14,15 @@
   import { load as loadStore } from '$lib/store';
   import ThemeProvider from '$lib/ThemeProvider.svelte';
   import PageTransition from '$lib/PageTransition.svelte';
+  import command from '$lib/command';
+  import { getCurrent } from '../../node_modules/@tauri-apps/api/window'
 
   export let key;
 
   loadStore();
+  const win = getCurrent();
+  (async () => command.misc('init_bg_process', { win }))();
+
 </script>
 <GlobalKeyBinds />
 <ThemeProvider>
