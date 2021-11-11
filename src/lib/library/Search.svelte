@@ -5,7 +5,6 @@
   export let query;
 </script>
 
-
 <div class="search-form">
   <span><Icon path={mdiMagnify} /></span>
   <input type="search" bind:value={query} />
@@ -23,8 +22,7 @@
     max-width: 2rem;
   }
 
-
-  [type="search"] {
+  [type='search'] {
     position: absolute;
     width: 100%;
     opacity: 0;
@@ -41,7 +39,7 @@
     max-width: 100%;
   }
 
-  .search-form:focus-within [type="search"] {
+  .search-form:focus-within [type='search'] {
     opacity: 1;
     right: 0;
     position: relative;
@@ -50,5 +48,4 @@
     position: relative;
     left: 0;
   }
-
 </style>

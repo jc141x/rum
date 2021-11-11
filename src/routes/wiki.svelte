@@ -19,8 +19,7 @@
     loading = true;
     let text = '';
     try {
-      if (page != null)
-        text = await command.misc('get_wiki_page', { page });
+      if (page != null) text = await command.misc('get_wiki_page', { page });
     } catch (error) {
       text = error.message;
     }
@@ -35,7 +34,7 @@
       el.onclick = function (event) {
         event.preventDefault();
         if (target.classList.contains('main') && event.target.href.startsWith('http')) {
-            open(event.target.href);
+          open(event.target.href);
         } else {
           // Imagine using "this" in 2021
           const href = this.getAttribute('href');

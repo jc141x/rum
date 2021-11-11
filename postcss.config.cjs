@@ -1,18 +1,19 @@
-const autoprefixer = require("autoprefixer");
+const autoprefixer = require('autoprefixer');
 const easing = require('postcss-easing-gradients');
-const cssnano = require("cssnano");
+const cssnano = require('cssnano');
 
 const mode = process.env.NODE_ENV;
-const dev = mode === "development";
+const dev = mode === 'development';
 
 const config = {
-	plugins: [
-		autoprefixer(),
+  plugins: [
+    autoprefixer(),
 
-		!dev && cssnano({
-			preset: "default",
-		}),
-	],
+    !dev &&
+      cssnano({
+        preset: 'default'
+      })
+  ]
 };
 
 module.exports = config;
