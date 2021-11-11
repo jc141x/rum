@@ -25,8 +25,9 @@
     SettingsActive = false;
   };
 </script>
+
 {#if SettingsActive}
-  <GameSettings on:close={handleCloseSettings} game={game}/>
+  <GameSettings on:close={handleCloseSettings} {game} />
 {/if}
 <Panel title={game.name} on:close>
   <div slot="text">
@@ -34,7 +35,9 @@
     {game.executable_dir}
   </div>
   <div class="actions" slot="actions">
-    <button on:click={handleOpenSettings}><span class="align-fix"><Icon path={mdiCog}/></span></button>
+    <button on:click={handleOpenSettings}
+      ><span class="align-fix"><Icon path={mdiCog} /></span></button
+    >
     <button on:click={handlePath}><span class="align-fix"><Icon path={mdiFolder} /></span></button>
     {#each game.scripts as script}
       <button on:click={() => handleLaunch(script.script)}>

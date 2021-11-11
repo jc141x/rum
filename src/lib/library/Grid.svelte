@@ -11,19 +11,21 @@
     <Pulse size="60" color={$styles.primary} unit="px" duration="1s" />
   </div>
 {:then games}
-{#key $query}
-  <Grid>
-    {#each games.filter(game => game.name.toLowerCase().includes($query.toLowerCase())) as game, i (game.id)}
-      <Card
-        {game}
-        selected={$selectedLocalGame == i}
-        on:click={(e) => {
-          selectedLocalGame.set(i);
-        }}
-      />
-    {/each}
-  </Grid>
-{/key}
+  {#key $query}
+    <Grid>
+      {#each games.filter((game) =>
+        game.name.toLowerCase().includes($query.toLowerCase())
+      ) as game, i (game.id)}
+        <Card
+          {game}
+          selected={$selectedLocalGame == i}
+          on:click={(e) => {
+            selectedLocalGame.set(i);
+          }}
+        />
+      {/each}
+    </Grid>
+  {/key}
 {:catch error}
   <p style="color: red">{error.message}</p>
 {/await}

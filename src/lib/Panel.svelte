@@ -36,7 +36,7 @@
     grid-column: 1 / 4;
     overflow-x: hidden;
   }
-  
+
   .title h1 {
     white-space: nowrap;
     overflow: hidden;

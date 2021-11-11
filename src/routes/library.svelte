@@ -31,7 +31,12 @@
             out:fly={{ y: 100, duration: 300 }}
             class="full-height panel"
           >
-            <Panel game={games.filter(game => game.name.toLowerCase().includes($query.toLowerCase()))[$selectedLocalGame]} on:close={() => ($selectedLocalGame = null)} />
+            <Panel
+              game={games.filter((game) => game.name.toLowerCase().includes($query.toLowerCase()))[
+                $selectedLocalGame
+              ]}
+              on:close={() => ($selectedLocalGame = null)}
+            />
           </div>
         {/key}
       {:catch error}

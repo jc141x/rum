@@ -2,18 +2,20 @@
   import command from '$lib/command';
   import Modal from '$lib/Modal.svelte';
   import { open } from '../../../node_modules/@tauri-apps/api/dialog';
-  import { allfiles } from '$lib/store'
+  import { allfiles } from '$lib/store';
 
   export let game;
 
   const setBanner = async () => {
     let banner = await open({
-      filters: $allfiles ? []: [
-        {
-          name: 'Picture',
-          extensions: ['png', 'jpg', 'jpeg', 'gif', 'webp'],
-        },
-      ]
+      filters: $allfiles
+        ? []
+        : [
+            {
+              name: 'Picture',
+              extensions: ['png', 'jpg', 'jpeg', 'gif', 'webp']
+            }
+          ]
     });
     if (banner) {
       await command.library('set_banner', { index: game.id, path: banner });
@@ -21,8 +23,7 @@
   };
   const unsetBanner = async () => {
     await command.library('remove_banner', { index: game.id });
-  }
-
+  };
 </script>
 
 <Modal on:close title={game.name}>
@@ -34,5 +35,4 @@
 </Modal>
 
 <style>
-
 </style>

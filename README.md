@@ -1,4 +1,5 @@
 # chad launcher
+
 Libre/Free game launcher/GUI for running bash scripts.
 
 <img src="https://i.postimg.cc/cHMfLtLy/3423423.png">
@@ -25,34 +26,45 @@ Two AUR packages are available:
 - [chad-launcher-git](https://aur.archlinux.org/packages/chad-launcher-git/): Builds the master branch from source.
 
 ### Install on Gentoo with eselect-repository
+
 Make sure eselect-repository is installed
+
 ```
 yes | emerge --update app-eselect/eselect-repository
 ```
+
 After that is completed you should be good to go and add the [chad-repo](https://notabug.org/agdfrhjlbzvf/chad-repo) repository to your system
+
 ```
 eselect repository add chad-repo git https://notabug.org/agdfrhjlbzvf/chad-repo.git
 emaint sync -r chad-repo
 ```
+
 And finally install chad-launcher
+
 ```
 emerge -av chad-launcher
 ```
 
 ### Install from MPR (Debian)
+
 Enable MPR on your system:
+
 ```
 wget -qO - 'https://proget.hunterwittenborn.com/debian-feeds/makedeb.pub' | \
 gpg --dearmor | \
 sudo tee /usr/share/keyrings/makedeb-archive-keyring.gpg &> /dev/null
 ```
+
 ```
 echo 'deb [signed-by=/usr/share/keyrings/makedeb-archive-keyring.gpg arch=all] https://proget.hunterwittenborn.com/ makedeb main' | \
 sudo tee /etc/apt/sources.list.d/makedeb.list
 ```
+
 ```
 sudo apt update && sudo apt install makedeb
 ```
+
 ```
 git clone "https://mpr.hunterwittenborn.com/makedeb.git"
 git clone "https://mpr.hunterwittenborn.com/makedeb-makepkg.git"
@@ -65,14 +77,16 @@ makedeb -si
 ```
 
 Install tap (MPR helper)
+
 ```
 git clone https://mpr.hunterwittenborn.com/tap.git && cd tap && makedeb -si
 ```
+
 Install chad launcher
+
 ```
 tap install chad-launcher-bin
 ```
-
 
 ### Install from Fedora Projects
 
@@ -80,7 +94,7 @@ tap install chad-launcher-bin
 
 ### Build from source
 
-We recommend using `pnpm` to build this project ([AUR](https://aur.archlinux.org/packages/pnpm/)), but any other 
+We recommend using `pnpm` to build this project ([AUR](https://aur.archlinux.org/packages/pnpm/)), but any other
 package manager like `npm` or `yarn` should work too.
 
 ```
@@ -107,6 +121,7 @@ pnpm tauri dev
 Read the [wiki](https://notabug.org/johncena141/chad-launcher/wiki).
 
 # Donations
+
 Monero: 4ABGQLAeAgiauvay11VRrWXRRtraRCU6oaC6uG9RUnNCHN4eepzWjEB6sHF92sUrSED5b8GyY7Ayh57R1jUdcKZg7is2DW3
 
 Powered by [Tauri](https://tauri.studio)
