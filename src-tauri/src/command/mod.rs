@@ -1,9 +1,10 @@
 pub mod config;
 pub mod library;
 
-use serde::Serialize;
-use tauri::Window;
 use gilrs::Gilrs;
+use serde::Serialize;
+use std::thread;
+use tauri::Window;
 
 #[derive(Debug, Serialize)]
 pub struct TauriChadError {
@@ -45,8 +46,17 @@ pub async fn misc_get_wiki_page(page: String) -> Result<String, TauriChadError> 
 
 #[tauri::command]
 pub fn misc_init_bg_process(window: Window) {
-    std::thread::spawn(move || {
+    static mut STARTED: bool = false;
+    unsafe {
+        if STARTED {
+            return;
+        }
+    }
+    thread::spawn(move || {
         let mut gilrs = Gilrs::new().unwrap();
+        unsafe {
+            STARTED = true;
+        }
         loop {
             while let Some(ev) = gilrs.next_event() {
                 if let gilrs::ev::EventType::ButtonPressed(..) = ev.event {

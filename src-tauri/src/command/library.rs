@@ -4,9 +4,9 @@ use chad_rs::{
     library::{self, LibraryFetcher},
 };
 use std::{
+    fs::{copy, remove_file},
     io::{BufRead, BufReader, Read},
     process::{Command, Stdio},
-    fs::{copy, remove_file},
 };
 use tauri::{async_runtime::Mutex, Manager};
 
@@ -97,7 +97,7 @@ pub async fn library_open_terminal(
 pub async fn library_open_folder(
     index: usize,
     fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
-    app_handle: tauri::AppHandle
+    app_handle: tauri::AppHandle,
 ) -> Result<(), TauriChadError> {
     fetcher
         .lock()

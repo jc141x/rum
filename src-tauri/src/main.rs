@@ -5,9 +5,7 @@
 
 mod command;
 
-use chad_rs::{
-    config::Config, library::LibraryFetcher,
-};
+use chad_rs::{config::Config, library::LibraryFetcher};
 use tauri::async_runtime::Mutex;
 
 fn main() {
