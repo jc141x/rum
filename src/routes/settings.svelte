@@ -124,10 +124,10 @@
         <label for="window-decorations">Card aspect ratio:</label>
         <div class="input-row">
           <select id="window-decorations" bind:value={$cardHeight}>
-            <option value="100%">1:1</option>
-            <option value="150%">2:3</option>
-            <option value="140.909090909%">22:31</option>
-            <option value="46.7391304348%">92:43</option>
+            <option value="1/1">1:1</option>
+            <option value="3/2">2:3</option>
+            <option value="31/22">22:31</option>
+            <option value="43/92">92:43</option>
           </select>
         </div>
       </div>
