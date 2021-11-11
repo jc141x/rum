@@ -9,7 +9,7 @@
 
 <div on:click class="card-wrapper" class:selected>
   <div class="card">
-    <div class="img-container" style="padding-top: {$cardHeight}">
+    <div class="img-container" style="padding-top: calc(({$cardHeight})*100%)">
       <Banner absolute={true} rounded {banner} fallbackText={title} />
     </div>
   </div>
