@@ -3,7 +3,7 @@ pub mod library;
 
 use gilrs::Gilrs;
 use serde::Serialize;
-use std::thread;
+use std::{thread, time::Duration};
 use tauri::Window;
 
 #[derive(Debug, Serialize)]
@@ -63,6 +63,7 @@ pub fn misc_init_bg_process(window: Window) {
                     window.emit("gamepad", ev.event).unwrap();
                 }
             }
+            thread::sleep(Duration::from_millis(10));
         }
     });
 }
