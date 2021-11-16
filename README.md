@@ -22,7 +22,7 @@ Download the compiled binary from [releases](https://notabug.org/johncena141/cha
 
 Two AUR packages are available:
 
-- [chad-launcher-bin](https://aur.archlinux.org/packages/chad-launcher-bin/): Downloads GitLab CI artifact of latest release.
+- [chad-launcher-bin](https://aur.archlinux.org/packages/chad-launcher-bin/): Downloads latest release.
 - [chad-launcher-git](https://aur.archlinux.org/packages/chad-launcher-git/): Builds the master branch from source.
 
 ### Install on Gentoo with eselect-repository
