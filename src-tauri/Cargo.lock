@@ -42,9 +42,9 @@ checksum = "61604a8f862e1d5c3229fdd78f8b02c68dcf73a4c4b05fd636d12240aaa242c1"
 name = "app"
 version = "0.1.0"
 dependencies = [
- "chad_rs",
  "gilrs",
  "reqwest",
+ "rumlibrs",
  "serde",
  "serde_json",
  "tauri",
@@ -297,23 +297,6 @@ name = "cfg_aliases"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fd16c4719339c4530435d38e511904438d07cce7950afa3718a84ac36c10e89e"
-
-[[package]]
-name = "chad_rs"
-version = "0.4.4"
-source = "git+https://notabug.org/johncena141/chad-rs?tag=0.4.4#cc2607b71c22b8717c77b5f80148108bdc8399a4"
-dependencies = [
- "anyhow",
- "base64",
- "dirs",
- "lazy_static",
- "serde",
- "serde_json",
- "thiserror",
- "titlecase",
- "tokio",
- "tokio-test",
-]
 
 [[package]]
 name = "chrono"
@@ -2530,6 +2513,22 @@ dependencies = [
  "wasm-bindgen-futures",
  "web-sys",
  "winapi",
+]
+
+[[package]]
+name = "rumlibrs"
+version = "0.4.4"
+dependencies = [
+ "anyhow",
+ "base64",
+ "dirs",
+ "lazy_static",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "titlecase",
+ "tokio",
+ "tokio-test",
 ]
 
 [[package]]

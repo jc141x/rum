@@ -1,5 +1,5 @@
 use crate::command::TauriRumError;
-use chad_rs::config::Config;
+use rumlibrs::config::Config;
 use std::path::PathBuf;
 use tauri::async_runtime::Mutex;
 

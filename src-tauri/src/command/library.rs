@@ -1,5 +1,5 @@
 use super::TauriRumError;
-use chad_rs::{
+use rumlibrs::{
     config::Config,
     library::{self, LibraryFetcher},
 };
