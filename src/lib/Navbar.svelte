@@ -2,7 +2,6 @@
   import { decorations, query } from '$lib/store.js';
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
-  import Logo from '$lib/assets/Logo.svelte';
   import Icon from 'mdi-svelte';
   import { mdiBookshelf, mdiCog, mdiBookOpenVariant } from '@mdi/js';
   import WindowControls from './WindowControls.svelte';
@@ -25,7 +24,6 @@
   {#if $decorations == 'left'}
     <WindowControls inverted />
   {/if}
-  <a href="/" class="link"><Logo width="32pt" /></a>
   <div class="links">
     <a href="/library" class="link"><Icon path={mdiBookshelf} /></a>
     <a href="/settings" class="link"><Icon path={mdiCog} /></a>
