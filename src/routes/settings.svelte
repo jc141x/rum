@@ -45,7 +45,7 @@
 </script>
 
 <svelte:head>
-  <title>Chad Launcher - Settings</title>
+  <title>Rum - Settings</title>
 </svelte:head>
 
 <section class="settings-group" tabindex="0">

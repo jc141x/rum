@@ -1,4 +1,4 @@
-use super::TauriChadError;
+use super::TauriRumError;
 use chad_rs::{
     config::Config,
     library::{self, LibraryFetcher},
@@ -13,7 +13,7 @@ use tauri::{async_runtime::Mutex, Manager};
 fn handle_stdout(
     app_handle: tauri::AppHandle,
     stdout: Box<dyn Read>,
-) -> Result<(), TauriChadError> {
+) -> Result<(), TauriRumError> {
     let mut reader = BufReader::new(stdout);
 
     loop {
@@ -37,7 +37,7 @@ pub async fn library_run_game(
     script: String,
     fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
     app_handle: tauri::AppHandle,
-) -> Result<(), TauriChadError> {
+) -> Result<(), TauriRumError> {
     fetcher
         .lock()
         .await
@@ -47,13 +47,13 @@ pub async fn library_run_game(
             handle_stdout(app_handle, stdout)?;
             Ok(())
         })
-        .unwrap_or(Err(TauriChadError::new("Game not found".into())))
+        .unwrap_or(Err(TauriRumError::new("Game not found".into())))
 }
 
 #[tauri::command]
 pub async fn library_get_games(
     fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
-) -> Result<Vec<library::Game>, TauriChadError> {
+) -> Result<Vec<library::Game>, TauriRumError> {
     let fetcher = fetcher.lock().await;
     Ok(fetcher.get_games_cloned())
 }
@@ -62,7 +62,7 @@ pub async fn library_get_games(
 pub async fn library_reload_games(
     config: tauri::State<'_, Mutex<Config>>,
     fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
-) -> Result<(), TauriChadError> {
+) -> Result<(), TauriRumError> {
     let mut fetcher = fetcher.lock().await;
     let config = config.lock().await;
     fetcher.load_games(&*config);
@@ -76,7 +76,7 @@ pub async fn library_open_terminal(
     index: usize,
     fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
     config: tauri::State<'_, Mutex<Config>>,
-) -> Result<(), TauriChadError> {
+) -> Result<(), TauriRumError> {
     let fetcher = fetcher.lock().await;
     let config = config.lock().await;
 
@@ -89,7 +89,7 @@ pub async fn library_open_terminal(
                 .spawn()?;
             Ok(())
         })
-        .unwrap_or(Err(TauriChadError::new("Game not found".into())))?;
+        .unwrap_or(Err(TauriRumError::new("Game not found".into())))?;
     Ok(())
 }
 
@@ -98,7 +98,7 @@ pub async fn library_open_folder(
     index: usize,
     fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
     app_handle: tauri::AppHandle,
-) -> Result<(), TauriChadError> {
+) -> Result<(), TauriRumError> {
     fetcher
         .lock()
         .await
@@ -113,7 +113,7 @@ pub async fn library_open_folder(
             handle_stdout(app_handle, stdout)?;
             Ok(())
         })
-        .unwrap_or(Err(TauriChadError::new("Game not found".into())))
+        .unwrap_or(Err(TauriRumError::new("Game not found".into())))
 }
 
 #[tauri::command]
@@ -121,7 +121,7 @@ pub async fn library_set_banner(
     index: usize,
     path: String,
     fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
-) -> Result<(), TauriChadError> {
+) -> Result<(), TauriRumError> {
     fetcher
         .lock()
         .await
@@ -130,14 +130,14 @@ pub async fn library_set_banner(
             copy(path, game.data_path.join("banner.png"))?;
             Ok(())
         })
-        .unwrap_or(Err(TauriChadError::new("Game not found".into())))
+        .unwrap_or(Err(TauriRumError::new("Game not found".into())))
 }
 
 #[tauri::command]
 pub async fn library_remove_banner(
     index: usize,
     fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
-) -> Result<(), TauriChadError> {
+) -> Result<(), TauriRumError> {
     fetcher
         .lock()
         .await
@@ -146,5 +146,5 @@ pub async fn library_remove_banner(
             remove_file(game.data_path.join("banner.png"))?;
             Ok(())
         })
-        .unwrap_or(Err(TauriChadError::new("Game not found".into())))
+        .unwrap_or(Err(TauriRumError::new("Game not found".into())))
 }

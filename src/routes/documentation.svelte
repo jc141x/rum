@@ -29,7 +29,7 @@
 </script>
 
 <svelte:head>
-  <title>Chad Launcher - Documentation</title>
+  <title>Rum - Documentation</title>
 </svelte:head>
 
 <div id="md" />

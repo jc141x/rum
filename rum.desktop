@@ -1,10 +1,10 @@
 [Desktop Entry]
 Type=Application
-Exec=chad-launcher
-Icon=chad-launcher
+Exec=rum
+Icon=rum
 Terminal=false
 Categories=Game;Application;
-Name=Chad Launcher
+Name=Rum
 Comment=GNU/LINUX GAMING UNLEASHED!
 StartupNotify=true
 

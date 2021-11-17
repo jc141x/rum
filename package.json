@@ -1,5 +1,5 @@
 {
-  "name": "chad-launcher",
+  "name": "rum",
   "version": "0.5.2",
   "scripts": {
     "tauri": "tauri",

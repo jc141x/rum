@@ -1,30 +1,30 @@
-use crate::command::TauriChadError;
+use crate::command::TauriRumError;
 use chad_rs::config::Config;
 use std::path::PathBuf;
 use tauri::async_runtime::Mutex;
 
 #[tauri::command]
-pub async fn config_save(config: tauri::State<'_, Mutex<Config>>) -> Result<(), TauriChadError> {
+pub async fn config_save(config: tauri::State<'_, Mutex<Config>>) -> Result<(), TauriRumError> {
     config.lock().await.save()?;
     Ok(())
 }
 
 #[tauri::command]
-pub async fn config_get(config: tauri::State<'_, Mutex<Config>>) -> Result<Config, TauriChadError> {
+pub async fn config_get(config: tauri::State<'_, Mutex<Config>>) -> Result<Config, TauriRumError> {
     Ok(config.lock().await.clone())
 }
 
 #[tauri::command]
 pub async fn config_get_data_path(
     config: tauri::State<'_, Mutex<Config>>,
-) -> Result<PathBuf, TauriChadError> {
+) -> Result<PathBuf, TauriRumError> {
     Ok(config.lock().await.data_path().to_owned())
 }
 
 #[tauri::command]
 pub async fn config_get_library_paths(
     config: tauri::State<'_, Mutex<Config>>,
-) -> Result<Vec<PathBuf>, TauriChadError> {
+) -> Result<Vec<PathBuf>, TauriRumError> {
     Ok(config
         .lock()
         .await
@@ -37,7 +37,7 @@ pub async fn config_get_library_paths(
 #[tauri::command]
 pub async fn config_get_terminal(
     config: tauri::State<'_, Mutex<Config>>,
-) -> Result<String, TauriChadError> {
+) -> Result<String, TauriRumError> {
     Ok(config.lock().await.terminal().into())
 }
 
@@ -45,7 +45,7 @@ pub async fn config_get_terminal(
 pub async fn config_set(
     new_config: Config,
     config: tauri::State<'_, Mutex<Config>>,
-) -> Result<(), TauriChadError> {
+) -> Result<(), TauriRumError> {
     config.lock().await.set_config(new_config);
     Ok(())
 }
@@ -54,7 +54,7 @@ pub async fn config_set(
 pub async fn config_set_data_path(
     data_path: PathBuf,
     config: tauri::State<'_, Mutex<Config>>,
-) -> Result<(), TauriChadError> {
+) -> Result<(), TauriRumError> {
     config.lock().await.set_data_path(&data_path);
     Ok(())
 }
@@ -63,7 +63,7 @@ pub async fn config_set_data_path(
 pub async fn config_set_library_paths(
     library_paths: Vec<PathBuf>,
     config: tauri::State<'_, Mutex<Config>>,
-) -> Result<(), TauriChadError> {
+) -> Result<(), TauriRumError> {
     config.lock().await.set_library_paths(&library_paths);
     Ok(())
 }
@@ -72,7 +72,7 @@ pub async fn config_set_library_paths(
 pub async fn config_set_terminal(
     terminal: String,
     config: tauri::State<'_, Mutex<Config>>,
-) -> Result<(), TauriChadError> {
+) -> Result<(), TauriRumError> {
     config.lock().await.set_terminal(&terminal);
     Ok(())
 }

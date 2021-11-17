@@ -1,4 +1,4 @@
-# chad launcher
+# Rum
 
 Libre/Free game launcher/GUI for running bash scripts.
 
@@ -14,14 +14,14 @@ Developed by the [GNU/Linux P2P Pirates](https://matrix.to/#/!SlYhhmreXjJylcsjfn
 
 ### Portable use
 
-Download the compiled binary from [releases](https://notabug.org/johncena141/chad-launcher/releases). Required dependency is webkit2gtk.
+Download the compiled binary from [releases](https://notabug.org/johncena141/rum/releases). Required dependency is webkit2gtk.
 
 ### Install from AUR
 
 Two AUR packages are available:
 
-- [chad-launcher-bin](https://aur.archlinux.org/packages/chad-launcher-bin/): Downloads latest release.
-- [chad-launcher-git](https://aur.archlinux.org/packages/chad-launcher-git/): Builds the master branch from source.
+- [rum-bin](https://aur.archlinux.org/packages/rum-bin/): Downloads latest release.
+- [rum-git](https://aur.archlinux.org/packages/rum-git/): Builds the master branch from source.
 
 ### Install on Gentoo with eselect-repository
 
@@ -38,10 +38,10 @@ eselect repository add chad-repo git https://notabug.org/agdfrhjlbzvf/chad-repo.
 emaint sync -r chad-repo
 ```
 
-And finally install chad-launcher
+And finally install rum
 
 ```
-emerge -av chad-launcher
+emerge -av rum
 ```
 
 ### Install from MPR (Debian)
@@ -80,10 +80,10 @@ Install tap (MPR helper)
 git clone https://mpr.hunterwittenborn.com/tap.git && cd tap && makedeb -si
 ```
 
-Install chad launcher
+Install Rum
 
 ```
-tap install chad-launcher-bin
+tap install rum-bin
 ```
 
 ### Install from Fedora Projects
@@ -101,11 +101,11 @@ pnpm build
 pnpm tauri build
 ```
 
-This will create a `chad-launcher` executable and a debian package.
+This will create a `rum` executable and a debian package.
 
 ## Development
 
-See Developer Guide in the [wiki](https://notabug.org/johncena141/chad-launcher/wiki).
+See Developer Guide in the [wiki](https://notabug.org/johncena141/rum/wiki).
 
 ### Running development server
 
@@ -116,7 +116,7 @@ pnpm tauri dev
 
 ## Wiki
 
-Read the [wiki](https://notabug.org/johncena141/chad-launcher/wiki).
+Read the [wiki](https://notabug.org/johncena141/rum/wiki).
 
 # Donations
 

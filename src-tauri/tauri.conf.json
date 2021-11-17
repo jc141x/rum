@@ -1,6 +1,6 @@
 {
   "package": {
-    "productName": "chad-launcher",
+    "productName": "rum",
     "version": "0.5.2"
   },
   "build": {
@@ -13,7 +13,7 @@
     "bundle": {
       "active": true,
       "targets": ["deb"],
-      "identifier": "johncena141.chad-launcher",
+      "identifier": "johncena141.rum",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
@@ -64,7 +64,7 @@
     },
     "windows": [
       {
-        "title": "Chad Launcher",
+        "title": "Rum",
         "width": 800,
         "height": 600,
         "resizable": true,

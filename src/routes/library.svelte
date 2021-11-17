@@ -11,7 +11,7 @@
 </script>
 
 <svelte:head>
-  <title>Chad Launcher - Library</title>
+  <title>Rum - Library</title>
 </svelte:head>
 
 <div class="content">

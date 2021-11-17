@@ -7,26 +7,26 @@ use std::{thread, time::Duration};
 use tauri::Window;
 
 #[derive(Debug, Serialize)]
-pub struct TauriChadError {
+pub struct TauriRumError {
     message: String,
 }
 
-impl TauriChadError {
+impl TauriRumError {
     pub fn new(message: String) -> Self {
         Self { message }
     }
 }
 
-impl<T: std::error::Error> From<T> for TauriChadError {
-    fn from(error: T) -> TauriChadError {
-        TauriChadError {
+impl<T: std::error::Error> From<T> for TauriRumError {
+    fn from(error: T) -> TauriRumError {
+        TauriRumError {
             message: format!("{}", error),
         }
     }
 }
 
 #[tauri::command]
-pub async fn misc_get_reqs_markdown() -> Result<String, TauriChadError> {
+pub async fn misc_get_reqs_markdown() -> Result<String, TauriRumError> {
     Ok(reqwest::get("https://rentry.co/johncena141-reqs/raw")
         .await?
         .text()
@@ -34,9 +34,9 @@ pub async fn misc_get_reqs_markdown() -> Result<String, TauriChadError> {
 }
 
 #[tauri::command]
-pub async fn misc_get_wiki_page(page: String) -> Result<String, TauriChadError> {
+pub async fn misc_get_wiki_page(page: String) -> Result<String, TauriRumError> {
     Ok(reqwest::get(format!(
-        "https://notabug.org/johncena141/chad-launcher-wiki/raw/master/{}",
+        "https://notabug.org/johncena141/rum-wiki/raw/master/{}",
         page
     ))
     .await?
