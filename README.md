@@ -95,8 +95,10 @@ pnpm tauri dev
 
 #### More info on [Wiki](https://notabug.org/johncena141/rum/wiki)
 
+<img src="https://i.postimg.cc/cHMfLtLy/3423423.png">
+
+<img src="https://i.postimg.cc/bvj89mLW/434.png">
+
 #### Donations
 
 Monero: 4ABGQLAeAgiauvay11VRrWXRRtraRCU6oaC6uG9RUnNCHN4eepzWjEB6sHF92sUrSED5b8GyY7Ayh57R1jUdcKZg7is2DW3
-
-<img src="https://i.postimg.cc/cHMfLtLy/3423423.png">
