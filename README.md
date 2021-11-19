@@ -8,10 +8,6 @@ This is as an alternative to Lutris that doesn't do more than it needs to. We be
 
 Developed by the [GNU/Linux P2P Pirates](https://matrix.to/#/!SlYhhmreXjJylcsjfn:tedomum.net?via=matrix.org&via=tedomum.net) matrix community and johncena141 release group from 1337x.
 
-## Important: looking for new developers/maintainers.
-
-## Installation or portable use
-
 ### Portable use
 
 Download the compiled binary from [releases](https://notabug.org/johncena141/rum/releases). Required dependency is webkit2gtk.
