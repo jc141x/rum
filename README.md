@@ -1,25 +1,27 @@
 # Rum
 
-Libre/Free game launcher/GUI for running bash scripts.
+Libre gaame launcher for GNU/Linux hackers.
 
 <img src="https://i.postimg.cc/cHMfLtLy/3423423.png">
 
-This is as an alternative to Lutris that doesn't do more than it needs to. We believe that patching games needs to be done in bash instead of an ambiguous collection of settings trough a GUI. So the GUI should only serve as a frontend and not as a debugger or compatiblity tool.
+Game launcher that does just that. There are no hidden variables and flags.
 
-Developed by the [GNU/Linux P2P Pirates](https://matrix.to/#/!SlYhhmreXjJylcsjfn:tedomum.net?via=matrix.org&via=tedomum.net) matrix community and johncena141 release group from 1337x.
+Developed by the johncena141 hacker group from 1337x.
 
-### Portable use
+For questions or contribution, talk with us on [Matrix](https://matrix.to/#/!SlYhhmreXjJylcsjfn:tedomum.net?via=matrix.org&via=tedomum.net)
+
+#### Portable use
 
 Download the compiled binary from [releases](https://notabug.org/johncena141/rum/releases). Required dependency is webkit2gtk.
 
-### Install from AUR on Arch and derivates
+#### Install from AUR on Arch and derivates
 
 Two AUR packages are available:
 
 - [rum-bin](https://aur.archlinux.org/packages/rum-bin/): Downloads latest release.
 - [rum-git](https://aur.archlinux.org/packages/rum-git/): Builds the master branch from source.
 
-### Install on Gentoo with eselect-repository
+#### Install on Gentoo with eselect-repository
 
 Make sure eselect-repository is installed
 
@@ -40,7 +42,7 @@ And finally install rum
 emerge -av rum
 ```
 
-### Install from MPR (Debian)
+#### Install from MPR (Debian)
 
 Enable MPR on your system:
 
@@ -82,11 +84,11 @@ Install Rum
 tap install rum-bin
 ```
 
-### Install from Fedora Projects
+#### Install from Fedora Projects
 
 - Work in progress.
 
-### Build from source
+#### Build from source
 
 We recommend using `pnpm` to build this project ([AUR](https://aur.archlinux.org/packages/pnpm/)), but any other
 package manager like `npm` or `yarn` should work too.
@@ -99,22 +101,22 @@ pnpm tauri build
 
 This will create a `rum` executable and a debian package.
 
-## Development
+### Development
 
 See Developer Guide in the [wiki](https://notabug.org/johncena141/rum/wiki).
 
-### Running development server
+#### Running development server
 
 ```
 pnpm dev
 pnpm tauri dev
 ```
 
-## Wiki
+#### Wiki
 
 Read the [wiki](https://notabug.org/johncena141/rum/wiki).
 
-# Donations
+#### Donations
 
 Monero: 4ABGQLAeAgiauvay11VRrWXRRtraRCU6oaC6uG9RUnNCHN4eepzWjEB6sHF92sUrSED5b8GyY7Ayh57R1jUdcKZg7is2DW3
 
