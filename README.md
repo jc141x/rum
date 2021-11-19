@@ -12,7 +12,7 @@ Developed by the [GNU/Linux P2P Pirates](https://matrix.to/#/!SlYhhmreXjJylcsjfn
 
 Download the compiled binary from [releases](https://notabug.org/johncena141/rum/releases). Required dependency is webkit2gtk.
 
-### Install from AUR
+### Install from AUR on Arch and derivates
 
 Two AUR packages are available:
 
