@@ -1,14 +1,7 @@
 # Rum
+Libre game launcher for GNU/Linux hackers.
 
-Libre gaame launcher for GNU/Linux hackers.
-
-<img src="https://i.postimg.cc/cHMfLtLy/3423423.png">
-
-Game launcher that does just that. There are no hidden variables and flags.
-
-Developed by the johncena141 hacker group from 1337x.
-
-For questions or contribution, talk with us on [Matrix](https://matrix.to/#/!SlYhhmreXjJylcsjfn:tedomum.net?via=matrix.org&via=tedomum.net)
+Developed by the johncena141 hacker group from 1337x. For questions or contribution, talk with us on [Matrix](https://matrix.to/#/!SlYhhmreXjJylcsjfn:tedomum.net?via=matrix.org&via=tedomum.net).
 
 #### Portable use
 
@@ -84,10 +77,6 @@ Install Rum
 tap install rum-bin
 ```
 
-#### Install from Fedora Projects
-
-- Work in progress.
-
 #### Build from source
 
 We recommend using `pnpm` to build this project ([AUR](https://aur.archlinux.org/packages/pnpm/)), but any other
@@ -99,12 +88,6 @@ pnpm build
 pnpm tauri build
 ```
 
-This will create a `rum` executable and a debian package.
-
-### Development
-
-See Developer Guide in the [wiki](https://notabug.org/johncena141/rum/wiki).
-
 #### Running development server
 
 ```
@@ -112,12 +95,12 @@ pnpm dev
 pnpm tauri dev
 ```
 
-#### Wiki
-
-Read the [wiki](https://notabug.org/johncena141/rum/wiki).
+#### More info on [Wiki](https://notabug.org/johncena141/rum/wiki)
 
 #### Donations
 
 Monero: 4ABGQLAeAgiauvay11VRrWXRRtraRCU6oaC6uG9RUnNCHN4eepzWjEB6sHF92sUrSED5b8GyY7Ayh57R1jUdcKZg7is2DW3
+
+<img src="https://i.postimg.cc/cHMfLtLy/3423423.png">
 
 Powered by [Tauri](https://tauri.studio)
