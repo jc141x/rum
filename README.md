@@ -97,7 +97,7 @@ pnpm tauri dev
 
 <img src="https://i.postimg.cc/cHMfLtLy/3423423.png">
 
-<img src="https://i.postimg.cc/bvj89mLW/434.png">
+<img src="https://i.postimg.cc/YS6DNFqp/434.png">
 
 #### Donations
 
