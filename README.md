@@ -1,5 +1,5 @@
 # Rum
-Libre game launcher for GNU/Linux hackers.
+Libre game launcher for GNU/Linux hackers powered by [Tauri](https://tauri.studio).
 
 Developed by the johncena141 hacker group from 1337x. For questions or contribution, talk with us on [Matrix](https://matrix.to/#/!SlYhhmreXjJylcsjfn:tedomum.net?via=matrix.org&via=tedomum.net).
 
@@ -35,9 +35,7 @@ And finally install rum
 emerge -av rum
 ```
 
-#### Install from MPR (Debian)
-
-Enable MPR on your system:
+#### Install from MPR (Debian/Ubuntu)
 
 ```
 wget -qO - 'https://proget.hunterwittenborn.com/debian-feeds/makedeb.pub' | \
@@ -102,5 +100,3 @@ pnpm tauri dev
 Monero: 4ABGQLAeAgiauvay11VRrWXRRtraRCU6oaC6uG9RUnNCHN4eepzWjEB6sHF92sUrSED5b8GyY7Ayh57R1jUdcKZg7is2DW3
 
 <img src="https://i.postimg.cc/cHMfLtLy/3423423.png">
-
-Powered by [Tauri](https://tauri.studio)
