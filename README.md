@@ -27,7 +27,8 @@ pnpm tauri dev
 
 #### More info on [Wiki](https://notabug.org/johncena141/rum/wiki)
 
-<img src="https://i.postimg.cc/cHMfLtLy/3423423.png">
+<img src="https://i.postimg.cc/nL9MJ4Df/ytryrty.png">
+<img src="https://i.postimg.cc/wTF1cTpZ/6456.pngg">
 
 <img src="https://i.postimg.cc/cC2cG149/434.png">
 
