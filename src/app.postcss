@@ -293,7 +293,7 @@ table tr {
   border-bottom: 1px solid var(--primary-color);
 }
 table tbody tr:nth-child(even) {
-  background: var(--tertiary-color);
+  background: rgba(0,0,0,0.5);
 }
 table th {
   background: var(--secondary-color);
@@ -310,16 +310,15 @@ table td:not(last-of-type) {
 
 input {
   appearance: none;
-  background-color: var(--secondary-color);
+  background-color: transparent;
   color: var(--text-color);
-  border: 1px solid var(--text-color);
+  border: 1px solid var(--secondary-color);
   display: block;
   margin: 0.2rem 0;
   padding: 0.3rem;
 }
 input:focus,
 input:active {
-  background-color: var(--secondary-color);
   border-color: var(--link-color);
 }
 ::placeholder {
@@ -327,10 +326,10 @@ input:active {
 }
 
 button {
-  background-color: var(--secondary-color);
+  background-color: transparent;
   color: var(--primary-color);
   border-radius: 5px;
-  border: 2px solid transparent;
+  border: 2px solid var(--secondary);
   transition: border-color 0.2s;
   font-size: 0.8em;
 }
@@ -338,6 +337,7 @@ button {
 button:hover,
 button:focus {
   border: 2px solid var(--primary-color);
+  color: var(--secondary);
   cursor: pointer;
 }
 

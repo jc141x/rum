@@ -24,7 +24,7 @@
   .card-wrapper {
     border: 2px solid var(--secondary);
     border-radius: 10px;
-    background-color: var(--secondary);
+    background-color: transparent;
     transition: border-color 0.2s;
   }
 
