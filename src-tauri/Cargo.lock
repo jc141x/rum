@@ -39,19 +39,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "61604a8f862e1d5c3229fdd78f8b02c68dcf73a4c4b05fd636d12240aaa242c1"
 
 [[package]]
-name = "app"
-version = "0.1.0"
-dependencies = [
- "gilrs",
- "reqwest",
- "rumlibrs",
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
-]
-
-[[package]]
 name = "arrayref"
 version = "0.3.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2513,6 +2500,19 @@ dependencies = [
  "wasm-bindgen-futures",
  "web-sys",
  "winapi",
+]
+
+[[package]]
+name = "rum"
+version = "0.6.0"
+dependencies = [
+ "gilrs",
+ "reqwest",
+ "rumlibrs",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
 ]
 
 [[package]]

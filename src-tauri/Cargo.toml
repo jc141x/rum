@@ -1,11 +1,11 @@
 [package]
-name = "app"
-version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
-license = ""
+name = "rum"
+version = "0.6.0"
+description = "Game launcher"
+authors = ["silentnoodle", "gnurur"]
+license = "GPLv2"
 repository = ""
-default-run = "app"
+default-run = "rum"
 edition = "2018"
 build = "src/build.rs"
 
