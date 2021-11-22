@@ -1,4 +1,4 @@
-# Rum
+# Rum (former chad launcher)
 Libre game launcher for GNU/Linux hackers powered by [Tauri](https://tauri.studio).
 
 Developed by the johncena141 hacker group from 1337x. For questions or contribution, talk with us on [Matrix](https://matrix.to/#/!SlYhhmreXjJylcsjfn:tedomum.net?via=matrix.org&via=tedomum.net).
