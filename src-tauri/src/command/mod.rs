@@ -36,7 +36,7 @@ pub async fn misc_get_reqs_markdown() -> Result<String, TauriRumError> {
 #[tauri::command]
 pub async fn misc_get_wiki_page(page: String) -> Result<String, TauriRumError> {
     Ok(reqwest::get(format!(
-        "https://notabug.org/johncena141/chad-launcher-wiki/raw/master/{}",
+        "https://notabug.org/johncena141/rum-wiki/raw/master/{}",
         page
     ))
     .await?
