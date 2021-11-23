@@ -7,6 +7,16 @@ Developed by the johncena141 hacker group from 1337x. For questions or contribut
 
 Download the compiled binary from [releases](https://notabug.org/johncena141/rum/releases). Required dependency is webkit2gtk.
 
+#### Arch Linux
+
+Get the package from AUR:
+
+* [rum-bin](https://aur.archlinux.org/packages/rum-bin/) for pre-compiled binary.
+
+* [rum](https://aur.archlinux.org/packages/rum/) to build it locally from latest release.
+
+* ~~rum-git: build master branch.~~
+
 #### Build from source
 
 We recommend using `pnpm` to build this project ([AUR](https://aur.archlinux.org/packages/pnpm/)), but any other
