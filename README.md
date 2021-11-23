@@ -17,6 +17,22 @@ Get the package from AUR:
 
 * ~~rum-git: build master branch.~~
 
+### Gentoo
+This is a guide on installing with eselect-repository for gentoo.
+Make sure eselect-repository is installed
+```
+yes | emerge --update app-eselect/eselect-repository
+```
+After that is done you are able to add the [rum-repo](https://notabug.org/agdfrhjlbzvf/rum-repo) repository
+```
+eselect repository add rum-repo git https://notabug.org/agdfrhjlbzvf/rum-repo.git
+emaint sync -r rum-repo
+```
+And finally install rum itself
+```
+emerge -av chad-launcher
+```
+
 #### Build from source
 
 We recommend using `pnpm` to build this project ([AUR](https://aur.archlinux.org/packages/pnpm/)), but any other
