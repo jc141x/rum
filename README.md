@@ -30,7 +30,7 @@ emaint sync -r rum-repo
 ```
 And finally install rum itself
 ```
-emerge -av chad-launcher
+emerge -av rum
 ```
 
 #### Build from source
