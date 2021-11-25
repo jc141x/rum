@@ -15,7 +15,7 @@ Get the package from AUR:
 
 * [rum](https://aur.archlinux.org/packages/rum/) to build it locally from latest release.
 
-* [rum-git](https://aur.archlinux.org/packages/rum-git/): build master branch.~~
+* [rum-git](https://aur.archlinux.org/packages/rum-git/) build master branch.
 
 ## Gentoo
 This is a guide on installing with eselect-repository for gentoo.
