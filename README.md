@@ -30,7 +30,7 @@ emaint sync -r rum-repo
 ```
 And finally install rum itself
 ```
-emerge -av rum
+emerge -av games-util/rum
 ```
 
 ## Build from source
