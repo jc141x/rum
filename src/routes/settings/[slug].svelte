@@ -2,11 +2,14 @@
   import command from '$lib/command';
   import { styles, defaultStyles } from '$lib/styles';
   import Icon from 'mdi-svelte';
-  import { mdiDelete, mdiFolder, mdiReload, mdiUndo } from '@mdi/js';
-  import { open } from '../../node_modules/@tauri-apps/api/dialog';
+  import { mdiDelete, mdiFolder, mdiContentSave, mdiUndo } from '@mdi/js';
+  import { open } from '../../../node_modules/@tauri-apps/api/dialog';
   import { cardTextSize, config, decorations, cardWidth, cardHeight, allfiles } from '$lib/store';
   import ColorSetting from '$lib/ColorSetting.svelte';
+  import { page } from '$app/stores';
 
+  const slug = $page.params.slug;
+  const settingPages = ['general', 'library', 'theme', 'other'];
   let config_temp = {};
 
   config.subscribe(async (config) => {
@@ -47,8 +50,28 @@
 <svelte:head>
   <title>Rum - Settings</title>
 </svelte:head>
-
-<section class="settings-group" tabindex="0">
+<main>
+<aside>
+  <nav>
+    <ul>
+      {#each settingPages as page}
+        {#if page == slug}
+          <li class="active">
+            <a href={`/settings/${page}`}>{page}</a>
+          </li>
+        {:else}
+          <li>
+            <a href={`/settings/${page}`}>{page}</a>
+          </li>
+        {/if}
+      {/each}
+    </ul>
+    <button on:click={save}><Icon path={mdiContentSave} /></button>
+  </nav>
+</aside>
+<section>
+{#if slug == 'general'}
+<article class="settings-group">
   <h6>General options</h6>
   <div class="input-wrapper">
     <label for="data-path">Data path:</label>
@@ -63,8 +86,10 @@
       <input id="terminal" bind:value={config_temp.terminal} />
     </div>
   </div>
-</section>
-<secion class="settings-group">
+</article>
+{/if}
+{#if slug == 'library'}
+<article class="settings-group">
   <div>
     <h6 class="inline-block">Library paths</h6>
     <a class="what" href="/wiki#user-guide/game-library.md">What is this?</a>
@@ -85,8 +110,10 @@
       </div>
     </div>
   {/if}
-</secion>
-<section class="settings-group">
+</article>
+{/if}
+{#if slug == 'theme'}
+<article class="settings-group">
   <h6>Theme</h6>
   <div class="input-wrapper">
     <label for="window-decorations">Window decorations</label>
@@ -137,18 +164,61 @@
     </div>
     <small>{$cardTextSize}%</small>
   </div>
-</section>
-<section class="settings-group">
+</article>
+{/if}
+{#if slug == 'other'}
+<article class="settings-group">
   <h6>Other</h6>
   <p>show all files in banner picker</p>
   <label class="switch">
     <input bind:checked={$allfiles} type="checkbox" name="allfiles" />
     <span class="slider" />
   </label>
-</section>
-<button on:click={save}>Save</button>
+</article>
+{/if}
 
+</section>
+</main>
 <style>
+  main {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    height: 100%;
+  }
+  aside {
+    grid-column: 1 / 2;
+    padding-inline: 1rem 2rem;
+    border-right: 1px solid var(--primary);
+  }
+  aside nav ul {
+    list-style: none;
+    padding: 0;
+    }
+  aside nav li a {
+    display: block;
+    padding-inline: 3em;
+    text-decoration: none;
+    border: 1px solid var(--secondary);
+    border-radius: 0.25em;
+    margin-block: 0.5rem;
+    text-align: center;
+    text-transform: capitalize;
+    }
+  aside nav li.active a,
+  aside nav li a:hover { 
+    border-color: var(--primary)
+  }
+  aside nav button {
+    display: block;
+    margin-block: 3rem;
+    width: 100%;
+  }
+  section {
+    padding: 1rem;
+  }
+  /*
+  TODO: clean up this ↓ shit 
+  */
   [type='range'] {
     appearance: slider-horizontal;
   }
@@ -162,9 +232,6 @@
     max-width: 50%;
     padding: 1rem;
     flex-direction: column;
-    margin: 4rem 0;
-    border: 2px solid var(--primary);
-    border-radius: 10px;
   }
   .settings-group h6 {
     margin-bottom: 1.5rem;
