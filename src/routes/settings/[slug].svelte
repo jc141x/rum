@@ -1,5 +1,6 @@
 <script>
   import command from '$lib/command';
+  import { slide } from 'svelte/transition'
   import { styles, defaultStyles } from '$lib/styles';
   import Icon from 'mdi-svelte';
   import { mdiDelete, mdiFolder, mdiContentSave, mdiUndo } from '@mdi/js';
@@ -7,7 +8,6 @@
   import { cardTextSize, config, decorations, cardWidth, cardHeight, allfiles } from '$lib/store';
   import ColorSetting from '$lib/ColorSetting.svelte';
   import { page } from '$app/stores';
-
   const slug = $page.params.slug;
   const settingPages = ['general', 'library', 'theme', 'other'];
   let config_temp = {};
@@ -69,7 +69,7 @@
     <button on:click={save}><Icon path={mdiContentSave} /></button>
   </nav>
 </aside>
-<section>
+<section in:slide>
 {#if slug == 'general'}
 <article class="settings-group">
   <h6>General options</h6>
@@ -170,13 +170,9 @@
 <article class="settings-group">
   <h6>Other</h6>
   <p>show all files in banner picker</p>
-  <label class="switch">
-    <input bind:checked={$allfiles} type="checkbox" name="allfiles" />
-    <span class="slider" />
-  </label>
+  <input bind:checked={$allfiles} type="checkbox" name="allfiles" />
 </article>
 {/if}
-
 </section>
 </main>
 <style>
@@ -187,7 +183,7 @@
   }
   aside {
     grid-column: 1 / 2;
-    padding-inline: 1rem 2rem;
+    padding-inline: 0 1rem;
     border-right: 1px solid var(--primary);
   }
   aside nav ul {
@@ -230,7 +226,6 @@
     display: flex;
     min-width: 600px;
     max-width: 50%;
-    padding: 1rem;
     flex-direction: column;
   }
   .settings-group h6 {
@@ -255,62 +250,12 @@
   .input-row button {
     flex-grow: 1;
   }
-  select {
-    appearance: menulist;
-    background-color: var(--secondary);
-  }
   .what {
     float: right;
     font-size: smaller;
   }
-
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 2.25rem;
-    height: 1.5rem;
-  }
-
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #777;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-    border-radius: 1rem;
-  }
-
-  .slider:before {
-    box-sizing: border-box;
-    position: absolute;
-    content: '';
-    height: 1.5rem;
-    width: 1.5rem;
-    border: 2px solid transparent;
-    left: 0;
-    bottom: 0;
-    background-color: var(--secondary);
-    background-clip: content-box;
-    border-radius: 1rem;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-  }
-
-  input:checked + .slider {
-    background-color: var(--primary);
-  }
-
-  input:checked + .slider:before {
-    transform: translateX(0.75rem);
+  [type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
   }
 </style>
