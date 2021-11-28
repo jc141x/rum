@@ -40,7 +40,7 @@
   }
 
   img.rounded {
-    border-radius: 10px;
+    border-radius: 8px;
   }
 
   img.loaded {
