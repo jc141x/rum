@@ -2518,7 +2518,7 @@ dependencies = [
 [[package]]
 name = "rumlibrs"
 version = "0.5.0"
-source = "git+https://notabug.org/johncena141/rumlibrs?tag=0.5.0#15c6a05030d55ad0c949a7226bbbfb2d5b8ddd5c"
+source = "git+https://johncena141.eu.org:8141/johncena141/rumlibrs?tag=0.6.0#5bf1ef0f283bf0d8cba3a2943e89150c966e8978"
 dependencies = [
  "anyhow",
  "base64",

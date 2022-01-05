@@ -43,7 +43,7 @@ pub async fn library_run_game(
         .await
         .get_game(index)
         .map(|game| {
-            let stdout = game.launch(&script)?;
+            let stdout = game.launch(script)?;
             handle_stdout(app_handle, stdout)?;
             Ok(())
         })
