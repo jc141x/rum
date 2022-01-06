@@ -148,3 +148,22 @@ pub async fn library_remove_banner(
         })
         .unwrap_or(Err(TauriRumError::new("Game not found".into())))
 }
+
+#[tauri::command]
+pub async fn library_save_game_config(
+    index: usize,
+    wrapper: Option<String>,
+    env: Option<Vec<String>>,
+    args: Option<String>,
+    fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
+) -> Result<(), TauriRumError> {
+    fetcher
+        .lock()
+        .await
+        .get_game(index)
+        .map(|game| {
+            game.save_config(wrapper, env, args)?;
+            Ok(())
+        })
+        .unwrap_or(Err(TauriRumError::new("Game not found".into())))
+}
