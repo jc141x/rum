@@ -17,6 +17,12 @@ Get the package from AUR:
 
 * [rum-git](https://aur.archlinux.org/packages/rum-git/) build master branch.
 
+## Debian
+
+Package is avaivable on [MPR](https://makedeb.hunterwittenborn.com/mpr/using-the-mpr/installing-packages/) 
+
+* [rum-bin](https://mpr.hunterwittenborn.com/packages/rum-bin)
+
 ## Gentoo
 This is a guide on installing with eselect-repository for gentoo.
 Make sure eselect-repository is installed
