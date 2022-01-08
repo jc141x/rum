@@ -12,10 +12,12 @@
   const handleLaunch = async (script) => {
     loading = script;
     await command.library('run_game', { index: game.id, script });
+    document.activeElement.blur();
     loading = false;
   };
   const handlePath = () => {
     command.library('open_folder', { index: game.id });
+    document.activeElement.blur();
   };
 
   const handleOpenSettings = () => {

@@ -29,6 +29,7 @@ fn main() {
             command::library::library_set_banner,
             command::library::library_remove_banner,
             command::library::library_save_game_config,
+            command::library::library_read_game_config,
             // Config
             command::config::config_save,
             command::config::config_set,

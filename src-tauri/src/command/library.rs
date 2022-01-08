@@ -4,7 +4,7 @@ use rumlibrs::{
     library::{self, LibraryFetcher},
 };
 use std::{
-    fs::{copy, remove_file},
+    fs::{copy, remove_file, read_to_string},
     io::{BufRead, BufReader, Read},
     process::{Command, Stdio},
 };
@@ -166,4 +166,18 @@ pub async fn library_save_game_config(
             Ok(())
         })
         .unwrap_or(Err(TauriRumError::new("Game not found".into())))
+}
+
+#[tauri::command]
+pub async fn library_read_game_config(
+    index: usize,
+    fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
+) -> Result<String, TauriRumError> {
+    fetcher
+        .lock()
+        .await
+        .get_game(index)
+        .map(|game| {
+            Ok(read_to_string(game.config_file()).unwrap_or_default())
+        }).unwrap_or(Err(TauriRumError::new("Game not found".into())))
 }
