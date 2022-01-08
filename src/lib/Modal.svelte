@@ -41,6 +41,7 @@
     border-radius: 10px;
     width: 50vw;
     height: 50vh;
+    overflow: auto;
   }
 
   .bottom {

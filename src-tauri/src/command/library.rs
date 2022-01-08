@@ -4,7 +4,7 @@ use rumlibrs::{
     library::{self, LibraryFetcher},
 };
 use std::{
-    fs::{copy, remove_file},
+    fs::{copy, remove_file, read_to_string},
     io::{BufRead, BufReader, Read},
     process::{Command, Stdio},
 };
@@ -43,7 +43,7 @@ pub async fn library_run_game(
         .await
         .get_game(index)
         .map(|game| {
-            let stdout = game.launch(&script)?;
+            let stdout = game.launch(script)?;
             handle_stdout(app_handle, stdout)?;
             Ok(())
         })
@@ -147,4 +147,37 @@ pub async fn library_remove_banner(
             Ok(())
         })
         .unwrap_or(Err(TauriRumError::new("Game not found".into())))
+}
+
+#[tauri::command]
+pub async fn library_save_game_config(
+    index: usize,
+    wrapper: Option<String>,
+    env: Option<Vec<String>>,
+    args: Option<String>,
+    fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
+) -> Result<(), TauriRumError> {
+    fetcher
+        .lock()
+        .await
+        .get_game(index)
+        .map(|game| {
+            game.save_config(wrapper, env, args)?;
+            Ok(())
+        })
+        .unwrap_or(Err(TauriRumError::new("Game not found".into())))
+}
+
+#[tauri::command]
+pub async fn library_read_game_config(
+    index: usize,
+    fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
+) -> Result<String, TauriRumError> {
+    fetcher
+        .lock()
+        .await
+        .get_game(index)
+        .map(|game| {
+            Ok(read_to_string(game.config_file()).unwrap_or_default())
+        }).unwrap_or(Err(TauriRumError::new("Game not found".into())))
 }

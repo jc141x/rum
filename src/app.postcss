@@ -308,7 +308,7 @@ table td:not(last-of-type) {
   border-right: 1px solid var(--primary-color);
 }
 
-input {
+input, textarea {
   background-color: transparent;
   color: var(--text-color);
   border: 1px solid var(--secondary-color);
@@ -317,7 +317,9 @@ input {
   padding: 0.3rem;
 }
 input:focus,
-input:active {
+input:active,
+textarea:focus,
+textarea:active {
   border-color: var(--link-color);
 }
 ::placeholder {

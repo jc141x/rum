@@ -42,6 +42,9 @@
    * @param {string} action
    */
   const handleInputAction = async (action) => {
+    if (document.activeElement.isContentEditable || document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+      return;
+    }
     if (action === 'confirm' && document.activeElement) {
       document.activeElement.click();
     } else if (action === 'home') {
