@@ -57,7 +57,7 @@
 
     await command.library(
       'save_game_config',
-      { index: game.id, wrapper: wrapper, env: env.split("\n"), args: args }
+      { index: game.id, wrapper: wrapper, env: env?.split("\n"), args: args }
     );
     document.activeElement.blur();
   };
