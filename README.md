@@ -1,4 +1,4 @@
-# Rum (former chad launcher)
+# Rum
 Libre game launcher for GNU/Linux hackers powered by [Tauri](https://tauri.studio).
 
 Developed by the johncena141 hacker group from 1337x. For questions or contribution, talk with us on [Matrix](https://matrix.to/#/!SlYhhmreXjJylcsjfn:tedomum.net?via=matrix.org&via=tedomum.net).
@@ -23,22 +23,6 @@ Package is avaivable on [MPR](https://makedeb.hunterwittenborn.com/mpr/using-the
 
 * [rum-bin](https://mpr.hunterwittenborn.com/packages/rum-bin)
 
-## Gentoo
-This is a guide on installing with eselect-repository for gentoo.
-Make sure eselect-repository is installed
-```
-yes | emerge --update app-eselect/eselect-repository
-```
-After that is done you are able to add the [rum-repo](https://notabug.org/agdfrhjlbzvf/rum-repo) repository
-```
-eselect repository add rum-repo git https://notabug.org/agdfrhjlbzvf/rum-repo.git
-emaint sync -r rum-repo
-```
-And finally install rum itself
-```
-emerge -av games-util/rum
-```
-
 ## Build from source
 
 We recommend using `pnpm` to build this project ([AUR](https://aur.archlinux.org/packages/pnpm/)), but any other
@@ -62,6 +46,8 @@ pnpm tauri dev
 <img src="https://i.postimg.cc/nL9MJ4Df/ytryrty.png">
 <img src="https://i.postimg.cc/wTF1cTpZ/6456.pngg">
 
-<img src="https://i.postimg.cc/cC2cG149/434.png">
+<div align="center">
+  <img src="https://i.postimg.cc/bvj89mLW/434.png">
+</div>
 
 Donations (Monero): 4ABGQLAeAgiauvay11VRrWXRRtraRCU6oaC6uG9RUnNCHN4eepzWjEB6sHF92sUrSED5b8GyY7Ayh57R1jUdcKZg7is2DW3
