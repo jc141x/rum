@@ -42,6 +42,9 @@
    * @param {string} action
    */
   const handleInputAction = async (action) => {
+    if (!document.hasFocus()) {
+      return;
+    }
     if (document.activeElement.isContentEditable || document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
       return;
     }
