@@ -4,7 +4,7 @@
 
 <div class="panel">
   <div class="title">
-    <h1>{title}</h1>
+    <h1>{title}&#9;<span><slot name="icon"></slot></span></h1>
   </div>
   <div class="subtitle">
     <slot name="subtitle" />

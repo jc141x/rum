@@ -2504,7 +2504,7 @@ dependencies = [
 
 [[package]]
 name = "rum"
-version = "0.7.0"
+version = "0.7.1"
 dependencies = [
  "gilrs",
  "reqwest",
@@ -2518,7 +2518,7 @@ dependencies = [
 [[package]]
 name = "rumlibrs"
 version = "0.6.1"
-source = "git+https://johncena141.eu.org:8141/johncena141/rumlibrs?tag=0.6.1#f9f319021eacd9ad72801590f1351eb82b2eef44"
+source = "git+https://johncena141.eu.org:8141/johncena141/rumlibrs?tag=0.6.2#7b0e2378a93acc8696d993c0365e0aaae65713e4"
 dependencies = [
  "anyhow",
  "base64",

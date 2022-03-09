@@ -2,7 +2,7 @@
   import Panel from '$lib/Panel.svelte';
   import command from '$lib/command';
   import Icon from 'mdi-svelte';
-  import { mdiLoading, mdiFolder, mdiPlay, mdiCog } from '@mdi/js';
+  import { mdiLoading, mdiFolder, mdiPlay, mdiCog, mdiMicrosoftWindowsClassic, mdiLinux } from '@mdi/js';
   import GameSettings from '$lib/library/GameSettings.svelte';
 
   export let game;
@@ -26,12 +26,22 @@
   const handleCloseSettings = () => {
     SettingsActive = false;
   };
+  const wine = game.scripts.find(o => o.platform == 'Wine') ? true : false;
+  const native = game.scripts.find(o => o.platform == 'Native') ? true : false;
 </script>
 
 {#if SettingsActive}
   <GameSettings on:close={handleCloseSettings} {game} />
 {/if}
-<Panel title={game.name} on:close>
+<Panel title={game.name} icons= on:close>
+      <span slot="icon">
+        {#if wine}
+          <Icon path={mdiMicrosoftWindowsClassic} size={1} />
+        {/if}
+        {#if native}
+          <Icon path={mdiLinux} size={1} />
+        {/if}
+      </span>
   <div slot="text">
     <b>Directory:</b>
     {game.executable_dir}
