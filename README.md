@@ -44,7 +44,7 @@ pnpm dev
 pnpm tauri dev
 ```
 
-## More info on [Wiki](https://notabug.org/johncena141/rum/wiki)
+## More info on [Wiki](https://johncena141.eu.org:8141/johncena141/rum/wiki)
 
 <img src="https://i.postimg.cc/nL9MJ4Df/ytryrty.png">
 <img src="https://i.postimg.cc/wTF1cTpZ/6456.pngg">
