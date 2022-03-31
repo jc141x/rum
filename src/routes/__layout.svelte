@@ -10,7 +10,7 @@
   //import '../app.postcss';
   import '../app.scss';
 
-  import GlobalKeyBinds from '$lib/GlobalKeyBinds.svelte';
+  // disable for now import GlobalKeyBinds from '$lib/GlobalKeyBinds.svelte';
   import Navbar from '$lib/Navbar.svelte';
   import { load as loadStore } from '$lib/store';
   import ThemeProvider from '$lib/ThemeProvider.svelte';
@@ -25,7 +25,7 @@
   (async () => command.misc('init_bg_process', { win }))();
 </script>
 
-<GlobalKeyBinds />
+<!--<GlobalKeyBinds /> -->
 <Navbar />
 <PageTransition refresh={key}>
   <slot />

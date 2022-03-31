@@ -111,7 +111,22 @@
   {/if}
 </article>
 {/if}
-{#if slug == 'theme'}  import command from '$lib/command';
+{#if slug == 'theme'}
+<article class="settings-group">
+  <h6>Theme</h6>
+  <div class="input-wrapper">
+    <label for="window-decorations">Window decorations</label>
+    <div class="input-row">
+      <select id="window-decorations" bind:value={$decorations}>
+        <option value="system">System</option>
+        <option value="disabled">Disabled</option>
+        <option value="left">Left</option>
+        <option value="right">Right</option>
+      </select>
+    </div>
+  </div>
+  <div />
+</article>
 {/if}
 {#if slug == 'other'}
 <article class="settings-group">
