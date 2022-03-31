@@ -96,29 +96,11 @@
 </div>
 
 <style>
-  .main {
-    padding: 10px;
-    margin-right: 10px;
-    overflow: auto;
-    height: 100%;
-    width: 100%;
-  }
-
   .grid {
     display: grid;
-    grid-template-columns: minmax(300px, max-content) auto;
-    grid-gap: 10px;
-  }
-
-  .grid > div {
-    height: calc(100vh - 100px);
-  }
-
-  .center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
+    grid-template-columns: max-content 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: 'side main';
+    grid-gap: 3rem;
   }
 </style>

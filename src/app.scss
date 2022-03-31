@@ -1,0 +1,120 @@
+@use "sass:color";
+@import 'chota/dist/chota.css';
+
+:root {
+  --font-color: #fff;
+  --bg-color: #222;
+  --bg-secondary-color: #000;
+  --color-primary: orange;
+  --color-secondary: gold;
+  --color-error: #f01d1d;
+  --color-success: #34e41d;
+  --base-padding: 1rem;
+  // darks are lights because dark theme
+  --color-darkGrey: #eee;
+  --color-lightGrey: #333;
+  --color-grey: #666;
+  
+  // header
+  --header-height: 4rem;
+  --header-bg-color: var(--bg-color);
+
+  // card
+  --card-border-color: var(--font-color);
+  --card-active-border-color: var(--color-primary);
+  --card-border-width: 2px;
+  --card-border-style: solid;
+  --card-border-radius: 0;
+
+  // panel
+  --panel-padding: var(--base-padding);
+  --panel-bg-color: var(--bg-color);
+
+  // modal
+  --modal-bg-color: var(--bg-color);
+  --modal-dim-bg-color: rgba(0, 0, 0, 0.8);
+  --modal-padding: var(--base-padding);
+}
+
+.card {
+  height: 100%;
+  box-shadow: none;
+  border-color: var(--card-border-color);
+  border-width: var(--card-border-width);
+  border-style: var(--card-border-style);
+  overflow: hidden;
+
+  &, img, h5 {
+    transition: all 0.2s ease-in-out;
+  }
+
+}
+
+.card:hover,
+.selected>.card {
+  border-color: var(--card-active-border-color);
+  box-shadow: 0px 0px 1px 1px var(--card-active-border-color);
+}
+
+.card:hover {
+  img {
+    transform: scale(1.05);
+  }
+}
+
+.img-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#svelte>header {
+  position: sticky;
+  top: 0;
+  background-color: var(--header-bg-color);
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+}
+
+nav>.search {
+  display: inline-block;
+}
+main {
+  display: grid;
+  grid-template-rows: auto max-content;
+  height: calc(100vh - var(--header-height));
+  overflow: auto;
+
+  &>:first-child {
+    padding: var(--base-padding);
+    overflow: auto;
+  }
+}
+
+.panel {
+  padding: var(--panel-padding);
+  background-color: var(--panel-bg-color);
+}
+
+.modal {
+  background-color: var(--modal-dim-bg-color);
+  &-content {
+    padding: var(--modal-padding);
+    background-color: var(--modal-bg-color);
+  }
+}
+
+.spin {
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

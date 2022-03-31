@@ -1,8 +1,8 @@
 <script>
-  import Card from '$lib/Card.svelte';
-
+  //import Card from '$lib/Card.svelte';
+  import Panel from '$lib/library/Panel.svelte';
   export let game;
   export let selected;
 </script>
 
-<Card title={game.name} banner={game.banner} {selected} on:click />
+<Panel {game} {selected}/>

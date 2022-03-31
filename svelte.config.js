@@ -1,5 +1,6 @@
 import preprocess from 'svelte-preprocess';
 import adapter from '@sveltejs/adapter-static';
+import Icons from 'unplugin-icons/vite';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -7,7 +8,7 @@ const config = {
   // for more information about preprocessors
   preprocess: [
     preprocess({
-      scss: {},
+      scss: true,
       postcss: true
     })
   ],
@@ -18,12 +19,15 @@ const config = {
       assets: 'build',
       fallback: 'index.html'
     }),
-    prerender: {
-      enabled: false
-    },
-    ssr: false,
+    vite: {
+      plugins: [
+        Icons({
+          compiler: 'svelte',
+          scale: 1,
+        })
+      ]
+    }
     // hydrate the <div id="svelte"> element in src/app.html
-    target: '#svelte'
   }
 };
 

@@ -1,13 +1,14 @@
 <script context="module">
-  export const load = async ({ page }) => ({
+  export const load = async ({ url, params }) => ({
     props: {
-      key: page.path
+      key: url
     }
   });
 </script>
 
 <script>
-  import '../app.postcss';
+  //import '../app.postcss';
+  import '../app.scss';
 
   import GlobalKeyBinds from '$lib/GlobalKeyBinds.svelte';
   import Navbar from '$lib/Navbar.svelte';
@@ -25,21 +26,7 @@
 </script>
 
 <GlobalKeyBinds />
-<ThemeProvider>
-  <div class="wrapper">
-    <Navbar />
-    <PageTransition refresh={key}>
-      <slot />
-    </PageTransition>
-  </div>
-</ThemeProvider>
-
-<style>
-  .wrapper {
-    display: grid;
-    grid-template-rows: minmax(0, min-content) auto;
-    height: 100vh;
-    padding-inline: 10px;
-    overflow: auto;
-  }
-</style>
+<Navbar />
+<PageTransition refresh={key}>
+  <slot />
+</PageTransition>

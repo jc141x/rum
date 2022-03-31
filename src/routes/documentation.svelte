@@ -11,7 +11,7 @@
 
   // since there's no dynamic data here, we can prerender
   // it so that it gets served as a static asset in prod
-  export const prerender = true;
+  //export const prerender = true;
 </script>
 
 <script>
@@ -33,13 +33,3 @@
 </svelte:head>
 
 <div id="md" />
-
-<style>
-  #md {
-    padding: 10px;
-    margin-right: 10px;
-    overflow-y: auto;
-    height: calc(100vh - 100px);
-    width: calc(100vw - 10px);
-  }
-</style>

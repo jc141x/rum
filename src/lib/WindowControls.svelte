@@ -1,7 +1,8 @@
 <script>
-  import { mdiWindowClose, mdiWindowMaximize, mdiWindowMinimize } from '@mdi/js';
+  import IconWindowClose from '~icons/mdi/window-close';
+  import IconWindowMaximize from '~icons/mdi/window-maximize';
+  import IconWindowMinimize from '~icons/mdi/window-minimize';
 
-  import Icon from 'mdi-svelte';
   import { onMount } from 'svelte';
 
   let appWindow = null;
@@ -12,22 +13,20 @@
   });
 </script>
 
-<div class="top">
   {#if inverted}
-    <button on:click={appWindow.close()}><Icon path={mdiWindowClose} /></button>
+    <button class="button clear icon-only" on:click={appWindow.close()}><IconWindowClose /></button>
   {:else}
-    <button on:click={appWindow.minimize()}><Icon path={mdiWindowMinimize} /></button>
+    <button class="button clear icon-only" on:click={appWindow.minimize()}><IconWindowMinimize /></button>
   {/if}
-  <button on:click={appWindow.toggleMaximize()}><Icon path={mdiWindowMaximize} /></button>
+  <button class="button clear icon-only" on:click={appWindow.toggleMaximize()}><IconWindowMaximize /></button>
   {#if inverted}
-    <button on:click={appWindow.minimize()}><Icon path={mdiWindowMinimize} /></button>
+    <button class="button clear icon-only" on:click={appWindow.minimize()}><IconWindowMinimize /></button>
   {:else}
-    <button on:click={appWindow.close()}><Icon path={mdiWindowClose} /></button>
+    <button class="button clear icon-only" on:click={appWindow.close()}><IconWindowClose /></button>
   {/if}
-</div>
 
 <style>
-  .top {
-    min-width: 150px;
+  button.button {
+    margin: 0
   }
 </style>

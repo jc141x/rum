@@ -2,11 +2,13 @@
   import { decorations, query } from '$lib/store.js';
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
-  import Icon from 'mdi-svelte';
-  import { mdiBookshelf, mdiCog, mdiBookOpenVariant } from '@mdi/js';
   import WindowControls from './WindowControls.svelte';
   import Search from '$lib/library/Search.svelte';
 
+  import IconBookshelf from '~icons/mdi/bookshelf';
+  import IconCog from '~icons/mdi/cog';
+  import IconBookOpenVariant from '~icons/mdi/book-open-variant';
+  
   onMount(() => {
     decorations.subscribe(async (value) => {
       let { appWindow } = await import('../../node_modules/@tauri-apps/api/window');
@@ -20,59 +22,34 @@
   });
 </script>
 
-<div class="header" data-tauri-drag-region>
-  {#if $decorations == 'left'}
-    <WindowControls inverted />
-  {/if}
-  <div class="links">
-    <a href="/library" class="link"><Icon path={mdiBookshelf} /></a>
-    <a href="/settings" class="link"><Icon path={mdiCog} /></a>
-    <a href="/wiki" class="link"><Icon path={mdiBookOpenVariant} /></a>
-    {#if $page.path == '/library'}
-      <span class="link search"><Search bind:query={$query} /></span>
+<header data-tauri-drag-region>
+  <nav class="nav" data-tauri-drag-region>
+    {#if $decorations == 'left'}
+      <div class="nav-left" data-tauri-drag-region>
+        <WindowControls inverted />
+      </div>
     {/if}
-  </div>
-  {#if $decorations == 'right'}
-    <div class="right">
-      <WindowControls />
+    <div class={$decorations == 'left' ? 'nav-center' : 'nav-left'} data-tauri-drag-region>      
+      <a href="/library" class="button icon-only clear"><IconBookshelf/></a>
+      <a href="/settings" class="button icon-only clear"><IconCog/></a>
+      <a href="/wiki" class="button icon-only clear"><IconBookOpenVariant/></a>
+      {#if $page.url.pathname == '/library'}
+        <div class="button icon-only clear search"><Search bind:query={$query} /></div>
+      {/if}
     </div>
-  {/if}
-</div>
+    <div class="nav-right" data-tauri-drag-region>
+        {#if $decorations == 'right'}
+        <WindowControls />
+        {/if}
+      </div>
+  </nav>
+  </header>
 
-<style>
-  .header {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    z-index: 100;
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    align-items: center;
-    color: var(--primary);
-    overflow-x: hidden;
-  }
-
-  .links {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    overflow-x: auto;
-  }
-  .links::-webkit-scrollbar {
-    height: 4px;
-  }
-
-  .link {
-    text-decoration: none;
-  }
-
-  .header > *,
-  .links > * {
-    margin: 10px;
-  }
-
-  .right {
-    margin-left: auto;
-  }
-</style>
+  <style>
+    .nav {
+      width: 100%;
+    }
+    .nav a {
+      margin: 0;
+    }
+  </style>

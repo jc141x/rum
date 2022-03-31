@@ -1,14 +1,23 @@
 use super::TauriRumError;
 use rumlibrs::{
     config::Config,
-    library::{self, LibraryFetcher},
+    library::{self, LibraryFetcher, Gameconfig},
 };
 use std::{
-    fs::{copy, remove_file, read_to_string},
-    io::{BufRead, BufReader, Read},
+    fs::{copy, remove_file, read_to_string },
+    io::{BufRead, BufReader, Read },
     process::{Command, Stdio},
 };
 use tauri::{async_runtime::Mutex, Manager};
+use steamgriddb_api::Client;
+use steamgriddb_api::query_parameters::{QueryType::Hero};
+use dotenv;
+use image;
+
+fn get_sgdb_api_key() -> String {
+    dotenv::dotenv().ok();
+    std::env::var("SGDB_API_KEY").expect("SGDB_API_KEY not found")
+}
 
 fn handle_stdout(
     app_handle: tauri::AppHandle,
@@ -155,6 +164,7 @@ pub async fn library_save_game_config(
     wrapper: Option<String>,
     env: Option<Vec<String>>,
     args: Option<String>,
+    sgdb: Option<usize>,
     fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
 ) -> Result<(), TauriRumError> {
     fetcher
@@ -162,7 +172,7 @@ pub async fn library_save_game_config(
         .await
         .get_game(index)
         .map(|game| {
-            game.save_config(wrapper, env, args)?;
+            game.save_config(wrapper, env, args, sgdb)?;
             Ok(())
         })
         .unwrap_or(Err(TauriRumError::new("Game not found".into())))
@@ -180,4 +190,55 @@ pub async fn library_read_game_config(
         .map(|game| {
             Ok(read_to_string(game.config_file()).unwrap_or_default())
         }).unwrap_or(Err(TauriRumError::new("Game not found".into())))
+}
+
+#[tauri::command]
+pub async fn library_sgdb_hero_fetch(
+    index: usize,
+    fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
+) -> Result<String, TauriRumError> {
+        match fetcher.lock().await.get_game(index) {
+            Some(game) => {
+                if game.banner_path.clone().unwrap_or_default().exists() {
+                    Ok(game.banner.clone().unwrap())
+                }
+                else {
+                    let mut conf: Gameconfig = serde_json::from_str(&read_to_string(game.config_file()).unwrap_or_default().to_string()).unwrap_or_default();
+                    if conf.sgdb == None {
+                        conf.sgdb = Some(_name_to_sgdb_id(game.name.clone()).await.unwrap_or_default());
+                        game.save_config(conf.wrapper.clone(), conf.env.clone(), conf.args.clone(), conf.sgdb.clone()).unwrap_or_default();
+                    }
+                    if conf.sgdb != Some(0) {
+                        Ok(_sgdb_hero_fetch(conf.sgdb.unwrap(), game.data_path.clone()).await.unwrap_or_default().to_string())
+                    }
+                    else {
+                        Err(TauriRumError::new("No SGDB ID found".into()))
+                    }
+                }
+            }
+            None => Err(TauriRumError::new("Game not found".into())),
+        }
+}
+
+async fn _name_to_sgdb_id(
+    name: String
+) -> Result<usize, TauriRumError> {
+    let client = Client::new(get_sgdb_api_key());
+    let games = client.search(&name).await.unwrap_or_default();
+    let first_game = games.first().ok_or(TauriRumError::new("No game found".into()))?;
+    Ok(first_game.id)
+}
+
+async fn _sgdb_hero_fetch(
+    id: usize,
+    path: std::path::PathBuf,
+) -> Result<String, Box<TauriRumError>> {
+    let client = Client::new(get_sgdb_api_key());
+    let image = client.get_images_for_id(id, &Hero(None)).await.unwrap_or_default();
+    let first_image = image.first().ok_or(TauriRumError::new("No image found".into()))?;
+    let image_url = first_image.url.clone();
+    let img_bytes = reqwest::get(&image_url).await.unwrap().bytes().await.unwrap();
+    let image = image::load_from_memory(&img_bytes).unwrap();
+    image.save(path.join("./banner.png")).unwrap();
+    Ok(image_url)
 }

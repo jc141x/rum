@@ -4,13 +4,14 @@
   import { open } from '../../../node_modules/@tauri-apps/api/dialog';
   import { allfiles } from '$lib/store';
   import { onMount } from 'svelte';
-  import Icon from 'mdi-svelte';
-  import { mdiContentSave } from '@mdi/js';
+
+  import IconContentSave from '~icons/mdi/content-save';
 
   export let game;
   let wrapper;
   let env;
   let args;
+  let sgdb;
 
   onMount(async () => {
     let conf = {}
@@ -19,6 +20,7 @@
       wrapper = conf?.wrapper;
       env = conf?.env?.join("\n");
       args = conf?.args;
+      sgdb = conf?.sgdb;
     }).catch((err) => {
       console.warn(err);
     });
@@ -57,7 +59,7 @@
 
     await command.library(
       'save_game_config',
-      { index: game.id, wrapper: wrapper, env: env?.split("\n"), args: args }
+      { index: game.id, wrapper: wrapper, env: env?.split("\n"), args: args, sgdb: parseInt(sgdb) }
     );
     document.activeElement.blur();
   };
@@ -73,7 +75,7 @@
   <div class="controls">
     <h4>Launch Options</h4>
     <p>
-      <button on:click={saveConfig}><Icon path={mdiContentSave} /> Save options</button>
+      <button on:click={saveConfig}><IconContentSave /> Save options</button>
     </p>
     <label for="wrapper">Wrapper</label>
     <input id="wrapper"bind:value={wrapper}/>
@@ -83,11 +85,7 @@
     <textarea id="env" bind:value={env}/>
     <label for="args">Arguments</label>
     <input id="args" bind:value={args}/>
+    <label for="sgdb">Steamgriddb.com ID</label>
+    <input id="wrapper"bind:value={sgdb}/>
   </div>
 </Modal>
-
-<style>
-.controls input, textarea {
-  margin-bottom: 1rem;
-}
-</style>

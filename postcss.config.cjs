@@ -1,7 +1,6 @@
 const autoprefixer = require('autoprefixer');
 const easing = require('postcss-easing-gradients');
 const cssnano = require('cssnano');
-
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 

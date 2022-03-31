@@ -7,7 +7,7 @@
 </script>
 
 {#await $localGames}
-  <div class="center">
+  <div class="is-center">
     <Pulse size="60" color={$styles.primary} unit="px" duration="1s" />
   </div>
 {:then games}
@@ -29,17 +29,3 @@
 {:catch error}
   <p style="color: red">{error.message}</p>
 {/await}
-
-<style>
-  .full {
-    width: 100%;
-    height: 100%;
-  }
-
-  .center {
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    margin-top: 200px;
-  }
-</style>

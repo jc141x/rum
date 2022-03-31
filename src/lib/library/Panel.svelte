@@ -1,19 +1,25 @@
 <script>
-  import Panel from '$lib/Panel.svelte';
   import command from '$lib/command';
-  import Icon from 'mdi-svelte';
-  import { mdiLoading, mdiFolder, mdiPlay, mdiCog, mdiMicrosoftWindowsClassic, mdiLinux } from '@mdi/js';
+
+  import IconLoading from '~icons/mdi/loading';
+  import IconFolder from '~icons/mdi/folder';
+  import IconPlay from '~icons/mdi/play';
+  import IconCog from '~icons/mdi/cog';
+  import IconWindows95 from '~icons/simple-icons/windows95';
+  import IconGnu from '~icons/simple-icons/gnu';
+  import IconLinux from '~icons/simple-icons/linux';
+
   import GameSettings from '$lib/library/GameSettings.svelte';
+import { onMount } from 'svelte';
 
   export let game;
-  let loading = false;
+  let running = false;
   let SettingsActive = false;
-
   const handleLaunch = async (script) => {
-    loading = script;
+    running = script;
     await command.library('run_game', { index: game.id, script });
     document.activeElement.blur();
-    loading = false;
+    running = false;
   };
   const handlePath = () => {
     command.library('open_folder', { index: game.id });
@@ -28,60 +34,57 @@
   };
   const wine = game.scripts.find(o => o.platform == 'Wine') ? true : false;
   const native = game.scripts.find(o => o.platform == 'Native') ? true : false;
+  let hero = "";
+  onMount(async () => {
+    try {
+      hero =  await command.library('sgdb_hero_fetch', { index: game.id} );
+    } catch (e) {
+      console.error(e);
+    }
+  });
 </script>
 
 {#if SettingsActive}
   <GameSettings on:close={handleCloseSettings} {game} />
 {/if}
-<Panel title={game.name} icons= on:close>
-      <span slot="icon">
-        {#if wine}
-          <Icon path={mdiMicrosoftWindowsClassic} size={1} />
-        {/if}
-        {#if native}
-          <Icon path={mdiLinux} size={1} />
-        {/if}
-      </span>
-  <div slot="text">
-    <b>Directory:</b>
-    {game.executable_dir}
+<div class="panel col-12" style="background-image: linear-gradient(90deg, black 10%, transparent), url('{hero}')">
+  <div class="title">
+    <h2>{game.name}&#9;<span>        {#if wine}
+      <IconWindows95 style="height: 0.75em"/>
+    {/if}
+    {#if native}
+      <IconGnu style="height: 0.75em"/><IconLinux style="height: 0.75em"/>
+    {/if}</span></h2>
   </div>
-  <div class="actions" slot="actions">
-    <button on:click={handleOpenSettings}
-      ><span class="align-fix"><Icon path={mdiCog} /></span></button
-    >
-    <button on:click={handlePath}><span class="align-fix"><Icon path={mdiFolder} /></span></button>
-    {#each game.scripts as script}
-      <button on:click={() => handleLaunch(script.script)}>
-        <span class="script--button">
-          {#if loading == script.script}
-            <Icon path={mdiLoading} spin />
-          {:else}
-            <Icon path={mdiPlay} />
-          {/if}
-          {script.name}
-        </span>
-      </button>
-    {/each}
+  <div class="actions">
+    <button class="button primary outline icon-only" on:click={handleOpenSettings}
+    ><IconCog/></button
+  >
+  <button class="button primary outline icon-only" on:click={handlePath}><IconFolder /></button>
+  {#each game.scripts as script}
+    <button class="button primary outline" on:click={() => handleLaunch(script.script)}>
+        {#if running == script.script}
+          <IconLoading/>
+        {:else}
+          <IconPlay />
+        {/if}
+        {script.name}
+    </button>
+  {/each}
   </div>
-</Panel>
+</div>
 
 <style>
-  button {
-    font-size: 20px;
+  .panel {
+    background-position: right;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-color: black;
+    padding-block: 0;
+    height: 200px;
   }
-  .actions {
-    display: flex;
-    flex: row;
-  }
-  .script--button {
-    display: flex;
-  }
-  .align-fix {
-    height: 1.5rem;
-    margin-top: auto;
-    display: flex;
-    align-self: center;
-    justify-content: stretch;
+
+  .panel:not(:hover) .actions {
+    display: none;
   }
 </style>
