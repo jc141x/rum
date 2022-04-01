@@ -1,4 +1,7 @@
 <div align="center">
+  <img src="https://i.postimg.cc/447fH7YN/45345.png">
+</div>
+<div align="center">
   <h1>Rum</h1>
 </div>
 
@@ -47,9 +50,5 @@ pnpm tauri dev
 ## More info on [Wiki](https://johncena141.eu.org:8141/johncena141/rum/wiki)
 
 <img src="https://i.postimg.cc/nL9MJ4Df/ytryrty.png">
-
-<div align="center">
-  <img src="https://i.postimg.cc/447fH7YN/45345.png">
-</div>
 
 Donations (Monero): 4ABGQLAeAgiauvay11VRrWXRRtraRCU6oaC6uG9RUnNCHN4eepzWjEB6sHF92sUrSED5b8GyY7Ayh57R1jUdcKZg7is2DW3
