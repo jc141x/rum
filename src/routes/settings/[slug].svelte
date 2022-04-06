@@ -7,6 +7,7 @@
   import { open } from '../../../node_modules/@tauri-apps/api/dialog';
   import { config, decorations, allfiles } from '$lib/store';
   import { page } from '$app/stores';
+import command from '$lib/command';
   const slug = $page.params.slug;
   const settingPages = ['general', 'library', 'theme', 'other'];
   let config_temp = {};
@@ -36,14 +37,9 @@
     await config.set(config_temp);
   };
 
-  const handleModalClose = async () => {
-    addClientModalActive = false;
-    config.reload();
-  };
-
-  const undoColor = (key) => {
-    $styles[key] = defaultStyles[key];
-  };
+  const handleDeleteAll = async () => {
+    command.library('delete_all_banners').catch(console.error);
+  }
 </script>
 
 <svelte:head>
@@ -72,67 +68,95 @@
 {#if slug == 'general'}
 <article class="settings-group">
   <h6>General options</h6>
-  <div class="input-wrapper">
-    <label for="data-path">Data path:</label>
-    <div class="input-row">
-      <input id="data-path" bind:value={config_temp.data_path} />
-      <button on:click={selectDataPath}><IconFolder /></button>
-    </div>
-  </div>
-  <div class="input-wrapper">
-    <label for="terminal">Terminal:</label>
-    <div class="input-row">
-      <input id="terminal" bind:value={config_temp.terminal} />
-    </div>
-  </div>
+  <table>
+    <tr>
+      <td>
+        <label for="data-path">Data path:</label>
+      </td>
+      <td>
+        <input id="data-path" bind:value={config_temp.data_path} />
+      </td>
+      <td>
+        <button on:click={selectDataPath}><IconFolder /></button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="terminal">Terminal:</label>
+      </td>
+      <td>
+        <input id="terminal" bind:value={config_temp.terminal} />
+      </td>
+    </tr>
+  </table>
 </article>
 {/if}
 {#if slug == 'library'}
 <article class="settings-group">
-  <div>
-    <h6 class="inline-block">Library paths</h6>
-    <a class="is-right" href="/wiki#user-guide/game-library.md">What is this?</a>
-  </div>
-  {#if config_temp.library_paths}
+  <h6 class="inline-block">Library</h6>
+  <a class="is-right" href="/wiki#user-guide/game-library.md">What is this?</a>
+  <table>
+    {#if config_temp.library_paths}
     {#each config_temp.library_paths as path, i}
-      <div class="input-wrapper">
-        <div class="input-row">
+    <tr>
+      <td>
           <input bind:value={path} />
-          <button on:click={() => selectPath(i)}><IconFolder /></button>
+      </td>
+      <td>
+        <button on:click={() => selectPath(i)}><IconFolder /></button>
+      </td>
+      <td>
           <button on:click={() => removePath(path)}><IconTrash /></button>
-        </div>
-      </div>
+      </td>
+    </tr>
     {/each}
-    <div class="input-wrapper">
-      <div class="input-row">
-        <button on:click={addPath}>Add path</button>
-      </div>
-    </div>
-  {/if}
+    {/if}
+    <button on:click={addPath}>Add path</button>
+  </table>
 </article>
 {/if}
 {#if slug == 'theme'}
 <article class="settings-group">
   <h6>Theme</h6>
-  <div class="input-wrapper">
-    <label for="window-decorations">Window decorations</label>
-    <div class="input-row">
-      <select id="window-decorations" bind:value={$decorations}>
-        <option value="system">System</option>
-        <option value="disabled">Disabled</option>
-        <option value="left">Left</option>
-        <option value="right">Right</option>
-      </select>
-    </div>
-  </div>
+  <table>
+    <tr>
+      <td>
+        <label for="window-decorations">Window decorations</label>
+      </td>
+      <td>
+        <select id="window-decorations" bind:value={$decorations}>
+          <option value="system">System</option>
+          <option value="disabled">Disabled</option>
+          <option value="left">Left</option>
+          <option value="right">Right</option>
+        </select>
+      </td>
+    </tr>
+  </table>
   <div />
 </article>
 {/if}
 {#if slug == 'other'}
 <article class="settings-group">
   <h6>Other</h6>
-  <p>show all files in banner picker</p>
-  <input bind:checked={$allfiles} type="checkbox" name="allfiles" />
+  <table>
+    <tr>
+      <td>
+        <label for="allfiles">show all files in banner picker</label>
+      </td>
+      <td>
+        <input bind:checked={$allfiles} type="checkbox" name="allfiles" id="allfiles"/>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Delete all banners
+      </td>
+      <td>
+        <button class="button error" on:click={handleDeleteAll}>Delete</button>
+      </td>
+    </tr>
+  </table>
 </article>
 {/if}
 </section>

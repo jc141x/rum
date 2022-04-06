@@ -157,6 +157,16 @@ pub async fn library_remove_banner(
         })
         .unwrap_or(Err(TauriRumError::new("Game not found".into())))
 }
+#[tauri::command]
+pub async fn library_delete_all_banners(
+    fetcher: tauri::State<'_, Mutex<LibraryFetcher>>,
+) -> Result<(), TauriRumError> {
+    for game in fetcher.lock().await.get_games().iter() {
+        println!("{}", game.name);
+        remove_file(game.data_path.join("banner.png")).unwrap_or(());
+    }
+    Ok(())
+}
 
 #[tauri::command]
 pub async fn library_save_game_config(
