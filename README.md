@@ -7,7 +7,7 @@
 
 Libre game launcher for GNU/Linux powered by [Tauri](https://tauri.studio) and developed by johncena141 group from 1337x. 
 
-For questions or contribution, talk with us on [Matrix](https://matrix.to/#/!SlYhhmreXjJylcsjfn:tedomum.net?via=matrix.org&via=tedomum.net).
+For questions or contribution, talk with us on [Matrix](https://matrix.to/#/#rumpowered:matrix.org).
 
 ## Portable use
 
