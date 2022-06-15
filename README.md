@@ -6,7 +6,7 @@ Libre game launcher for GNU/Linux developed by jc141 group from 1337x.
 
 ### Portable use
 
-Download the compiled binary from [releases](https://notabug.org/johncena141/rum/releases). Required dependency is webkit2gtk.
+Download the compiled binary from [releases](https://github.com/jc141x/rum/releases). Required dependency is webkit2gtk.
 
 ### Arch Linux
 
