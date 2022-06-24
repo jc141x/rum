@@ -1,4 +1,4 @@
-<img src="https://i.postimg.cc/5yfZCY7b/43534534.png">
+<img src="https://i.postimg.cc/7Ppyhq83/yes.png">
 
 Libre game launcher for GNU/Linux developed by jc141 group from 1337x. 
 
