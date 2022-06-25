@@ -2,8 +2,6 @@
 
 <img src="https://i.postimg.cc/7Ppyhq83/yes.png">
 
-Libre game launcher for GNU/Linux developed by jc141 group from 1337x. 
-
 ### Portable use
 
 Download the compiled binary from [releases](https://github.com/jc141x/rum/releases). Required dependency is webkit2gtk.
