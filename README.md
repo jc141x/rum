@@ -1,3 +1,5 @@
+<h2>Libre game launcher in beta, usage for testing and development only.</h2>
+
 <img src="https://i.postimg.cc/7Ppyhq83/yes.png">
 
 Libre game launcher for GNU/Linux developed by jc141 group from 1337x. 
