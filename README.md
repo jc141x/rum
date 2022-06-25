@@ -39,5 +39,3 @@ pnpm tauri build
 pnpm dev
 pnpm tauri dev
 ```
-
-### More info on [Wiki]([https://github.com/jc141x/rum/wiki)
