@@ -1,7 +1,5 @@
 <h2>Libre game launcher in beta, usage for testing and development only.</h2>
 
-<img src="https://i.postimg.cc/7Ppyhq83/yes.png">
-
 ### Portable use
 
 Download the compiled binary from [releases](https://github.com/jc141x/rum/releases). Required dependency is webkit2gtk.
