@@ -28,7 +28,7 @@
     <a href="/library" class="link"><Icon path={mdiBookshelf} /></a>
     <a href="/settings" class="link"><Icon path={mdiCog} /></a>
     <a href="/wiki" class="link"><Icon path={mdiBookOpenVariant} /></a>
-    {#if $page.path == '/library'}
+    {#if $page.url.pathname == '/library'}
       <span class="link search"><Search bind:query={$query} /></span>
     {/if}
   </div>
