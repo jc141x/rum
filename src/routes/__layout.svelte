@@ -1,7 +1,7 @@
 <script context="module">
-  export const load = async ({ page }) => ({
+  export const load = async ({ url }) => ({
     props: {
-      key: page.path
+      key: url.path
     }
   });
 </script>
@@ -20,6 +20,7 @@
   export let key;
 
   loadStore();
+
   const win = getCurrent();
   (async () => command.misc('init_bg_process', { win }))();
 </script>
