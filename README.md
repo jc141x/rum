@@ -1,4 +1,6 @@
-<h2>Libre game launcher in beta, usage for testing and development only.</h2>
+<h2>Libre game launcher, project currently in hiatus due to lack of developers.</h2>
+
+<h3>State of project is not up to date with current release mechanics, bash scripts need chmod +x for detection.</h3>
 
 ### Portable use
 
