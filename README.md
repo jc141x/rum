@@ -1,26 +1,10 @@
-<h2>Libre game launcher, project currently in hiatus due to lack of developers.</h2>
+<h2>Project cancelled.</h2>
 
 <h3>State of project is not up to date with current release mechanics, bash scripts need chmod +x for detection.</h3>
 
 ### Portable use
 
 Download the compiled binary from [releases](https://github.com/jc141x/rum/releases). Required dependency is webkit2gtk.
-
-### Arch Linux
-
-Get the package from AUR:
-
-* [rum-bin](https://aur.archlinux.org/packages/rum-bin/) for pre-compiled binary.
-
-* [rum](https://aur.archlinux.org/packages/rum/) to build it locally from latest release.
-
-* [rum-git](https://aur.archlinux.org/packages/rum-git/) build master branch.
-
-### Debian
-
-Package is avaivable on [MPR](https://makedeb.hunterwittenborn.com/mpr/using-the-mpr/installing-packages/) 
-
-* [rum-bin](https://mpr.hunterwittenborn.com/packages/rum-bin)
 
 ### Build from source
 
