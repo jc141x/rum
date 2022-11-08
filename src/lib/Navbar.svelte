@@ -9,7 +9,7 @@
 
   onMount(() => {
     decorations.subscribe(async (value) => {
-      let { appWindow } = await import('../../node_modules/@tauri-apps/api/window');
+      let { appWindow } = await import('@tauri-apps/api/window');
 
       if (value != 'system') {
         await appWindow.setDecorations(false);
@@ -27,7 +27,7 @@
   <div class="links">
     <a href="/library" class="link"><Icon path={mdiBookshelf} /></a>
     <a href="/settings" class="link"><Icon path={mdiCog} /></a>
-    <a href="/wiki" class="link"><Icon path={mdiBookOpenVariant} /></a>
+    <!-- <a href="/wiki" class="link"><Icon path={mdiBookOpenVariant} /></a> -->
     {#if $page.url.pathname == '/library'}
       <span class="link search"><Search bind:query={$query} /></span>
     {/if}

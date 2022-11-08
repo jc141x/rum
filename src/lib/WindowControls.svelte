@@ -8,7 +8,7 @@
   export let inverted = false;
 
   onMount(async () => {
-    appWindow = (await import('../../node_modules/@tauri-apps/api/window')).appWindow;
+    appWindow = (await import('@tauri-apps/api/window')).appWindow;
   });
 </script>
 

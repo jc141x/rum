@@ -5,9 +5,9 @@
   },
   "build": {
     "distDir": "../build",
-    "devPath": "http://localhost:3000",
-    "beforeDevCommand": "",
-    "beforeBuildCommand": ""
+    "devPath": "http://localhost:5173",
+    "beforeDevCommand": "pnpm dev",
+    "beforeBuildCommand": "pnpm build"
   },
   "tauri": {
     "bundle": {

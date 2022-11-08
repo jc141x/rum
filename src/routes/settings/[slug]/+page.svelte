@@ -1,14 +1,13 @@
 <script>
-  import command from '$lib/command';
   import { slide } from 'svelte/transition'
   import { styles, defaultStyles } from '$lib/styles';
   import Icon from 'mdi-svelte';
   import { mdiDelete, mdiFolder, mdiContentSave, mdiUndo } from '@mdi/js';
-  import { open } from '../../../node_modules/@tauri-apps/api/dialog';
+  import { open } from '@tauri-apps/api/dialog';
   import { cardTextSize, config, decorations, cardWidth, cardHeight, allfiles } from '$lib/store';
   import ColorSetting from '$lib/ColorSetting.svelte';
   import { page } from '$app/stores';
-  const slug = $page.params.slug;
+  $: slug = $page.params.slug;
   const settingPages = ['general', 'library', 'theme', 'other'];
   let config_temp = {};
 
@@ -57,11 +56,11 @@
       {#each settingPages as page}
         {#if page == slug}
           <li class="active">
-            <a href={`/settings/${page}`}>{page}</a>
+            <a href={`/settings/${page}`} on:click={navigator.reload}>{page}</a>
           </li>
         {:else}
           <li>
-            <a href={`/settings/${page}`}>{page}</a>
+            <a href={`/settings/${page}`} on:click={navigator.reload}>{page}</a>
           </li>
         {/if}
       {/each}
@@ -92,7 +91,6 @@
 <article class="settings-group">
   <div>
     <h6 class="inline-block">Library paths</h6>
-    <a class="what" href="/wiki#user-guide/game-library.md">What is this?</a>
   </div>
   {#if config_temp.library_paths}
     {#each config_temp.library_paths as path, i}
@@ -249,10 +247,6 @@
   }
   .input-row button {
     flex-grow: 1;
-  }
-  .what {
-    float: right;
-    font-size: smaller;
   }
   [type="checkbox"] {
     width: 1rem;

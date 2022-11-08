@@ -15,7 +15,7 @@
   import ThemeProvider from '$lib/ThemeProvider.svelte';
   import PageTransition from '$lib/PageTransition.svelte';
   import command from '$lib/command';
-  import { getCurrent } from '../../node_modules/@tauri-apps/api/window';
+  import { getCurrent } from '@tauri-apps/api/window';
 
   export let key;
 

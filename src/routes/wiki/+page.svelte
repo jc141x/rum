@@ -5,7 +5,7 @@
   import { afterUpdate, onMount } from 'svelte';
   import command from '$lib/command';
   import showdown from 'showdown';
-  import { open } from '../../node_modules/@tauri-apps/api/shell';
+  import { open } from '@tauri-apps/api/shell';
   showdown.setFlavor('github');
   const converter = new showdown.Converter();
 

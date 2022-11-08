@@ -1,4 +1,4 @@
-import { invoke } from '../../node_modules/@tauri-apps/api/tauri';
+import { invoke } from '@tauri-apps/api/tauri';
 
 class Command {
   async run(mod, command, ...args) {

@@ -18,9 +18,6 @@ const config = {
       assets: 'build',
       fallback: 'index.html'
     }),
-    prerender: {
-      enabled: false
-    },
   }
 };
 

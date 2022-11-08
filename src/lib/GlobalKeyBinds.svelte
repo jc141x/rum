@@ -1,7 +1,7 @@
 <script>
   import { goto } from '$app/navigation';
   import { selectedLocalGame } from '$lib/store';
-  import { getCurrent } from '../../node_modules/@tauri-apps/api/window';
+  import { getCurrent } from '@tauri-apps/api/window';
 
   var selectedAction = null;
   var buttons = [];
