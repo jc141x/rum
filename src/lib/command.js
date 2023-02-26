@@ -1,22 +1,23 @@
-import { invoke } from '@tauri-apps/api/tauri';
+import { invoke } from '@tauri-apps/api/tauri'
 
-class Command {
-  async run(mod, command, ...args) {
-    console.debug(`Invoke command ${mod}.${command} with ${JSON.stringify([...args])}`);
-    return await invoke(`${mod}_${command}`, ...args);
-  }
-
-  async library(command, ...args) {
-    return await this.run('library', command, ...args);
-  }
-
-  async config(command, ...args) {
-    return await this.run('config', command, ...args);
-  }
-
-  async misc(command, ...args) {
-    return await this.run('misc', command, ...args);
+export async function getReqsMarkdown() {
+  try {
+    return await invoke('misc_get_reqs_markdown')
+  } catch (error) {
+    throw error
   }
 }
 
-export default new Command();
+export async function getWikiPage(page) {
+  try {
+    return await invoke('misc_get_wiki_page', { page })
+  } catch (error) {
+    throw error
+  }
+}
+
+export function initBgProcess() {
+  invoke('misc_init_bg_process').catch(error => {
+    console.error('Failed to initialize background process:', error)
+  })
+}
