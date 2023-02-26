@@ -1,5 +1,3 @@
-<h2>Project cancelled. (due to no active developers)</h2>
-
 <h3>State of project is not up to date with current release mechanics, bash scripts need chmod +x for detection.</h3>
 
 ### Portable use
