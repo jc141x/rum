@@ -21,10 +21,9 @@ impl<T: std::error::Error> From<T> for TauriRumError {
     }
 }
 
-// misc_init_bg_process function without Tauri
 pub fn misc_init_bg_process() {
     static mut STARTED: bool = false;
-    let window = Window::new(); // or you can pass the window as a parameter
+    let window = Window::new();
     unsafe {
         if STARTED {
             return;
@@ -38,7 +37,7 @@ pub fn misc_init_bg_process() {
         loop {
             while let Some(ev) = gilrs.next_event() {
                 if let gilrs::ev::EventType::ButtonPressed(..) = ev.event {
-                    // modify this part to emit the event
+                    // change to emit event
                     println!("gamepad event: {:?}", ev.event);
                 }
             }
