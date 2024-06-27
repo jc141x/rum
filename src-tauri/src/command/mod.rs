@@ -1,69 +1,50 @@
-pub mod config;
-pub mod library;
-
-use gilrs::Gilrs;
+use actix_web::{get, web, App, HttpServer, Responder};
 use serde::Serialize;
-use std::{thread, time::Duration};
-use tauri::Window;
 
 #[derive(Debug, Serialize)]
-pub struct TauriRumError {
+pub struct ApiError {
     message: String,
 }
 
-impl TauriRumError {
+impl ApiError {
     pub fn new(message: String) -> Self {
         Self { message }
     }
 }
 
-impl<T: std::error::Error> From<T> for TauriRumError {
-    fn from(error: T) -> TauriRumError {
-        TauriRumError {
+impl<T: std::error::Error> From<T> for ApiError {
+    fn from(error: T) -> ApiError {
+        ApiError {
             message: format!("{}", error),
         }
     }
 }
 
-#[tauri::command]
-pub async fn misc_get_reqs_markdown() -> Result<String, TauriRumError> {
-    Ok(reqwest::get("https://rentry.co/johncena141-reqs/raw")
-        .await?
-        .text()
-        .await?)
+#[get("/misc/reqs_markdown")]
+async fn misc_get_reqs_markdown() -> Result<impl Responder, ApiError> {
+    let response = reqwest::get("gitlab page here").await?;
+    let text = response.text().await?;
+    Ok(web::Json(text))
 }
 
-#[tauri::command]
-pub async fn misc_get_wiki_page(page: String) -> Result<String, TauriRumError> {
-    Ok(reqwest::get(format!(
-        "https://notabug.org/johncena141/rum-wiki/raw/master/{}",
+#[get("/misc/wiki_page/{page}")]
+async fn misc_get_wiki_page(path: web::Path<String>) -> Result<impl Responder, ApiError> {
+    let page = path.into_inner();
+    let response = reqwest::get(format!(
+        "Gitlab page here/{}",
         page
     ))
-    .await?
-    .text()
-    .await?)
+    .await?;
+    let text = response.text().await?;
+    Ok(web::Json(text))
 }
 
-#[tauri::command]
-pub fn misc_init_bg_process(window: Window) {
-    static mut STARTED: bool = false;
-    unsafe {
-        if STARTED {
-            return;
-        }
-    }
-    thread::spawn(move || {
-        let mut gilrs = Gilrs::new().unwrap();
-        unsafe {
-            STARTED = true;
-        }
-        loop {
-            while let Some(ev) = gilrs.next_event() {
-                if let gilrs::ev::EventType::ButtonPressed(..) = ev.event {
-                    window.emit("gamepad", ev.event).unwrap();
-                }
-            }
-            thread::sleep(Duration::from_millis(10));
-        }
-    });
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    })
+    .bind("127.0.0.1:8080")?
+    .run()
+    .await
 }
+
+// Need to figure out how to manage background processess
