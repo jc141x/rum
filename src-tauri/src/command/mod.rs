@@ -41,6 +41,7 @@ async fn misc_get_wiki_page(path: web::Path<String>) -> Result<impl Responder, A
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+//add services here
     })
     .bind("127.0.0.1:8080")?
     .run()
