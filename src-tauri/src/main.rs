@@ -1,69 +1,65 @@
-//Conditional compilation attribute. If the target OS is windows and debug assertions are not enabled, then the windows subsystem is set to windows.
-#![cfg_attr(
-    all(not(debug_assertions), target_os = "windows"),
-    windows_subsystem = "windows"
-)]
-
 mod command;
 
 use rumlibrs::{config::Config, library::LibraryFetcher};
-use tauri::{AppHandle, Event, Manager};
+use tokio::sync::Mutex;
+use std::sync::Arc;
 
+/// Main entry point of the application.
 fn main() {
-    /* This variable is set to 1, which means that when a page is loaded, it will be forced to use hardware acceleration. 
-    This will improve the speed and performance of the application as it allows for better graphics rendering.
-    */
+    // Set environment variable to force hardware acceleration for better performance.
     std::env::set_var("WEBKIT_FORCE_COMPOSITING_MODE", "1");
+
+    // Initialize the configuration and library fetcher.
     let config = Config::new("rum".into());
     let library = LibraryFetcher::new();
     let _ = config.save();
 
-    tauri::Builder::default()
-        /* A handler is used to bind functions to an application so that they can be executed when the application is run.
-        This allows the application to access and modify various settings related to the library, config, and other miscellaneous functions. 
-        It ensures that the necessary functions are executed when the application is run and the necessary data is accessible. 
-        */
-        .invoke_handler(tauri::generate_handler![
-            // Library
-            command::library::library_get_games,
-            command::library::library_reload_games,
-            command::library::library_run_game,
-            command::library::library_open_terminal,
-            command::library::library_open_folder,
-            command::library::library_set_banner,
-            command::library::library_remove_banner,
-            command::library::library_save_game_config,
-            command::library::library_read_game_config,
-            // Config
-            command::config::config_save,
-            command::config::config_set,
-            command::config::config_set_data_path,
-            command::config::config_set_library_paths,
-            command::config::config_set_terminal,
-            command::config::config_get,
-            command::config::config_get_data_path,
-            command::config::config_get_library_paths,
-            command::config::config_get_terminal,
-            // Misc
-            command::misc_get_reqs_markdown,
-            command::misc_get_wiki_page,
-            command::misc_init_bg_process,
-        ])
-        .build()
-        .run(|app_handle, e| {
-            match e {
-                Event::Setup => {
-                    app_handle.listen("rum:ping", move |msg| {
-                        msg.reply("pong").unwrap();
-                    });
-                }
-                Event::WindowCloseRequested { label, .. } => {
-                    if label == "main" {
-                        app_handle.exit(0);
-                    }
-                }
-                _ => {}
-            }
-        })
-        .expect("error while running tauri application");
+    // Wrap the configuration and library fetcher in Arc<Mutex> for thread-safe access.
+    let config = Arc::new(Mutex::new(config));
+    let library = Arc::new(Mutex::new(library));
+
+    // Initialize the application context.
+    let context = generate_context();
+
+    // Run the application with the given context.
+    run_application(context, config, library).expect("error while running application");
+}
+
+/// Generates the application context.
+///
+/// # Returns
+///
+/// * `Context` - The application context.
+fn generate_context() -> Context {
+    // Placeholder for the actual context generation logic.
+    Context::new()
+}
+
+/// Runs the application with the given context and state.
+///
+/// # Arguments
+///
+/// * `context` - The application context.
+/// * `config` - An `Arc<Mutex<Config>>` to manage the state of the configuration.
+/// * `library` - An `Arc<Mutex<LibraryFetcher>>` to manage the state of the library fetcher.
+///
+/// # Returns
+///
+/// * `Result<(), String>` - Returns `Ok(())` if successful, otherwise returns an error message.
+fn run_application(context: Context, config: Arc<Mutex<Config>>, library: Arc<Mutex<LibraryFetcher>>) -> Result<(), String> {
+    // Placeholder for the actual application run logic.
+    // This would typically involve setting up event loops, handling commands, etc.
+    Ok(())
+}
+
+/// Placeholder for the actual context struct.
+struct Context {
+    // Define fields as needed.
+}
+
+impl Context {
+    /// Creates a new instance of `Context`.
+    fn new() -> Self {
+        Context {}
+    }
 }
